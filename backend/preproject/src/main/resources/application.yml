@@ -4,18 +4,24 @@ spring:
     ansi:
       enabled: ALWAYS
 
+  # h2 설정
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+
   h2:
     console:
       enabled: true
       path: /h2
-  #    url: jdbc:h2:mem:test
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=Asia/Seoul
-    username: root
-    password: 3333
+# mySql 설정
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=Asia/Seoul
+#    username: root
+#    password: 3333
 
   #    initialization-mode: always
 
@@ -24,7 +30,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -32,16 +38,10 @@ spring:
         highlight_sql: true
         color-codes: true
         use_sql_comments: true
-        type:
-          descriptor:
-            sql: trace
+    database-platform: org.hibernate.dialect.H2Dialect
 
 logging:
   level:
     org:
       hibernate:
         SQL: debug
-        type:
-          descriptor:
-            sql:
-              BasicBinder: trace
