@@ -12,9 +12,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/buildTest?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/preproject_test?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: loginSQL@2
+    password: 1234
   #    initialization-mode: always
 
   config:
