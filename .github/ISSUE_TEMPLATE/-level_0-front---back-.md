@@ -14,6 +14,7 @@ assignees: ''
 - [ ] job1
 - [ ] job1
 - [ ] job1
+- [ ] job1
 
 3. 마감일
 
