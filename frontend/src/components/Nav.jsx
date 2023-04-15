@@ -6,15 +6,20 @@ import Modal from "./Modal";
 import { useState } from "react";
 import CollectiveContents from "./CollectiveContents";
 import CreateTeamContents from "./CreateTeamContents";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
-	padding-top: 50px;
+	padding-top: 20px;
 	margin: 5px;
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
 	align-items: start;
-	width: 170px;
+	width: 150px;
+	flex-shrink: 0;
+	@media (max-width: ${({ theme }) => theme.screen.sm}) {
+		display: none;
+	}
 `;
 const PublicWrapper = styled.div`
 	padding-top: 5px;
@@ -31,7 +36,6 @@ const PWrapper = styled.div`
 	padding-bottom: 25px;
 `;
 const P = styled.div`
-	font-size: 11px;
 	color: gray;
 	font-weight: 500;
 	display: flex;
@@ -49,14 +53,20 @@ export default function Nav() {
 	const [showCreateTeam, setShowCreateTeam] = useState(true);
 	return (
 		<Wrapper>
-			<ButtonContainer name={"Home"} style={{ paddingBottom: "20px" }} />
+			<Link to="/">
+				<ButtonContainer name={"Home"} style={{ marginBottom: "20px" }} />
+			</Link>
 			<P>PUBLIC</P>
 			<PublicWrapper>
-				<ButtonContainer name={"Questions"}>
-					<ImEarth />
-				</ButtonContainer>
+				<Link to="questions">
+					<ButtonContainer name={"Questions"}>
+						<ImEarth size={17} />
+					</ButtonContainer>
+				</Link>
 				{buttons.map((button) => (
-					<ButtonContainer key={button} name={button} />
+					<Link to={button.toLowerCase()}>
+						<ButtonContainer key={button} name={button} />
+					</Link>
 				))}
 			</PublicWrapper>
 			<PWrapper>

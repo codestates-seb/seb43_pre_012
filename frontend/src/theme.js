@@ -8,8 +8,8 @@ const theme = {
 		blue: "#0074CC",
 	},
 	fontSizes: {
-		sm: "11px",
-		md: "15px",
+		sm: "12px",
+		md: "14px",
 		lg: "20px",
 		btn: "14px",
 	},
