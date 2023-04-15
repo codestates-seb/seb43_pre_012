@@ -1,23 +1,21 @@
 package com.seb43_pre_12.preproject.question.dto;
 
 import com.seb43_pre_12.preproject.question.entity.Question;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionResponseDto {
     private Long questionId;
     private String title;
     private String content;
-    private LocalDateTime created_at;
-    private LocalDateTime modified_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
     private int memberId;
     private Question.QuestionStatus questionStatus;
 

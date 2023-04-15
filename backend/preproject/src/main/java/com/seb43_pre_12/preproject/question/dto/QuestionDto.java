@@ -41,8 +41,8 @@ public class QuestionDto {
         private Long questionId;
         private String title;
         private String content;
-        private LocalDateTime created_at;
-        private LocalDateTime modified_at;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private int memberId;
         private Question.QuestionStatus questionStatus;
 

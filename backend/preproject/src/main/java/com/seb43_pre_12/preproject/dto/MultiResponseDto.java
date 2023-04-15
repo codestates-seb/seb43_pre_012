@@ -1,9 +1,11 @@
 package com.seb43_pre_12.preproject.dto;
 
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+@Getter
 public class MultiResponseDto<T> {
     private List<T> date;
     private PageInfo pageInfo;

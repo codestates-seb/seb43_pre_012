@@ -23,10 +23,10 @@ public class Question {
     private String content;
     @CreationTimestamp
     @Column(nullable=false)
-    private LocalDateTime created_at = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime modified_at = LocalDateTime.now();
+    private LocalDateTime modifiedAt = LocalDateTime.now();
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 30, nullable = false)
