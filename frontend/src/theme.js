@@ -3,6 +3,7 @@ const theme = {
 		orange: "#f48024",
 		black: "#222426",
 		gray: "#bcbbbb",
+		grayText: "#6A737C",
 		skyblue: "#0095ff",
 		tagblue: "#E1ECF4",
 		blue: "#0074CC",
@@ -10,7 +11,7 @@ const theme = {
 	fontSizes: {
 		sm: "12px",
 		md: "14px",
-		lg: "20px",
+		lg: "16px",
 		btn: "14px",
 	},
 	screen: {

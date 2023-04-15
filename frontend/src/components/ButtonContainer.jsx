@@ -4,13 +4,14 @@ import styled from "styled-components";
 const Container = styled.div`
 	position: relative;
 	display: flex;
-	width: 150px;
+	width: 160px;
 	align-items: center;
 	${({ isSelected }) =>
 		isSelected &&
 		`
 		background-color: #F1F2F3;
-		border-right: 4px solid red;
+		border-right: 4px solid #f48024;
+		font-weight: 800;
 	`}
 `;
 
@@ -30,7 +31,6 @@ const ButtonWrapper = styled.div`
 const ButtonText = styled.div`
 	position: absolute;
 	display: flex;
-	font-weight: 400;
 	font-size: ${({ theme }) => theme.fontSizes.md};
 	color: ${({ theme }) => theme.colors.black};
 	margin-left: ${({ isHome }) => isHome || "25px"};
@@ -46,7 +46,6 @@ export default function ButtonContainer({ name, children, style }) {
 	const location = useLocation().pathname.split("/")[1] || "home";
 	const isSelected = location === name.toLowerCase();
 	const isHome = name === "Home";
-	console.log(location, name);
 	return (
 		<Container style={style} isSelected={isSelected}>
 			<ButtonWrapper>

@@ -10,12 +10,15 @@ import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
 	padding-top: 20px;
+	border-right: 1px solid ${({ theme }) => theme.colors.gray};
+	padding-right: 10px;
 	margin: 5px;
 	display: flex;
 	flex-direction: column;
-	justify-content: end;
+	justify-content: start;
 	align-items: start;
-	width: 150px;
+	width: 160px;
+	height: 100vh;
 	flex-shrink: 0;
 	@media (max-width: ${({ theme }) => theme.screen.sm}) {
 		display: none;
