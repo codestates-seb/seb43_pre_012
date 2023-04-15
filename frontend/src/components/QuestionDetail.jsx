@@ -1,9 +1,8 @@
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import Question from "./Question";
-import PageBtns from "./PageBtns";
-import { getQuestions } from "../functions";
+import { getQuestionDetail } from "../functions";
 
 const Container = styled.main`
   width: 750px;
@@ -89,61 +88,21 @@ const Loader = styled.h1`
   font-weight: bold;
 `;
 
-export default function AllQuestions() {
-  const [datas, setDatas] = useState([]);
+export default function QuestionDetail() {
+  const [question, setQuestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { id } = useParams();
 
   useEffect(() => {
     (async () => {
       setIsLoading((prev) => true);
 
-      const questions = await getQuestions(10);
-      console.log(questions.items);
+      const response = await getQuestionDetail(id);
+      setQuestion((prev) => response);
 
-      setDatas((prev) => questions.items);
-
-      setIsLoading((prev) => false);
+      // setIsLoading((prev) => false);
     })();
   }, []);
 
-  return (
-    <Container>
-      <Header>
-        <TopHeader>
-          <Title>All Questions</Title>
-          <AskBtn>Ask Question</AskBtn>
-        </TopHeader>
-        <BottomHeader>
-          <QuestionNum>
-            {isLoading ? "Loading..." : `${datas.length} questions`}
-          </QuestionNum>
-          <Btns>
-            <Btn>Newest</Btn>
-            <Btn>Active</Btn>
-            <Btn>
-              Bountied
-              <BountiedNum>219</BountiedNum>
-            </Btn>
-            <Btn>Unanswered</Btn>
-            <Btn>More</Btn>
-            <Btn
-              bgColor={"#E0EDF4"}
-              fntColor={"#5786AB"}
-              style={{ marginLeft: "15px" }}
-            >
-              Filter
-            </Btn>
-          </Btns>
-        </BottomHeader>
-      </Header>
-      {isLoading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        datas.map((data) => (
-          <Question key={data.question_id + ""} question={data} />
-        ))
-      )}
-      <PageBtns />
-    </Container>
-  );
+  return <Container></Container>;
 }

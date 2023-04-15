@@ -78,27 +78,30 @@ const Questioner = styled.h5`
   color: #237ed0;
 `;
 
+const loremIpsum =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget sem suscipit, dictum ligula id, iaculis mi. Nullam iaculis ligula quis ante condimentum sollicitudin. Pellentesque lectus turpis, vehicula nec arcu a, iaculis dignissim dolor. Mauris gravida risus eget orci aliquet, quis euismod nunc tempus. Maecenas tincidunt, est non sagittis accumsan, urna erat aliquet lacus, id sollicitudin mauris orci ut enim. Duis enim nibh, fermentum ut lacinia in, cursus at velit. Proin hendrerit, leo et aliquet posuere, tortor diam vulputate orci, ut congue nisl dolor et magna. Nam rhoncus varius tellus, ac gravida nulla placerat vehicula. Cras ornare sodales nisl congue vulputate. Sed dapibus varius lorem ut fermentum. Cras volutpat eu tellus a interdum. Etiam blandit mauris vestibulum lacus laoreet semper. Pellentesque pellentesque massa turpis, eu dignissim ligula volutpat non. Etiam vitae velit ornare, ultrices purus vel, fermentum dui. Nullam auctor gravida venenatis.";
+
 export default function Question({ question }) {
   return (
     <Container>
       <Figures>
-        <Figure>{`${question.votes} votes`}</Figure>
-        <Figure>{`${question.answers} answers`}</Figure>
-        <Figure>{`${question.views} views`}</Figure>
+        <Figure>{`임의의숫자 votes`}</Figure>
+        <Figure>{`${question.answer_count} answers`}</Figure>
+        <Figure>{`${question.view_count} views`}</Figure>
       </Figures>
       <Infos>
         <Title>{question.title}</Title>
         <Content>
-          {question.content.length >= MAX_LEN
-            ? question.content.slice(0, MAX_LEN) + "..."
-            : question.content}
+          {loremIpsum.length >= MAX_LEN
+            ? loremIpsum.slice(0, MAX_LEN) + "..."
+            : loremIpsum}
         </Content>
         <Tags>
           {question.tags.map((tag) => (
             <Tag>{tag}</Tag>
           ))}
         </Tags>
-        <Questioner>{question.questioner}</Questioner>
+        <Questioner>{question.owner.display_name}</Questioner>
       </Infos>
     </Container>
   );
