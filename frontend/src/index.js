@@ -1,9 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
-import { BrowserRouter } from "react-router-dom";
+import {
+	BrowserRouter,
+	RouterProvider,
+	createBrowserRouter,
+} from "react-router-dom";
 import App from "./App";
 import theme from "./theme";
+import Questions from "./pages/Questions";
+import UserProfile from "./pages/UserProfile";
+import UserSave from "./pages/UserSave";
+import QuestionDetail from "./pages/QuestionDetail";
+import Users from "./pages/Users";
+import Tags from "./pages/Tags";
+import Companies from "./pages/Companies";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -66,13 +77,27 @@ a {
   color:inherit;
 }
 `;
-
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <App />,
+		children: [
+			{ index: true, element: <Questions /> },
+			{ path: "/questions", element: <Questions /> },
+			{ path: "/user", element: <UserProfile /> },
+			{ path: "/users", element: <Users /> },
+			{ path: "/tags", element: <Tags /> },
+			{ path: "/Companies", element: <Companies /> },
+			{ path: "/user", element: <UserProfile /> },
+			{ path: "/user/sava", element: <UserSave /> },
+			{ path: "/questions/:id", element: <QuestionDetail /> },
+		],
+	},
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<BrowserRouter>
-		<ThemeProvider theme={theme}>
-			<GlobalStyle />
-			<App />
-		</ThemeProvider>
-	</BrowserRouter>
+	<ThemeProvider theme={theme}>
+		<GlobalStyle />
+		<RouterProvider router={router} />
+	</ThemeProvider>
 );
