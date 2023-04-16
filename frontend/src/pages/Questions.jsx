@@ -4,13 +4,14 @@ import YellowBlock from "../components/YellowBlock";
 import Collectives from "../components/Collectives";
 import RelatedTags from "../components/RelatedTags";
 import HotQuestions from "../components/HotQuestions";
+import TempNav from "../components/TempNav";
 
 const Wrapper = styled.section`
   width: 100vw;
   height: auto;
-  display: flex;
   padding-bottom: 50px;
   position: relative;
+  display: flex;
 `;
 
 const Container = styled.section`
@@ -21,26 +22,6 @@ const Container = styled.section`
   align-items: start;
   margin-left: 60px;
   z-index: 5;
-`;
-
-const Nav = styled.nav`
-  background-color: green;
-  width: 170px;
-  height: 500px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 50px;
-  left: 60px;
-  margin-left: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 17px;
-  font-weight: bold;
-  margin-top: 50px;
-
-  color: white;
-  font-size: 35px;
 `;
 
 const Aside = styled.aside`
@@ -56,7 +37,7 @@ const Aside = styled.aside`
 export default function Questions() {
   return (
     <Wrapper>
-      <Nav>옆에 있는 거</Nav>
+      <TempNav />
       <Container>
         <AllQuestions />
         <Aside>

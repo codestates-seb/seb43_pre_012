@@ -3,6 +3,7 @@ import Questions from "./pages/Questions";
 import Footer from "./components/Footer";
 import TempHeader from "./components/TempHeader";
 import { Route, Routes } from "react-router-dom";
+import QuestionDetail from "./pages/QuestionDetail";
 
 const Please = styled.div`
   width: 100vw;
@@ -14,6 +15,7 @@ function App() {
     <Please>
       <TempHeader />
       <Routes>
+        <Route path="/questions/:id" element={<QuestionDetail />} />
         <Route path="/questions" element={<Questions />} />
       </Routes>
       <Footer />

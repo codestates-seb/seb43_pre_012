@@ -16,7 +16,7 @@ export const getQuestions = async (pageSize) => {
 
 export const getQuestionDetail = async (id) => {
   const response = await fetch(
-    `${BASE_PATH}/questions/id??order=desc&sort=activity&site=stackoverflow`
+    `https://api.stackexchange.com/2.3/questions/${id}?order=desc&sort=activity&site=stackoverflow`
   );
   const json = await response.json();
 

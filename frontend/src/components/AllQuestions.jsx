@@ -13,7 +13,7 @@ const Container = styled.main`
 const Header = styled.header`
   width: 100%;
   height: 130px;
-  border-bottom: 2px solid #f1f2f2;
+  border-bottom: 2px solid ${(props) => props.theme.colors.gray};
 `;
 
 const TopHeader = styled.section`
@@ -25,7 +25,7 @@ const TopHeader = styled.section`
 `;
 
 const Title = styled.h2`
-  font-size: 26px;
+  font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: 500;
 `;
 
@@ -35,7 +35,7 @@ const AskBtn = styled.div`
   background-color: #0994fe;
   color: white;
   font-weight: 500;
-  font-size: 13px;
+  font-size: ${(props) => props.theme.fontSizes.sm};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +51,7 @@ const BottomHeader = styled.section`
 `;
 
 const QuestionNum = styled.h4`
-  font-size: 20px;
+  font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: 500;
 `;
 
@@ -67,7 +67,7 @@ const Btn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: 400;
   background-color: ${(props) => (props.bgColor ? props.bgColor : "white")};
   color: ${(props) => (props.fntColor ? props.fntColor : "black")};
@@ -79,13 +79,13 @@ const BountiedNum = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #0075cc;
+  background-color: ${(props) => props.theme.colors.blue};
   color: white;
   margin-left: 10px;
 `;
 
 const Loader = styled.h1`
-  font-size: 50px;
+  font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: bold;
 `;
 
