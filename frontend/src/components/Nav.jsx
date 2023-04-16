@@ -67,7 +67,7 @@ export default function Nav() {
 					</ButtonContainer>
 				</Link>
 				{buttons.map((button) => (
-					<Link to={button.toLowerCase()}>
+					<Link key={button} to={button.toLowerCase()}>
 						<ButtonContainer key={button} name={button} />
 					</Link>
 				))}
