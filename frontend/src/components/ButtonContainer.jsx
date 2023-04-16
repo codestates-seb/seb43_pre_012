@@ -1,20 +1,13 @@
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
 	position: relative;
 	display: flex;
-	width: 160px;
+	width: 100%;
 	align-items: center;
-	${({ isSelected }) =>
-		isSelected &&
-		`
-		background-color: #F1F2F3;
-		border-right: 4px solid #f48024;
-		font-weight: 800;
-	`}
+	/* background-color: gray;
+	border-right: 2px solid red; */
 `;
-
 const ButtonWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -31,28 +24,17 @@ const ButtonWrapper = styled.div`
 const ButtonText = styled.div`
 	position: absolute;
 	display: flex;
-	font-size: ${({ theme }) => theme.fontSizes.md};
-	color: ${({ theme }) => theme.colors.black};
-	margin-left: ${({ isHome }) => isHome || "25px"};
-	${({ isSelected }) =>
-		isSelected &&
-		`
-		font-weight: 800;
-		
-	`}
+	font-size: 14px;
+	margin-left: ${(props) => props.isHome || "25px"};
 `;
 
 export default function ButtonContainer({ name, children, style }) {
-	const location = useLocation().pathname.split("/")[1] || "home";
-	const isSelected = location === name.toLowerCase();
 	const isHome = name === "Home";
 	return (
-		<Container style={style} isSelected={isSelected}>
+		<Container style={style}>
 			<ButtonWrapper>
 				{children}
-				<ButtonText isHome={isHome} isSelected={isSelected}>
-					{name}
-				</ButtonText>
+				<ButtonText isHome={isHome}>{name}</ButtonText>
 			</ButtonWrapper>
 		</Container>
 	);

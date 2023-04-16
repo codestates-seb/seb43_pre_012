@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { dummyDatas } from "../dummys/dummyData";
 import { useState } from "react";
 import { useEffect } from "react";
 import Question from "./Question";
 import PageBtns from "./PageBtns";
-import { getQuestions } from "../functions";
 
 const Container = styled.main`
   width: 750px;
@@ -97,10 +97,7 @@ export default function AllQuestions() {
     (async () => {
       setIsLoading((prev) => true);
 
-      const questions = await getQuestions(10);
-      console.log(questions.items);
-
-      setDatas((prev) => questions.items);
+      setDatas((prev) => dummyDatas);
 
       setIsLoading((prev) => false);
     })();
@@ -139,9 +136,7 @@ export default function AllQuestions() {
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
-        datas.map((data) => (
-          <Question key={data.question_id + ""} question={data} />
-        ))
+        datas.map((data) => <Question key={data.id + ""} question={data} />)
       )}
       <PageBtns />
     </Container>
