@@ -5,13 +5,13 @@ const httpClient = axios.create({
 });
 
 export const StackExchange = {
-	async users() {
+	async users(sort = "reputation") {
 		return httpClient
 			.get("users", {
 				params: {
 					site: "stackoverflow",
 					order: "desc",
-					sort: "reputation",
+					sort,
 				},
 			})
 			.then((json) => json.data.items);
