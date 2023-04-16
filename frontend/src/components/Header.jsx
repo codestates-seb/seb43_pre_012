@@ -8,7 +8,7 @@ const Header = () => {
         align-items: center;
         justify-content: center;
         background-color: white;
-        color: #F8F9F9;
+        color: #f7f1f1;
         height: 50px;
         border-top : 3px solid orange;
         box-shadow : 0 0 3px gray;

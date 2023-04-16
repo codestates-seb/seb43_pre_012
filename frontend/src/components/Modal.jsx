@@ -7,10 +7,6 @@ const ModalWrapper = styled.div`
 	position: absolute;
 	background: white;
 	border-radius: 10px;
-	/* top: -210px; */
-	/* left: -98px;
-	width: 211px;
-	height: 190px; */
 	top: ${(p) => p.rect.top};
 	left: ${(p) => p.rect.left};
 	width: ${(p) => p.rect.width};
