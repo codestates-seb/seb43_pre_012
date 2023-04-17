@@ -7,7 +7,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 background-color: white;
-color: #faf9f9;
+color: #fffefe;
 height: 50px;
 border-top : 3px solid ${({ theme }) => theme.colors.orange};
 box-shadow : 0 0 3px gray;
