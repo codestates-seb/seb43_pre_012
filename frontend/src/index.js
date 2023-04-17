@@ -14,26 +14,26 @@ import Companies from "./pages/Companies";
 import GlobalStyle from "./styles/GlobalStyle";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <App />,
-		children: [
-			{ index: true, element: <Questions /> },
-			{ path: "/questions", element: <Questions /> },
-			{ path: "/user", element: <UserProfile /> },
-			{ path: "/users", element: <Users /> },
-			{ path: "/tags", element: <Tags /> },
-			{ path: "/Companies", element: <Companies /> },
-			{ path: "/user", element: <UserProfile /> },
-			{ path: "/user/sava", element: <UserSave /> },
-			{ path: "/questions/:id", element: <QuestionDetail /> },
-		],
-	},
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { index: true, element: <Questions /> },
+      { path: "/questions", element: <Questions /> },
+      { path: "/user", element: <UserProfile /> },
+      { path: "/users", element: <Users /> },
+      { path: "/tags", element: <Tags /> },
+      { path: "/Companies", element: <Companies /> },
+      { path: "/user", element: <UserProfile /> },
+      { path: "/user/sava", element: <UserSave /> },
+      { path: "/questions/:id", element: <QuestionDetail /> },
+    ],
+  },
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<ThemeProvider theme={theme}>
-		<GlobalStyle />
-		<RouterProvider router={router} />
-	</ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <RouterProvider router={router} />
+  </ThemeProvider>
 );
