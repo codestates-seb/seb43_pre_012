@@ -72,17 +72,17 @@ export default function Users() {
 				</FilterContainer>
 			</SearchContainer>
 			{/* {users && (
-				<UserContainer>
+				<usercontainer>
 					{users.map((user) => (
-						<UserCard
+						<usercard
 							key={user.display_name}
 							name={user.display_name}
-							imgUrl={user.profile_image}
+							imgurl={user.profile_image}
 							location={user.location}
 							reputation={user.reputation_change_week}
 						/>
 					))}
-				</UserContainer>
+				</usercontainer>
 			)} */}
 		</UsersWrapper>
 	);
