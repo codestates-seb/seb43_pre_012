@@ -14,12 +14,18 @@ box-shadow : 0 0 3px gray;
 
 `;
 const Logo = styled.img`
-width: 150px;
+width: 200px;
 padding-right : 40px;
 &.smallLogo{
     display : none;
 }
 @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+    &.largeLogo {
+        padding-right : 40px;
+    }
+}
+
+@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     &.largeLogo {
         display : none;
     }
@@ -51,11 +57,14 @@ padding-right : 9px;
 }
 `
 const Input = styled.input`
-width : 300px;
-height : 30px;
+width : 40%;
+height : 33px;
 margin-right : 5px;
 border-radius : 3px;
 border : 1px solid gray;
+@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+    width : 300px;
+}
 @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     display : none;
 }
@@ -89,7 +98,7 @@ export default function Header() {
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍 Search...'></Input>
+            <Input placeholder='🔍 Search....'></Input>
             <Scope className='scope'>🔍</Scope>
             <Button className='login'>Log in</Button>
             <Button className='signup'>Sign up</Button>
