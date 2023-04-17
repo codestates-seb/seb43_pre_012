@@ -9,8 +9,6 @@ export const getQuestions = async (pageSize) => {
   );
   const json = await response.json();
 
-  console.log(json);
-
   return json;
 };
 

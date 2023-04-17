@@ -4,10 +4,24 @@ import { useEffect } from "react";
 import Question from "./Question";
 import PageBtns from "./PageBtns";
 import { getQuestions } from "../functions";
+import Aside from "./Aside";
+
+const Wrapper = styled.section`
+  height: auto;
+  display: flex;
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 const Container = styled.main`
-  width: 750px;
-  height: auto;
+  max-width: 740px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+  margin-top: 50px;
 `;
 
 const Header = styled.header`
@@ -17,8 +31,9 @@ const Header = styled.header`
 `;
 
 const TopHeader = styled.section`
-  display: flex;
+  width: 100%;
   height: 50%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
@@ -43,6 +58,7 @@ const AskBtn = styled.div`
 `;
 
 const BottomHeader = styled.section`
+  width: 100%;
   height: 50%;
   display: flex;
   justify-content: space-between;
@@ -98,7 +114,6 @@ export default function AllQuestions() {
       setIsLoading((prev) => true);
 
       const questions = await getQuestions(10);
-      console.log(questions.items);
 
       setDatas((prev) => questions.items);
 
@@ -107,43 +122,48 @@ export default function AllQuestions() {
   }, []);
 
   return (
-    <Container>
-      <Header>
-        <TopHeader>
-          <Title>All Questions</Title>
-          <AskBtn>Ask Question</AskBtn>
-        </TopHeader>
-        <BottomHeader>
-          <QuestionNum>
-            {isLoading ? "Loading..." : `${datas.length} questions`}
-          </QuestionNum>
-          <Btns>
-            <Btn>Newest</Btn>
-            <Btn>Active</Btn>
-            <Btn>
-              Bountied
-              <BountiedNum>219</BountiedNum>
-            </Btn>
-            <Btn>Unanswered</Btn>
-            <Btn>More</Btn>
-            <Btn
-              bgColor={"#E0EDF4"}
-              fntColor={"#5786AB"}
-              style={{ marginLeft: "15px" }}
-            >
-              Filter
-            </Btn>
-          </Btns>
-        </BottomHeader>
-      </Header>
-      {isLoading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        datas.map((data) => (
-          <Question key={data.question_id + ""} question={data} />
-        ))
-      )}
-      <PageBtns />
-    </Container>
+    <>
+      <Wrapper>
+        <Container>
+          <Header>
+            <TopHeader>
+              <Title>All Questions</Title>
+              <AskBtn>Ask Question</AskBtn>
+            </TopHeader>
+            <BottomHeader>
+              <QuestionNum>
+                {isLoading ? "Loading..." : `${datas.length} questions`}
+              </QuestionNum>
+              <Btns>
+                <Btn>Newest</Btn>
+                <Btn>Active</Btn>
+                <Btn>
+                  Bountied
+                  <BountiedNum>219</BountiedNum>
+                </Btn>
+                <Btn>Unanswered</Btn>
+                <Btn>More</Btn>
+                <Btn
+                  bgColor={"#E0EDF4"}
+                  fntColor={"#5786AB"}
+                  style={{ marginLeft: "15px" }}
+                >
+                  Filter
+                </Btn>
+              </Btns>
+            </BottomHeader>
+          </Header>
+          {isLoading ? (
+            <Loader>Loading...</Loader>
+          ) : (
+            datas.map((data) => (
+              <Question key={data.question_id + ""} question={data} />
+            ))
+          )}
+          <PageBtns />
+        </Container>
+        <Aside />
+      </Wrapper>
+    </>
   );
 }

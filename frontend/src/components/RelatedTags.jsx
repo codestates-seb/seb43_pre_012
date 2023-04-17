@@ -1,7 +1,14 @@
 import styled from "styled-components";
 
 const Container = styled.section`
-  width: 300px;
+  @media screen and (min-width: ${(props) => props.theme.screen.md}) {
+    width: 300px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    width: 100%;
+  }
+
   height: auto;
   padding-left: 10px;
   // border: 1px solid black;

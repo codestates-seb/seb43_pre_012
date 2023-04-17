@@ -1,7 +1,16 @@
 import styled from "styled-components";
 
 const Container = styled.aside`
-  width: 300px;
+  // width: 300px;
+
+  @media screen and (min-width: ${(props) => props.theme.screen.md}) {
+    width: 300px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    width: 100%;
+  }
+
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;

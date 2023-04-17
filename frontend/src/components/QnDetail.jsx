@@ -10,32 +10,26 @@ import {
   faClockRotateLeft,
   faG,
   faF,
-  faStack,
 } from "@fortawesome/free-solid-svg-icons";
 import { getQuestionDetail } from "../functions";
-import YellowBlock from "./YellowBlock";
-import Collectives from "./Collectives";
-import RelatedTags from "./RelatedTags";
-import HotQuestions from "./HotQuestions";
+import Aside from "./Aside";
 
 const Wrapper = styled.section`
-  width: 1077px;
   height: auto;
-  margin-left: 60px;
-
   display: flex;
 
   @media screen and (max-width: ${(props) => props.theme.screen.md}) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
 const Container = styled.main`
+  max-width: 740px;
   display: flex;
   flex-direction: column;
   margin-right: 40px;
-
-  margin-top: 50px; //  임시 헤더의 높이
+  margin-top: 50px;
 `;
 
 const Header = styled.header`
@@ -46,8 +40,7 @@ const Header = styled.header`
 
 const TopHeader = styled.section`
   width: 100%;
-  height: 60px;
-
+  height: 60%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -69,11 +62,15 @@ const AskBtn = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: #80c0ff 0px 1px 4px;
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.btnHover};
+  }
 `;
 
 const BottomHeader = styled.section`
   width: 100%;
-  height: 40px;
+  height: 40%;
   display: flex;
 `;
 
@@ -165,14 +162,6 @@ const UsefulCount = styled.span`
   font-weight: 500;
 `;
 
-const Aside = styled.aside`
-  width: auto;
-  height: auto;
-  display: grid;
-  grid-template-rows: repeat(auto, 1fr);
-  gap: 20px;
-`;
-
 const RelatedQuestions = styled.section`
   display: flex;
   flex-direction: column;
@@ -255,6 +244,7 @@ const AccountType = styled.section`
   align-items: center;
   border: 1px solid gray;
   font-weight: 400;
+  text-align: center;
 `;
 
 const GuestLabel = styled.h5`
@@ -287,6 +277,10 @@ const PostBtn = styled.button`
   text-align: center;
   color: white;
   background-color: ${(props) => props.theme.colors.skyblue};
+
+  &:hover {
+    background-color: ${(props) => props.theme.colors.btnHover};
+  }
 `;
 
 const PostSpan = styled.span`
@@ -308,7 +302,7 @@ export default function QnDetail() {
 
   const [question, setQuestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { id } = useParams();
 
   useEffect(() => {
@@ -480,12 +474,7 @@ export default function QnDetail() {
               </Question>
             </MainContents>
           </Container>
-          <Aside>
-            <YellowBlock />
-            <Collectives />
-            <RelatedTags />
-            <HotQuestions />
-          </Aside>
+          <Aside />
         </Wrapper>
       )}
     </>

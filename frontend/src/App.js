@@ -1,25 +1,29 @@
 import styled from "styled-components";
 import Questions from "./pages/Questions";
 import Footer from "./components/Footer";
-import TempHeader from "./components/TempHeader";
 import { Route, Routes } from "react-router-dom";
 import QuestionDetail from "./pages/QuestionDetail";
+import Header from "./components/Header";
 
-const Please = styled.div`
+const Wrapper = styled.div`
   width: 100vw;
   height: auto;
+  display: flex;
+  justify-content: center;
 `;
 
 function App() {
   return (
-    <Please>
-      <TempHeader />
-      <Routes>
-        <Route path="/questions/:id" element={<QuestionDetail />} />
-        <Route path="/questions" element={<Questions />} />
-      </Routes>
+    <>
+      <Wrapper>
+        <Header />
+        <Routes>
+          <Route path="/questions/:id" element={<QuestionDetail />} />
+          <Route path="/questions" element={<Questions />} />
+        </Routes>
+      </Wrapper>
       <Footer />
-    </Please>
+    </>
   );
 }
 

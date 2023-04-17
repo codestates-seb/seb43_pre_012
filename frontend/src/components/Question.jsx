@@ -3,7 +3,7 @@ import styled from "styled-components";
 const MAX_LEN = 170;
 
 const Container = styled.section`
-  width: 770px;
+  width: 100%;
   height: auto;
   height: 160px;
   display: flex;
@@ -98,7 +98,7 @@ export default function Question({ question }) {
         </Content>
         <Tags>
           {question.tags.map((tag) => (
-            <Tag>{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}
         </Tags>
         <Questioner>{question.owner.display_name}</Questioner>
