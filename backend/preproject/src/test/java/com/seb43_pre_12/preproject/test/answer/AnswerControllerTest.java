@@ -1,4 +1,4 @@
-package com.seb43_pre_12.preproject.test;
+package com.seb43_pre_12.preproject.test.answer;
 
 import com.google.gson.Gson;
 import com.seb43_pre_12.preproject.answers.controller.AnswerController;
