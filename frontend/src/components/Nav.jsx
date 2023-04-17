@@ -23,6 +23,10 @@ const Wrapper = styled.div`
 	@media (max-width: ${({ theme }) => theme.screen.sm}) {
 		display: none;
 	}
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	z-index: 10;
 `;
 const PublicWrapper = styled.div`
 	padding-top: 5px;
@@ -53,7 +57,7 @@ const InfoIcon = styled.div`
 const buttons = ["Tags", "Users", "Companies"];
 export default function Nav() {
 	const [showCollectives, setShowCollective] = useState(false);
-	const [showCreateTeam, setShowCreateTeam] = useState(false);
+	const [showCreateTeam, setShowCreateTeam] = useState(true);
 	return (
 		<Wrapper>
 			<Link to="/">
