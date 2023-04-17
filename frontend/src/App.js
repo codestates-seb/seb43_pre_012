@@ -26,18 +26,20 @@ const queryClient = new QueryClient();
 
 function App() {
 	return (
-		<Body>
+		<>
 			<Header />
-			<Page>
-				<QueryClientProvider client={queryClient}>
-					<Container>
-						<Nav />
-						<Outlet />
-					</Container>
-				</QueryClientProvider>
-			</Page>
-			<Footer />
-		</Body>
+			<Body>
+				<Page>
+					<QueryClientProvider client={queryClient}>
+						<Container>
+							<Nav />
+							<Outlet />
+						</Container>
+					</QueryClientProvider>
+				</Page>
+				<Footer />
+			</Body>
+		</>
 	);
 }
 
