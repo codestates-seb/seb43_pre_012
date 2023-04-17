@@ -64,7 +64,8 @@ public class CommentsControllerTest {
 
     @Test
     void postCommentTest() throws Exception {
-        CommentsPostDto commentsPostDto = new CommentsPostDto("댓글입니다.", 1L, 1L);
+        CommentsPostDto commentsPostDto = new CommentsPostDto();
+        commentsPostDto.setComment("댓글입니다.");
 
         given(mapper.commentsPostDtoToComments(Mockito.any())).willReturn(new Comments());
 
