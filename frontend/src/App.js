@@ -6,25 +6,26 @@ import Nav from "./components/Nav";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const Body = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Page = styled.div`
-	width: 100%;
-	max-width: 1280px;
-	height: auto;
-	font-size: ${({ theme }) => theme.fontSizes.sm};
-	font-weight: 400;
+  width: 100%;
+  max-width: 1280px;
+  height: auto;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: 400;
 `;
 const Container = styled.div`
-	display: flex;
-	align-items: start;
+  display: flex;
+  align-items: start;
 `;
 
 const queryClient = new QueryClient();
 
 function App() {
+
 	return (
 		<>
 			<Header />

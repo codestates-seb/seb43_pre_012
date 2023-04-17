@@ -23,6 +23,10 @@ const Wrapper = styled.div`
 	@media (max-width: ${({ theme }) => theme.screen.sm}) {
 		display: none;
 	}
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	z-index: 10;
 `;
 const PublicWrapper = styled.div`
 	padding-top: 5px;
