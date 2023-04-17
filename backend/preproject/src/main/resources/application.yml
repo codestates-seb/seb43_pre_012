@@ -8,14 +8,14 @@ spring:
     console:
       enabled: true
       path: /h2
-#    url: jdbc:h2:mem:test
+#
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=Asia/Seoul
-    username: root
-    password: 3333
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:h2:mem:test
+#    url: jdbc:mysql://localhost:3306/preproject_test?serverTimezone=Asia/Seoul
+#    username: root
+#    password: hyunwoo95
 
   #    initialization-mode: always
 
