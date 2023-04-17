@@ -28,10 +28,10 @@ const IconContainer = styled.div`
 `;
 
 export default function Tags() {
-	const { data: tags } = useQuery(["tags"], () => StackExchange.tags(), {
-		staleTime: 1000 * 60 * 5,
-	});
-	tags && console.log(tags);
+	// const { data: tags } = useQuery(["tags"], () => StackExchange.tags(), {
+	// 	staleTime: 1000 * 60 * 5,
+	// });
+	// tags && console.log(tags);
 	return (
 		<TagsWrapper>
 			<TextContainer>
