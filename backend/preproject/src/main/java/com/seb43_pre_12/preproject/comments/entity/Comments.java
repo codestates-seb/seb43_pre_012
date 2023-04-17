@@ -26,10 +26,6 @@ public class Comments {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public void addMember(Member member) {
-        this.member = member;
-    }
-
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
