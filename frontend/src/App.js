@@ -25,20 +25,23 @@ const Container = styled.div`
 const queryClient = new QueryClient();
 
 function App() {
-  return (
-    <Body>
-      <Header />
-      <Page>
-        <QueryClientProvider client={queryClient}>
-          <Container>
-            <Nav />
-            <Outlet />
-          </Container>
-        </QueryClientProvider>
-      </Page>
-      <Footer />
-    </Body>
-  );
+
+	return (
+		<>
+			<Header />
+			<Body>
+				<Page>
+					<QueryClientProvider client={queryClient}>
+						<Container>
+							<Nav />
+							<Outlet />
+						</Container>
+					</QueryClientProvider>
+				</Page>
+				<Footer />
+			</Body>
+		</>
+	);
 }
 
 export default App;
