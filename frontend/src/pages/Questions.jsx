@@ -13,7 +13,6 @@ const Wrapper = styled.section`
 export default function Questions() {
   return (
     <Wrapper>
-      <Nav />
       <AllQuestions />
     </Wrapper>
   );

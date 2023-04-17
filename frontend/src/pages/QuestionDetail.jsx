@@ -13,7 +13,6 @@ const Wrapper = styled.section`
 export default function QuestionDetail() {
   return (
     <Wrapper>
-      <Nav />
       <QnDetail />
     </Wrapper>
   );

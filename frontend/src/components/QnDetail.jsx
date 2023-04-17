@@ -302,7 +302,7 @@ export default function QnDetail() {
 
   const [question, setQuestion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const { id } = useParams();
 
   useEffect(() => {
