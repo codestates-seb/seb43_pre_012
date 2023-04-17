@@ -53,7 +53,7 @@ const InfoIcon = styled.div`
 const buttons = ["Tags", "Users", "Companies"];
 export default function Nav() {
 	const [showCollectives, setShowCollective] = useState(false);
-	const [showCreateTeam, setShowCreateTeam] = useState(true);
+	const [showCreateTeam, setShowCreateTeam] = useState(false);
 	return (
 		<Wrapper>
 			<Link to="/">

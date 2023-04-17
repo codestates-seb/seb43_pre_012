@@ -51,9 +51,9 @@ const UserContainer = styled.div`
 `;
 const buttons = ["Reputation", "New users", "Voters", "Editors", "Moderators"];
 export default function Users() {
-	const { data: users } = useQuery(["users"], () => StackExchange.users(), {
-		staleTime: 1000 * 60 * 5,
-	});
+	// const { data: users } = useQuery(["users"], () => StackExchange.users(), {
+	// 	staleTime: 1000 * 60 * 5,
+	// });
 
 	return (
 		<UsersWrapper>
@@ -71,7 +71,7 @@ export default function Users() {
 					))}
 				</FilterContainer>
 			</SearchContainer>
-			{users && (
+			{/* {users && (
 				<UserContainer>
 					{users.map((user) => (
 						<UserCard
@@ -83,7 +83,7 @@ export default function Users() {
 						/>
 					))}
 				</UserContainer>
-			)}
+			)} */}
 		</UsersWrapper>
 	);
 }
