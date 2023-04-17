@@ -106,6 +106,7 @@ const Loader = styled.h1`
 `;
 
 export default function AllQuestions() {
+
 	const [datas, setDatas] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 
