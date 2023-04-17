@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,8 +33,11 @@ public class CommentsController {
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentsPostDto requestBody) {
         Comments comment = commentsService.createComment(mapper.commentsPostDtoToComments(requestBody));
+        URI uri = UriComponentsBuilder.newInstance()
+                .path("/comments/" + comment.getCommentId())
+                .build().toUri();
 
-        return new ResponseEntity(mapper.commentsToCommentsResponseDto(comment), HttpStatus.CREATED);
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("{commentId}")

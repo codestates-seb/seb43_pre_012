@@ -4,6 +4,8 @@ import com.seb43_pre_12.preproject.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor
 public class CommentsResponseDto {
@@ -12,6 +14,9 @@ public class CommentsResponseDto {
     private String comment;
     private long memberId;
     private long answerId;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
 
     public void setMember(Member member) {
         this.memberId = member.getMemberId();

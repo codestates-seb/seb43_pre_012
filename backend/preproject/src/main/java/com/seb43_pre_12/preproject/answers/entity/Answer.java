@@ -1,6 +1,9 @@
 package com.seb43_pre_12.preproject.answers.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.seb43_pre_12.preproject.comments.entity.Comments;
+import com.seb43_pre_12.preproject.member.entity.Member;
+import com.seb43_pre_12.preproject.question.entity.Question;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,17 +32,17 @@ public class Answer {
     @Column(nullable = false)
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-//    @ManyToOne
-//    @JoinColumn(name = "MEMBER_ID")
-//    Member member;
+    @ManyToOne
+    @JoinColumn(name = "MEMBER_ID")
+    Member member;
 
-//    @ManyToOne
-//    @JoinColumn(name = "QUESTION_ID")
-//    Question question;
+    @ManyToOne
+    @JoinColumn(name = "QUESTION_ID")
+    Question question;
 //    todo 질문이 삭제 될 때, 질문에 달린 답변도 삭제되어야 함으로, 질문 엔티티에 cascade 설정이 되어있어야 한다.
 
-//    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
-//    List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
+    List<Comments> comments = new ArrayList<>();
 
     public enum Selected {
         ANSWER_SELECTED("ANSWER_SELECTED"),

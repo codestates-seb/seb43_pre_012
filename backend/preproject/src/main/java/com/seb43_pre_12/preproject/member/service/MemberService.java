@@ -1,5 +1,7 @@
 package com.seb43_pre_12.preproject.member.service;
 
+import com.seb43_pre_12.preproject.exception.BusinessLogicException;
+import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -43,18 +45,19 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
-//    public Member findVerifiedMember(long memberId) {
-//        Optional<Member> optionalMember = memberRepository.findById(memberId);
-//
-//        Member findMember =
-//                optionalMember.orElseThrow(() ->
-//                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return findMember;
-//    }
-//
-//    private void verifyExistsEmail(String email) {
-//        Optional<Member> member = memberRepository.findByEmail(email);
-//        if (member.isPresent())
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
-//    }
+    public Member findVerifiedMember(long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+
+        Member findMember =
+                optionalMember.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return findMember;
+    }
+
+    private void verifyExistsEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent())
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        // MEMBER_NOT_FOUND -> MEMBER_EXISTS 변경
+    }
 }
