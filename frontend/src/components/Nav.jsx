@@ -14,16 +14,8 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: start;
-  min-width: 170px;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  @media screen and (max-width: ${(props) => props.theme.screen.sm}) {
-    display: none;
-  }
+  width: 170px;
 `;
-
 const PublicWrapper = styled.div`
   padding-top: 5px;
   display: flex;
@@ -32,14 +24,12 @@ const PublicWrapper = styled.div`
   align-items: start;
   width: 100%;
 `;
-
 const PWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: column;
   padding-bottom: 25px;
 `;
-
 const P = styled.div`
   font-size: 11px;
   color: gray;
@@ -49,12 +39,10 @@ const P = styled.div`
   margin-left: 5px;
   width: 100%;
 `;
-
 const InfoIcon = styled.div`
   position: relative;
   cursor: pointer;
 `;
-
 const buttons = ["Tags", "Users", "Companies"];
 export default function Nav() {
   const [showCollectives, setShowCollective] = useState(false);

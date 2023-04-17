@@ -10,8 +10,6 @@ const Wrapper = styled.section`
   position: relative;
 `;
 
-//
-
 export default function QuestionDetail() {
   return (
     <Wrapper>
