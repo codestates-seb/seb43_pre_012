@@ -5,8 +5,11 @@ import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +28,19 @@ public class MemberService {
     }
 
     public Member updateMember(Member member) {
-        return memberRepository.save(member);
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getEmail())
+                .ifPresent(email -> findMember.setEmail(email));
+        Optional.ofNullable(member.getUsername())
+                .ifPresent(username -> findMember.setUsername(username));
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getMemberStatus())
+                .ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
+        findMember.setModifiedAt(LocalDateTime.now());
+
+        return memberRepository.save(findMember);
     }
 
     @Transactional(readOnly = true)
