@@ -51,10 +51,10 @@ const UserContainer = styled.div`
 `;
 const buttons = ["Reputation", "New users", "Voters", "Editors", "Moderators"];
 export default function Users() {
-	// const { data: users } = useQuery(["users"], () => StackExchange.users(), {
-	// 	staleTime: 1000 * 60 * 5,
-	// });
-
+	const { data: users } = useQuery(["users"], () => StackExchange.users(), {
+		staleTime: 1000 * 60 * 5,
+	});
+	users && console.log(users[0].profile_image);
 	return (
 		<UsersWrapper>
 			<H1>Users</H1>
@@ -71,10 +71,10 @@ export default function Users() {
 					))}
 				</FilterContainer>
 			</SearchContainer>
-			{/* {users && (
-				<usercontainer>
+			{users && (
+				<UserContainer>
 					{users.map((user) => (
-						<usercard
+						<UserCard
 							key={user.display_name}
 							name={user.display_name}
 							imgurl={user.profile_image}
@@ -82,8 +82,8 @@ export default function Users() {
 							reputation={user.reputation_change_week}
 						/>
 					))}
-				</usercontainer>
-			)} */}
+				</UserContainer>
+			)}
 		</UsersWrapper>
 	);
 }
