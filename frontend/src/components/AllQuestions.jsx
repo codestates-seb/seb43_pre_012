@@ -132,7 +132,8 @@ export default function AllQuestions() {
             </TopHeader>
             <BottomHeader>
               <QuestionNum>
-                {isLoading ? "Loading..." : `${datas.length} questions`}
+                {isLoading && "Loading..."}
+                {datas && `${datas.length} questions`}
               </QuestionNum>
               <Btns>
                 <Btn>Newest</Btn>
@@ -153,13 +154,11 @@ export default function AllQuestions() {
               </Btns>
             </BottomHeader>
           </Header>
-          {isLoading ? (
-            <Loader>Loading...</Loader>
-          ) : (
+          {isLoading && <Loader>Loading...</Loader>}
+          {datas &&
             datas.map((data) => (
               <Question key={data.question_id + ""} question={data} />
-            ))
-          )}
+            ))}
           <PageBtns />
         </Container>
         <Aside />
