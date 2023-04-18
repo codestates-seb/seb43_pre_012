@@ -1,9 +1,6 @@
 import styled from 'styled-components';
-import ButtonContainer from "./ButtonContainer";
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
-import Login from '../pages/Login';
-import Signup from '../pages/Signup';
 import { Link } from "react-router-dom";
 
 const HeaderWrapper = styled.div`
@@ -99,8 +96,10 @@ export default function Header() {
     return (
 
         <HeaderWrapper>
-            <Logo className='largeLogo' src={largeLogo} />
-            <Logo className='smallLogo' src={smallLogo} />
+            <Link to = "/">
+                <Logo className='largeLogo' src={largeLogo} />
+                <Logo className='smallLogo' src={smallLogo} />
+            </Link>
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
