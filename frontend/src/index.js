@@ -11,6 +11,7 @@ import QuestionDetail from "./pages/QuestionDetail";
 import Users from "./pages/Users";
 import Tags from "./pages/Tags";
 import Companies from "./pages/Companies";
+import Ask from "./pages/Ask";
 import GlobalStyle from "./styles/GlobalStyle";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -25,10 +26,11 @@ const router = createBrowserRouter([
       { path: "/user", element: <UserProfile /> },
       { path: "/users", element: <Users /> },
       { path: "/tags", element: <Tags /> },
-      { path: "/Companies", element: <Companies /> },
+      { path: "/companies", element: <Companies /> },
       { path: "/user", element: <UserProfile /> },
-      { path: "/user/sava", element: <UserSave /> },
+      { path: "/user/save", element: <UserSave /> },
       { path: "/questions/:id", element: <QuestionDetail /> },
+      { path: "/questions/ask", element: <Ask /> },
       { path: "/login", element: <Login /> },
       { path: "/Signup", element: <Signup /> },
     ],

@@ -56,81 +56,81 @@ const InfoIcon = styled.div`
 `;
 const buttons = ["Tags", "Users", "Companies"];
 export default function Nav() {
-	const [showCollectives, setShowCollective] = useState(false);
-	const [showCreateTeam, setShowCreateTeam] = useState(false);
-	return (
-		<Wrapper>
-			<Link to="/">
-				<ButtonContainer name={"Home"} style={{ marginBottom: "20px" }} />
-			</Link>
-			<P>PUBLIC</P>
-			<PublicWrapper>
-				<Link to="questions">
-					<ButtonContainer name={"Questions"}>
-						<ImEarth size={17} />
-					</ButtonContainer>
-				</Link>
-				{buttons.map((button) => (
-					<Link key={button} to={button.toLowerCase()}>
-						<ButtonContainer key={button} name={button} />
-					</Link>
-				))}
-			</PublicWrapper>
-			<PWrapper>
-				<P>
-					COLLECTIVES
-					<InfoIcon>
-						<RiInformationFill
-							size={15}
-							data-name={"collectives"}
-							onClick={() => setShowCollective((prev) => !prev)}
-						/>
-						{showCollectives && (
-							<Modal
-								rect={{
-									top: "-210px",
-									left: "-98px",
-									width: "211px",
-									aftertop: "100%",
-									topColor: "white",
-									positionY: "50%",
-								}}
-								setShowModal={setShowCollective}
-							>
-								<CollectiveContents />
-							</Modal>
-						)}
-					</InfoIcon>
-				</P>
-				<ButtonContainer name={"Explore Collective"} />
-			</PWrapper>
-			<P>
-				TEAMS
-				<InfoIcon>
-					<RiInformationFill
-						size={15}
-						data-name={"createTeam"}
-						onClick={() => setShowCreateTeam((prev) => !prev)}
-						style={{ cursor: "pointer" }}
-					/>
-					{showCreateTeam && (
-						<Modal
-							rect={{
-								top: "35px",
-								left: "-25px",
-								width: "200px",
-								afterbottom: "100%",
-								bottomColor: "white",
-								positionY: "15%",
-							}}
-							setShowModal={setShowCreateTeam}
-						>
-							<CreateTeamContents />
-						</Modal>
-					)}
-				</InfoIcon>
-			</P>
-			<ButtonContainer name={"Create free Team"}></ButtonContainer>
-		</Wrapper>
-	);
+  const [showCollectives, setShowCollective] = useState(false);
+  const [showCreateTeam, setShowCreateTeam] = useState(false);
+  return (
+    <Wrapper>
+      <Link to="/">
+        <ButtonContainer name={"Home"} style={{ marginBottom: "20px" }} />
+      </Link>
+      <P>PUBLIC</P>
+      <PublicWrapper>
+        <Link to="/questions">
+          <ButtonContainer name={"Questions"}>
+            <ImEarth size={17} />
+          </ButtonContainer>
+        </Link>
+        {buttons.map((button) => (
+          <Link key={button} to={`/${button.toLowerCase()}`}>
+            <ButtonContainer key={button} name={button} />
+          </Link>
+        ))}
+      </PublicWrapper>
+      <PWrapper>
+        <P>
+          COLLECTIVES
+          <InfoIcon>
+            <RiInformationFill
+              size={15}
+              data-name={"collectives"}
+              onClick={() => setShowCollective((prev) => !prev)}
+            />
+            {showCollectives && (
+              <Modal
+                rect={{
+                  top: "-210px",
+                  left: "-98px",
+                  width: "211px",
+                  aftertop: "100%",
+                  topColor: "white",
+                  positionY: "50%",
+                }}
+                setShowModal={setShowCollective}
+              >
+                <CollectiveContents />
+              </Modal>
+            )}
+          </InfoIcon>
+        </P>
+        <ButtonContainer name={"Explore Collective"} />
+      </PWrapper>
+      <P>
+        TEAMS
+        <InfoIcon>
+          <RiInformationFill
+            size={15}
+            data-name={"createTeam"}
+            onClick={() => setShowCreateTeam((prev) => !prev)}
+            style={{ cursor: "pointer" }}
+          />
+          {showCreateTeam && (
+            <Modal
+              rect={{
+                top: "35px",
+                left: "-25px",
+                width: "200px",
+                afterbottom: "100%",
+                bottomColor: "white",
+                positionY: "15%",
+              }}
+              setShowModal={setShowCreateTeam}
+            >
+              <CreateTeamContents />
+            </Modal>
+          )}
+        </InfoIcon>
+      </P>
+      <ButtonContainer name={"Create free Team"}></ButtonContainer>
+    </Wrapper>
+  );
 }

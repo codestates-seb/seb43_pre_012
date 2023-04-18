@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PageBtns from "../components/PageBtns";
 import Company from "../components/Company";
 import FilterBox from "../components/FilterBox";
+import Nav from "../components/Nav";
 
 const dummyCompanies = [
   {
@@ -249,54 +250,60 @@ export default function Companies() {
   const [isFilterClicked, setIsFilterClicked] = useState(false);
 
   return (
-    <Container>
-      <Header>
-        <Titles>
-          <Title fontSize={"25px"}>Companies</Title>
-          <Title fontSize={"15px"}>
-            Learn about what it's like to work at companies
-          </Title>
-        </Titles>
-        <Inputs>
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            style={{
-              position: "absolute",
-              top: "10px",
-              left: "7px",
-              fontSize: "25px",
-            }}
-          />
-          <Input
-            placeholder="Search all companies"
-            style={{ paddingLeft: "40px" }}
-          />
-          <Input placeholder="Search company by location" />
-          <SearchBtn>Search</SearchBtn>
-          <FilterByTag
-            onClick={() => {
-              setIsFilterClicked((prev) => true);
-            }}
-          >
-            Filter By Tag
-          </FilterByTag>
-        </Inputs>
-        <CompaniesNum>122 companies</CompaniesNum>
-        {isFilterClicked && (
-          <>
-            <Overlay
-              onClick={() => {
-                setIsFilterClicked((prev) => false);
-              }}
-            />
-            <FilterBox></FilterBox>
-          </>
-        )}
-      </Header>
-      {dummyCompanies.map((company) => (
-        <Company key={company.id} company={company} />
-      ))}
-      <PageBtns />
-    </Container>
+    <>
+      {" "}
+      <>
+        <Nav />
+        <Container>
+          <Header>
+            <Titles>
+              <Title fontSize={"25px"}>Companies</Title>
+              <Title fontSize={"15px"}>
+                Learn about what it's like to work at companies
+              </Title>
+            </Titles>
+            <Inputs>
+              <FontAwesomeIcon
+                icon={faMagnifyingGlass}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  left: "7px",
+                  fontSize: "25px",
+                }}
+              />
+              <Input
+                placeholder="Search all companies"
+                style={{ paddingLeft: "40px" }}
+              />
+              <Input placeholder="Search company by location" />
+              <SearchBtn>Search</SearchBtn>
+              <FilterByTag
+                onClick={() => {
+                  setIsFilterClicked((prev) => true);
+                }}
+              >
+                Filter By Tag
+              </FilterByTag>
+            </Inputs>
+            <CompaniesNum>122 companies</CompaniesNum>
+            {isFilterClicked && (
+              <>
+                <Overlay
+                  onClick={() => {
+                    setIsFilterClicked((prev) => false);
+                  }}
+                />
+                <FilterBox></FilterBox>
+              </>
+            )}
+          </Header>
+          {dummyCompanies.map((company) => (
+            <Company key={company.id} company={company} />
+          ))}
+          <PageBtns />
+        </Container>
+      </>
+    </>
   );
 }
