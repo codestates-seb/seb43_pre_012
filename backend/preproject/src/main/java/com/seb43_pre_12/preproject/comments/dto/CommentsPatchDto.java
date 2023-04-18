@@ -17,4 +17,5 @@ public class CommentsPatchDto {
     public void setCommentId(long commentId) {
         this.commentId = commentId;
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -33,6 +34,7 @@ public class CommentsController {
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentsPostDto requestBody) {
         Comments comment = commentsService.createComment(mapper.commentsPostDtoToComments(requestBody));
+
 
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/comments/" + comment.getCommentId())

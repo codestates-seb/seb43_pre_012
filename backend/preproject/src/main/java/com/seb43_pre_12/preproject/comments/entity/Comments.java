@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.comments.entity;
 
+
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import lombok.Getter;
@@ -22,9 +23,11 @@ public class Comments {
     @Column(nullable = false)
     private String comment;
 
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
 
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")

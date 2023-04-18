@@ -1,6 +1,7 @@
 package com.seb43_pre_12.preproject.answers.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.question.entity.Question;
@@ -54,12 +55,12 @@ public class Answer {
             this.status = status;
         }
 
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static Selected findByCode(String code) {
-            return Stream.of(Selected.values())
-                    .filter(c -> c.status.equals(code))
-                    .findFirst()
-                    .orElse(null);
-        }
+//        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+//        public static Selected findByCode(String code) {
+//            return Stream.of(Selected.values())
+//                    .filter(c -> c.status.equals(code))
+//                    .findFirst()
+//                    .orElse(null);
+//        }
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
         Member member = memberService.createMember(mapper.memberPostDtoToMember(requestBody));
+
         
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/members/" + member.getMemberId())

@@ -1,6 +1,7 @@
 package com.seb43_pre_12.preproject.question.entity;
 
 
+
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class Question {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 30, nullable = false)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_OPEN;
+
 
     // 연관관계 매핑
     // N : 1(Member) 단방향 매핑

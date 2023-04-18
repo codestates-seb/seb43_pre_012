@@ -1,12 +1,14 @@
 package com.seb43_pre_12.preproject.member.service;
 
 
+
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 import java.time.LocalDateTime;
@@ -28,6 +30,7 @@ public class MemberService {
     }
 
     public Member updateMember(Member member) {
+
 
         Member findMember = findVerifiedMember(member.getMemberId());
 
@@ -61,6 +64,7 @@ public class MemberService {
     public void deleteMember(long memberId) {
         memberRepository.deleteById(memberId);
     }
+
 
     public Member findVerifiedMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);

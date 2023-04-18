@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ import java.util.List;
 @Slf4j
 public class QuestionController {
 
+
 private final static String QUESTION_DEFAULT_URL ="/questions";
 
     private final QuestionService questionService;
@@ -37,6 +39,7 @@ private final static String QUESTION_DEFAULT_URL ="/questions";
 
     // 질문 등록
     @PostMapping
+
     public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
 
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);

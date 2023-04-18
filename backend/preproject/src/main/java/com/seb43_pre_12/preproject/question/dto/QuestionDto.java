@@ -1,6 +1,7 @@
 package com.seb43_pre_12.preproject.question.dto;
 
 
+
 import com.seb43_pre_12.preproject.answers.validator.NotSpace;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ public class QuestionDto {
     public static class Post{
 
         @NotNull(message = "제목은 공란이 아니어야 합니다.")
+
         @NotSpace
         private String title;
 

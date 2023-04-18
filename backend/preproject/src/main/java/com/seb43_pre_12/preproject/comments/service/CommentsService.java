@@ -2,6 +2,7 @@ package com.seb43_pre_12.preproject.comments.service;
 
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.comments.repository.CommentsRepository;
+
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.service.MemberService;
@@ -45,6 +46,7 @@ public class CommentsService {
     public List<Comments> findComments() {
         return commentsRepository.findAll();
     }
+
 
     public void deleteComment(long commentId) {
         commentsRepository.deleteById(commentId);
