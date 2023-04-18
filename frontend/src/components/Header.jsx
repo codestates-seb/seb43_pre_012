@@ -1,8 +1,10 @@
 import styled from 'styled-components';
+import ButtonContainer from "./ButtonContainer";
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import { Link } from "react-router-dom";
 
 const HeaderWrapper = styled.div`
 display: flex;
@@ -76,6 +78,7 @@ height : 34px;
 display: flex;
 justify-content: center;
 align-items: center;
+cursor: pointer;
 border : 1px solid ${({ theme }) => theme.colors.skyblue};
 margin-right : 5px;
 border-radius : 3px;
@@ -94,20 +97,23 @@ white-space: nowrap;
 export default function Header() {
 
     return (
-        <BrowserRouter>
-            <HeaderWrapper>
-                <Logo className='largeLogo' src={largeLogo} />
-                <Logo className='smallLogo' src={smallLogo} />
-                <Menu className='about' href="About.js">About</Menu>
-                <Menu className='products' href="Products.js">Products</Menu>
-                <Menu className='forteams' href="ForTeams">For Teams</Menu>
-                <Input placeholder='🔍 Search....'></Input>
-                <Scope className='scope'>🔍</Scope>
+
+        <HeaderWrapper>
+            <Logo className='largeLogo' src={largeLogo} />
+            <Logo className='smallLogo' src={smallLogo} />
+            <Menu className='about' href="About.js">About</Menu>
+            <Menu className='products' href="Products.js">Products</Menu>
+            <Menu className='forteams' href="ForTeams">For Teams</Menu>
+            <Input placeholder='🔍 Search....'></Input>
+            <Scope className='scope'>🔍</Scope>
+            <Link to="login">
                 <Button className='login'>Log in</Button>
+			</Link>
+            <Link to="signup">
                 <Button className='signup'>Sign up</Button>
-                
-            </HeaderWrapper>
-        </BrowserRouter>
+			</Link>
+        </HeaderWrapper>
+
     )
 }
 
