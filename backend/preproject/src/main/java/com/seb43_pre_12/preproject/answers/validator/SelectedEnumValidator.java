@@ -40,6 +40,9 @@ public class SelectedEnumValidator implements ConstraintValidator<SelectedEnum, 
             return false;
         }
 
+//        if(value.name().equals("ANSWER_SELECTED") || value.name().equals("ANSWER_NOT_SELECTED")){
+//            return true;}
+//        else return false;
         Matcher m = pattern.matcher(value.name());
         return m.matches();
     }

@@ -54,12 +54,14 @@ public class Answer {
             this.status = status;
         }
 
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static Selected findByCode(String code) {
-            return Stream.of(Selected.values())
-                    .filter(c -> c.status.equals(code))
-                    .findFirst()
-                    .orElse(null);
-        }
+//        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+//        public static Selected findByCode(String status) {
+//            if(status==null) return Selected.ANSWER_NOT_SELECTED;
+//
+//            return Stream.of(Selected.values())
+//                    .filter(selected -> selected.getStatus().equals(status))
+//                    .findFirst()
+//                    .orElse(null);
+//        }
     }
 }
