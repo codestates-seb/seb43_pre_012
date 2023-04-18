@@ -42,7 +42,6 @@ public class Question {
         this.member=member;
     }
 
-
     public enum QuestionStatus{
         QUESTION_OPEN("질문 등록"),
         QUESTION_UPDATE("질문 수정"),

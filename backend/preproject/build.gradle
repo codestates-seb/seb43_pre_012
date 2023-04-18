@@ -80,5 +80,3 @@ bootJar {
 		into 'static/docs'     // (10-3)
 	}
 }
-
-

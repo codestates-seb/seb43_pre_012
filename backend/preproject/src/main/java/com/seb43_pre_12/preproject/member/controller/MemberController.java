@@ -32,6 +32,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
         Member member = memberService.createMember(mapper.memberPostDtoToMember(requestBody));
+        
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/members/" + member.getMemberId())
                 .build().toUri();
