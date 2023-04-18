@@ -4,7 +4,16 @@ import styled from "styled-components";
 const CardWrapper = styled.div`
 	display: flex;
 	margin: 10px;
-	min-width: 250px;
+	width: 100%;
+	@media (min-width: ${({ theme }) => theme.screen.sm}) {
+		width: 45%;
+	}
+	@media (min-width: ${({ theme }) => theme.screen.md}) {
+		width: 30%;
+	}
+	@media (min-width: ${({ theme }) => theme.screen.lg}) {
+		width: 22%;
+	}
 	font-size: ${({ theme }) => theme.fontSizes.md};
 	color: ${({ theme }) => theme.colors.grayText};
 `;
@@ -27,6 +36,7 @@ const Location = styled.p`
 const Reputation = styled.p`
 	font-weight: 800;
 `;
+
 export default function UserCard({ name, imgUrl, location, reputation }) {
 	return (
 		<CardWrapper>
