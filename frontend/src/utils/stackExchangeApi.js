@@ -36,8 +36,29 @@ export const StackExchange = {
 				})
 				.then((json) => json.data.items);
 		} else {
+			console.log("local data..");
 			return await axios
 				.get("/datas/tags.json")
+				.then((json) => json.data.items);
+		}
+	},
+	async questions() {
+		if (!isLocal) {
+			return httpClient
+				.get("questions", {
+					params: {
+						pagesize: 20,
+						site: "stackoverflow",
+						order: "desc",
+						sort: "hot",
+						filter: "!nOedRLbBQj",
+					},
+				})
+				.then((json) => json.data.items);
+		} else {
+			console.log("local data..");
+			return await axios
+				.get("/datas/questions.json")
 				.then((json) => json.data.items);
 		}
 	},

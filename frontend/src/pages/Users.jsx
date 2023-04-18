@@ -1,11 +1,10 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { StackExchange } from "../utils/stackExchangeApi";
 import UserCard from "../components/UserCard";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import FilterButton from "../components/FilterButton";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
+import useUserInfo from "../hooks/useUserInfo";
 
 const UsersWrapper = styled.div`
 	width: 100%;
@@ -51,10 +50,9 @@ const UserContainer = styled.div`
 `;
 const buttons = ["Reputation", "New users", "Voters", "Editors", "Moderators"];
 export default function Users() {
-	const { data: users } = useQuery(["users"], () => StackExchange.users(), {
-		staleTime: 1000 * 60 * 5,
-	});
-	users && console.log(users[0].profile_image);
+	const {
+		getUsers: { data: users },
+	} = useUserInfo();
 	return (
 		<UsersWrapper>
 			<H1>Users</H1>
