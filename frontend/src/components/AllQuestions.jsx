@@ -123,54 +123,50 @@ export default function AllQuestions() {
 		})();
 	}, []);
 
-	//react-query custom hook
-	const {
-		getQuestions: { data: datas1 },
-	} = useQuetion();
-	datas1 && console.log(datas1);
-
-	return (
-		<>
-			<Wrapper>
-				<Container>
-					<Header>
-						<TopHeader>
-							<Title>All Questions</Title>
-							<AskBtn>Ask Question</AskBtn>
-						</TopHeader>
-						<BottomHeader>
-							<QuestionNum>
-								{isLoading && "Loading..."}
-								{datas && `${datas.length} questions`}
-							</QuestionNum>
-							<Btns>
-								<Btn>Newest</Btn>
-								<Btn>Active</Btn>
-								<Btn>
-									Bountied
-									<BountiedNum>219</BountiedNum>
-								</Btn>
-								<Btn>Unanswered</Btn>
-								<Btn>More</Btn>
-								<Btn
-									bgColor={"#E0EDF4"}
-									fntColor={"#5786AB"}
-									style={{ marginLeft: "15px" }}
-								>
-									Filter
-								</Btn>
-							</Btns>
-						</BottomHeader>
-					</Header>
-					{isLoading && <Loader>Loading...</Loader>}
-					{datas &&
-						datas.map((data) => (
-							<Question key={data.question_id + ""} question={data} />
-						))}
-					<PageBtns />
-				</Container>
-				<Aside />
-			</Wrapper>
-		</>
-	);
+  return (
+    <>
+      <Wrapper>
+        <Container>
+          <Header>
+            <TopHeader>
+              <Title>All Questions</Title>
+              <Link to="/questions/ask">
+                <AskBtn>Ask Question</AskBtn>
+              </Link>
+            </TopHeader>
+            <BottomHeader>
+              <QuestionNum>
+                {isLoading && "Loading..."}
+                {datas && `${datas.length} questions`}
+              </QuestionNum>
+              <Btns>
+                <Btn>Newest</Btn>
+                <Btn>Active</Btn>
+                <Btn>
+                  Bountied
+                  <BountiedNum>219</BountiedNum>
+                </Btn>
+                <Btn>Unanswered</Btn>
+                <Btn>More</Btn>
+                <Btn
+                  bgColor={"#E0EDF4"}
+                  fntColor={"#5786AB"}
+                  style={{ marginLeft: "15px" }}
+                >
+                  Filter
+                </Btn>
+              </Btns>
+            </BottomHeader>
+          </Header>
+          {isLoading && <Loader>Loading...</Loader>}
+          {datas &&
+            datas.map((data) => (
+              <Question key={data.question_id + ""} question={data} />
+            ))}
+          <PageBtns />
+        </Container>
+        <Aside />
+      </Wrapper>
+    </>
+  );
 }
