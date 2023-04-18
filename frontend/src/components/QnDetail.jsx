@@ -11,8 +11,9 @@ import {
   faG,
   faF,
 } from "@fortawesome/free-solid-svg-icons";
-import { getQuestionDetail } from "../functions";
+import { getQuestionDetail } from "../utils/functions";
 import Aside from "./Aside";
+import Tag from "./Tag";
 
 const Wrapper = styled.section`
   height: auto;
@@ -47,7 +48,7 @@ const TopHeader = styled.section`
 `;
 
 const Title = styled.h2`
-  font-size: ${(props) => props.fontSize};
+  font-size: 25px;
   font-weight: bold;
 `;
 
@@ -76,6 +77,7 @@ const BottomHeader = styled.section`
 
 const HeaderInfo = styled.h6`
   font-size: ${(props) => props.theme.fontSizes.md};
+  font-size: 15px;
   font-weight: 400;
   margin-right: 15px;
 `;
@@ -83,7 +85,6 @@ const HeaderInfo = styled.h6`
 const MainContents = styled.section`
   width: 100%;
   height: auto;
-
   display: flex;
   justify-content: center;
 `;
@@ -109,18 +110,6 @@ const Tags = styled.section`
   align-items: center;
 `;
 
-const Tag = styled.section`
-  height: 25px;
-  margin-right: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  border-radius: 5px;
-  color: ${(props) => props.theme.colors.black};
-  background-color: ${(props) => props.theme.colors.tagblue};
-`;
-
 const QuestionerLine = styled.section`
   width: 100%;
   height: 150px;
@@ -139,7 +128,6 @@ const QuestionerIcon = styled.div`
 const Questioner = styled.div`
   height: 70px;
   background-color: #d8eaf6;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -192,7 +180,6 @@ const RelatedQuestionNum = styled.section`
   justify-content: center;
   align-items: center;
   margin-right: 15px;
-
   font-size: ${(props) => props.theme.fontSizes.sm};
   font-weight: 500;
 `;
@@ -327,7 +314,7 @@ export default function QnDetail() {
           <Container>
             <Header>
               <TopHeader>
-                <Title fontSize={"25px"}>대충제목이라는뜻</Title>
+                <Title>대충제목이라는뜻</Title>
                 <AskBtn>Ask Question</AskBtn>
               </TopHeader>
               <BottomHeader>
@@ -360,9 +347,9 @@ export default function QnDetail() {
                 <Contents>
                   <Content>{`${loremIpsum}`}</Content>
                   <Tags>
-                    <Tag>tag1</Tag>
-                    <Tag>tag2</Tag>
-                    <Tag>tag3</Tag>
+                    <Tag tag={"tag1"} />
+                    <Tag tag={"tag2"} />
+                    <Tag tag={"tag3"} />
                   </Tags>
                   <QuestionerLine>
                     <Questioner>
