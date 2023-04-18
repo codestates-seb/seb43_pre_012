@@ -1,6 +1,5 @@
 package com.seb43_pre_12.preproject.comments.entity;
 
-
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 
 import com.seb43_pre_12.preproject.member.entity.Member;

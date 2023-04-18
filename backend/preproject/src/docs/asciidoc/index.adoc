@@ -249,6 +249,23 @@ include::{snippets}/delete-answer/http-response.adoc[]
 //
 // .response-headers
 // include::{snippets}/post-question/response-headers.adoc[]
+=======
+== QuestionController
+=== 질문 등록
+.curl-request
+include::{snippets}/post-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-question/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-question/response-headers.adoc[]
 
 === 질문 정보 수정
 .curl-request
@@ -311,4 +328,3 @@ include::{snippets}/get-question/response-fields.adoc[]
 //
 // .response-fields
 // include::{snippets}/get-questions/response-fields.adoc[]
-
