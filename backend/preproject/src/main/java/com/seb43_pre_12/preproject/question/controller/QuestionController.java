@@ -13,8 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
+
 import java.util.List;
 
 @RestController
@@ -22,6 +26,10 @@ import java.util.List;
 @Validated
 @Slf4j
 public class QuestionController {
+
+
+private final static String QUESTION_DEFAULT_URL ="/questions";
+
 
     private final QuestionService questionService;
     private final QuestionMapper mapper;
@@ -33,13 +41,20 @@ public class QuestionController {
 
     // 질문 등록
     @PostMapping
-    public ResponseEntity postQuestion(@RequestBody QuestionPostDto questionPostDto){
+
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
 
         Question question = mapper.questionPostDtoToQuestion(questionPostDto);
         question.setQuestionStatus(Question.QuestionStatus.QUESTION_OPEN);
-        Question response = questionService.createQuestion(question);
 
-        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(response), HttpStatus.CREATED);
+        Question response = questionService.createQuestion(question);
+        URI uri = UriComponentsBuilder.newInstance()
+                .path("/questions/" + question.getQuestionId())
+                .build().toUri();
+
+        return ResponseEntity.created(uri).build();
+
+
 
     }
     // 질문 수정

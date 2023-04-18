@@ -17,6 +17,7 @@ public class AnswerPatchDto {
     private String content;
 //    @Pattern(regexp = "^ANSWER_SELECTED | ANSWER_NOT_SELECTED$",
 //            message = "입력 가능한 값은 ANSWER_SELECTED 와 ANSWER_NOT_SELECTED 만 가능합니다.")
-    @SelectedEnum(regexp = "ANSWER_SELECTED|ANSWER_NOT_SELECTED")
+//    @SelectedEnum(regexp = "ANSWER_SELECTED|ANSWER_NOT_SELECTED")
+
     private Answer.Selected selected;
 }
