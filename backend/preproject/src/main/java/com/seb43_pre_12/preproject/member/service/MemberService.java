@@ -1,11 +1,13 @@
 package com.seb43_pre_12.preproject.member.service;
 
+
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +28,7 @@ public class MemberService {
     }
 
     public Member updateMember(Member member) {
+
         Member findMember = findVerifiedMember(member.getMemberId());
 
         Optional.ofNullable(member.getEmail())
@@ -39,6 +42,7 @@ public class MemberService {
         findMember.setModifiedAt(LocalDateTime.now());
 
         return memberRepository.save(findMember);
+
     }
 
     @Transactional(readOnly = true)
@@ -73,4 +77,5 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         // MEMBER_NOT_FOUND -> MEMBER_EXISTS 변경
     }
+
 }

@@ -80,3 +80,6 @@ bootJar {
 		into 'static/docs'     // (10-3)
 	}
 }
+// junit5, test관련, spring rest docs
+
+

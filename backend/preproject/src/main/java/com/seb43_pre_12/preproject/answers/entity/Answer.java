@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.question.entity.Question;
-
 import lombok.Getter;
 import lombok.Setter;
 
