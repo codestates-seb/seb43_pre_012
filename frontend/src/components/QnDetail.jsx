@@ -11,7 +11,7 @@ import {
 	faG,
 	faF,
 } from "@fortawesome/free-solid-svg-icons";
-// import { getQuestionDetail } from "../functions";
+import { getQuestionDetail } from "../utils/functions";
 import Aside from "./Aside";
 
 const Wrapper = styled.section`
