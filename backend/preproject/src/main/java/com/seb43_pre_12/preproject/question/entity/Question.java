@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.question.entity;
 
+import com.seb43_pre_12.preproject.member.entity.Member;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -33,13 +34,13 @@ public class Question {
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_OPEN;
 
     // 연관 관계 매핑 - memberId 와
-//    @ManyToOne
-//    @JoinColumn(name="MEMBER_ID")
-//    private Member member;
-//    public void addMember(Member member){
-//        this.member=member;
-//    }
+    @ManyToOne
+    @JoinColumn(name="MEMBER_ID")
+    private Member member;
 
+    public void addMember(Member member){
+        this.member=member;
+    }
 
     public enum QuestionStatus{
         QUESTION_OPEN("질문 등록"),

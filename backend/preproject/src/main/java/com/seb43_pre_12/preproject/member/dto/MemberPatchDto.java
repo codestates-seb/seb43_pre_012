@@ -13,15 +13,7 @@ import javax.validation.constraints.NotBlank;
 public class MemberPatchDto {
 
     private long memberId;
-
-    @NotBlank(message = "email 입력은 필수입니다.")
-    @Email
-    private String email;
-
-    @NotBlank(message = "username 입력은 필수입니다.")
     private String username;
-
-    @NotBlank(message = "password 입력은 필수입니다.")
     private String password;
     private Member.MemberStatus memberStatus;
 
