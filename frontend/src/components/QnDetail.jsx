@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getQuestionDetail } from "../utils/functions";
 import Aside from "./Aside";
+import Tag from "./Tag";
 
 const Wrapper = styled.section`
 	height: auto;
@@ -109,18 +110,6 @@ const Tags = styled.section`
 	align-items: center;
 `;
 
-const Tag = styled.section`
-	height: 25px;
-	margin-right: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 10px;
-	border-radius: 5px;
-	color: ${(props) => props.theme.colors.black};
-	background-color: ${(props) => props.theme.colors.tagblue};
-`;
-
 const QuestionerLine = styled.section`
 	width: 100%;
 	height: 150px;
@@ -137,12 +126,11 @@ const QuestionerIcon = styled.div`
 `;
 
 const Questioner = styled.div`
-	height: 70px;
-	background-color: #d8eaf6;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  height: 70px;
+  background-color: #d8eaf6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 	// 임시값들
 	width: 200px;
@@ -184,17 +172,16 @@ const RelatedQuestion = styled.section`
 `;
 
 const RelatedQuestionNum = styled.section`
-	height: 25px;
-	background-color: ${(props) => props.theme.colors.green};
-	color: white;
-	padding: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-right: 15px;
-
-	font-size: ${(props) => props.theme.fontSizes.sm};
-	font-weight: 500;
+  height: 25px;
+  background-color: ${(props) => props.theme.colors.green};
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 500;
 `;
 
 const RelatedQuestionName = styled.span`
@@ -298,185 +285,185 @@ const loremIpsum =
 	"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget sem suscipit, dictum ligula id, iaculis mi. Nullam iaculis ligula quis ante condimentum sollicitudin. Pellentesque lectus turpis, vehicula nec arcu a, iaculis dignissim dolor. Mauris gravida risus eget orci aliquet, quis euismod nunc tempus. Maecenas tincidunt, est non sagittis accumsan, urna erat aliquet lacus, id sollicitudin mauris orci ut enim. Duis enim nibh, fermentum ut lacinia in, cursus at velit. Proin hendrerit, leo et aliquet posuere, tortor diam vulputate orci, ut congue nisl dolor et magna. Nam rhoncus varius tellus, ac gravida nulla placerat vehicula. Cras ornare sodales nisl congue vulputate. Sed dapibus varius lorem ut fermentum. Cras volutpat eu tellus a interdum. Etiam blandit mauris vestibulum lacus laoreet semper. Pellentesque pellentesque massa turpis, eu dignissim ligula volutpat non. Etiam vitae velit ornare, ultrices purus vel, fermentum dui. Nullam auctor gravida venenatis.";
 
 export default function QnDetail() {
-	// 일단은 거의 다 section으로 처리했는데, 나중에 수정할 여유가 된다면 수정하는 것이 좋아보임
+  // 일단은 거의 다 section으로 처리했는데, 나중에 수정할 여유가 된다면 수정하는 것이 좋아보임
 
-	const [question, setQuestion] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [isLogin, setIsLogin] = useState(false);
-	const { id } = useParams();
+  const [question, setQuestion] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const { id } = useParams();
 
-	useEffect(() => {
-		(async () => {
-			setIsLoading((prev) => true);
+  useEffect(() => {
+    (async () => {
+      setIsLoading((prev) => true);
 
-			// const response = await getQuestionDetail(76012599);
-			// setQuestion((prev) => response.items[0]);
+      // const response = await getQuestionDetail(76012599);
+      // setQuestion((prev) => response.items[0]);
 
-			// console.log(response.items[0]);
+      // console.log(response.items[0]);
 
-			setIsLoading((prev) => false);
-		})();
-	}, []);
+      setIsLoading((prev) => false);
+    })();
+  }, []);
 
-	return (
-		<>
-			{isLoading ? (
-				<Loader>Loading...</Loader>
-			) : (
-				<Wrapper>
-					<Container>
-						<Header>
-							<TopHeader>
-								<Title fontSize={"25px"}>대충제목이라는뜻</Title>
-								<AskBtn>Ask Question</AskBtn>
-							</TopHeader>
-							<BottomHeader>
-								<HeaderInfo>Asked today</HeaderInfo>
-								<HeaderInfo>Modified today</HeaderInfo>
-								<HeaderInfo>Viewed ?? times</HeaderInfo>
-							</BottomHeader>
-						</Header>
-						<MainContents>
-							<Question>
-								<UpDownBtns>
-									<FontAwesomeIcon
-										icon={faCaretUp}
-										style={{ fontSize: "50px" }}
-									/>
-									<UsefulCount>999</UsefulCount>
-									<FontAwesomeIcon
-										icon={faCaretDown}
-										style={{ fontSize: "50px" }}
-									/>
-									<FontAwesomeIcon
-										icon={faBookmark}
-										style={{ fontSize: "25px", marginBottom: "10px" }}
-									/>
-									<FontAwesomeIcon
-										icon={faClockRotateLeft}
-										style={{ fontSize: "25px" }}
-									/>
-								</UpDownBtns>
-								<Contents>
-									<Content>{`${loremIpsum}`}</Content>
-									<Tags>
-										<Tag>tag1</Tag>
-										<Tag>tag2</Tag>
-										<Tag>tag3</Tag>
-									</Tags>
-									<QuestionerLine>
-										<Questioner>
-											<QuestionerIcon />
-											Hong Gil Dong
-										</Questioner>
-									</QuestionerLine>
-									<RelatedQuestions>
-										<RelatedQuestionTitle>
-											Related questions
-										</RelatedQuestionTitle>
-										<RelatedQuestion>
-											<RelatedQuestionNum>7621</RelatedQuestionNum>
-											<RelatedQuestionName>
-												How do JavaScript closure work?
-											</RelatedQuestionName>
-										</RelatedQuestion>
-										<RelatedQuestion>
-											<RelatedQuestionNum>8570</RelatedQuestionNum>
-											<RelatedQuestionName>
-												How do I check if an element is hidden in jQuery?
-											</RelatedQuestionName>
-										</RelatedQuestion>
-										<RelatedQuestion>
-											<RelatedQuestionNum>7323</RelatedQuestionNum>
-											<RelatedQuestionName>
-												HHow do I remove a property from a JavaScript object?
-											</RelatedQuestionName>
-										</RelatedQuestion>
-									</RelatedQuestions>
-									<Answer>
-										<AnswerTitle>
-											Know someone who can answer? Share a link to this question
-											via email, Twitter, or Facebook.
-										</AnswerTitle>
-										<AnswerTitle>Your Answer</AnswerTitle>
-										<AnswerInput />
-										{isLogin ? null : (
-											<AccountChoices>
-												<AccountChoice>
-													<AccountChoiceTitle>
-														Sign up or log in
-													</AccountChoiceTitle>
-													<AccountType>
-														<FontAwesomeIcon
-															icon={faG}
-															style={{ marginRight: "5px" }}
-														/>
-														Sign up using Google
-													</AccountType>
-													<AccountType
-														style={{
-															backgroundColor: "#3b5998",
-															color: "white",
-														}}
-													>
-														<FontAwesomeIcon
-															icon={faF}
-															style={{
-																backgroundColor: "white",
-																color: "#3b5998",
-																marginRight: "5px",
-																padding: "5px",
-															}}
-														/>
-														Sign up using Facebook
-													</AccountType>
-													<AccountType>
-														Sign up using Email and Password
-													</AccountType>
-												</AccountChoice>
-												<AccountChoice>
-													<AccountChoiceTitle>
-														Post as a guest
-													</AccountChoiceTitle>
-													<div
-														style={{
-															display: "flex",
-															flexDirection: "column",
-															width: "100%",
-														}}
-													>
-														<GuestLabel>Name</GuestLabel>
-														<GuestInput />
-													</div>
-													<div
-														style={{
-															display: "flex",
-															flexDirection: "column",
-															width: "100%",
-														}}
-													>
-														<GuestLabel>Email</GuestLabel>
-														<GuestInput />
-													</div>
-												</AccountChoice>
-											</AccountChoices>
-										)}
-										<PostLine>
-											<PostBtn>Post Your Answer</PostBtn>
-											<PostSpan>Discard</PostSpan>
-											<PostSpan>
-												By clicking “Post Your Answer”, you agree to our terms
-												of service, privacy policy and cookie policy
-											</PostSpan>
-										</PostLine>
-									</Answer>
-								</Contents>
-							</Question>
-						</MainContents>
-					</Container>
-					<Aside />
-				</Wrapper>
-			)}
-		</>
-	);
+  return (
+    <>
+      {isLoading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <Wrapper>
+          <Container>
+            <Header>
+              <TopHeader>
+                <Title>대충제목이라는뜻</Title>
+                <AskBtn>Ask Question</AskBtn>
+              </TopHeader>
+              <BottomHeader>
+                <HeaderInfo>Asked today</HeaderInfo>
+                <HeaderInfo>Modified today</HeaderInfo>
+                <HeaderInfo>Viewed ?? times</HeaderInfo>
+              </BottomHeader>
+            </Header>
+            <MainContents>
+              <Question>
+                <UpDownBtns>
+                  <FontAwesomeIcon
+                    icon={faCaretUp}
+                    style={{ fontSize: "50px" }}
+                  />
+                  <UsefulCount>999</UsefulCount>
+                  <FontAwesomeIcon
+                    icon={faCaretDown}
+                    style={{ fontSize: "50px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    style={{ fontSize: "25px", marginBottom: "10px" }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faClockRotateLeft}
+                    style={{ fontSize: "25px" }}
+                  />
+                </UpDownBtns>
+                <Contents>
+                  <Content>{`${loremIpsum}`}</Content>
+                  <Tags>
+                    <Tag tag={"tag1"} />
+                    <Tag tag={"tag2"} />
+                    <Tag tag={"tag3"} />
+                  </Tags>
+                  <QuestionerLine>
+                    <Questioner>
+                      <QuestionerIcon />
+                      Hong Gil Dong
+                    </Questioner>
+                  </QuestionerLine>
+                  <RelatedQuestions>
+                    <RelatedQuestionTitle>
+                      Related questions
+                    </RelatedQuestionTitle>
+                    <RelatedQuestion>
+                      <RelatedQuestionNum>7621</RelatedQuestionNum>
+                      <RelatedQuestionName>
+                        How do JavaScript closure work?
+                      </RelatedQuestionName>
+                    </RelatedQuestion>
+                    <RelatedQuestion>
+                      <RelatedQuestionNum>8570</RelatedQuestionNum>
+                      <RelatedQuestionName>
+                        How do I check if an element is hidden in jQuery?
+                      </RelatedQuestionName>
+                    </RelatedQuestion>
+                    <RelatedQuestion>
+                      <RelatedQuestionNum>7323</RelatedQuestionNum>
+                      <RelatedQuestionName>
+                        HHow do I remove a property from a JavaScript object?
+                      </RelatedQuestionName>
+                    </RelatedQuestion>
+                  </RelatedQuestions>
+                  <Answer>
+                    <AnswerTitle>
+                      Know someone who can answer? Share a link to this question
+                      via email, Twitter, or Facebook.
+                    </AnswerTitle>
+                    <AnswerTitle>Your Answer</AnswerTitle>
+                    <AnswerInput />
+                    {isLogin ? null : (
+                      <AccountChoices>
+                        <AccountChoice>
+                          <AccountChoiceTitle>
+                            Sign up or log in
+                          </AccountChoiceTitle>
+                          <AccountType>
+                            <FontAwesomeIcon
+                              icon={faG}
+                              style={{ marginRight: "5px" }}
+                            />
+                            Sign up using Google
+                          </AccountType>
+                          <AccountType
+                            style={{
+                              backgroundColor: "#3b5998",
+                              color: "white",
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faF}
+                              style={{
+                                backgroundColor: "white",
+                                color: "#3b5998",
+                                marginRight: "5px",
+                                padding: "5px",
+                              }}
+                            />
+                            Sign up using Facebook
+                          </AccountType>
+                          <AccountType>
+                            Sign up using Email and Password
+                          </AccountType>
+                        </AccountChoice>
+                        <AccountChoice>
+                          <AccountChoiceTitle>
+                            Post as a guest
+                          </AccountChoiceTitle>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              width: "100%",
+                            }}
+                          >
+                            <GuestLabel>Name</GuestLabel>
+                            <GuestInput />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              width: "100%",
+                            }}
+                          >
+                            <GuestLabel>Email</GuestLabel>
+                            <GuestInput />
+                          </div>
+                        </AccountChoice>
+                      </AccountChoices>
+                    )}
+                    <PostLine>
+                      <PostBtn>Post Your Answer</PostBtn>
+                      <PostSpan>Discard</PostSpan>
+                      <PostSpan>
+                        By clicking “Post Your Answer”, you agree to our terms
+                        of service, privacy policy and cookie policy
+                      </PostSpan>
+                    </PostLine>
+                  </Answer>
+                </Contents>
+              </Question>
+            </MainContents>
+          </Container>
+          <Aside />
+        </Wrapper>
+      )}
+    </>
+  );
 }
