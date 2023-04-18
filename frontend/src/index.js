@@ -13,6 +13,8 @@ import Tags from "./pages/Tags";
 import Companies from "./pages/Companies";
 import Ask from "./pages/Ask";
 import GlobalStyle from "./styles/GlobalStyle";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,8 @@ const router = createBrowserRouter([
       { path: "/user/save", element: <UserSave /> },
       { path: "/questions/:id", element: <QuestionDetail /> },
       { path: "/questions/ask", element: <Ask /> },
+      { path: "/login", element: <Login /> },
+      { path: "/Signup", element: <Signup /> },
     ],
   },
 ]);
