@@ -4,27 +4,28 @@ import { useQuery } from "@tanstack/react-query";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import { BsSearch } from "react-icons/bs";
 import { StackExchange } from "../utils/stackExchangeApi";
+import Nav from "../components/Nav";
 
 const TagsWrapper = styled.div`
-	padding: 20px;
+  padding: 20px;
 `;
 const TextContainer = styled.div`
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 `;
 const H1 = styled.h1`
-	margin-top: 10px;
-	margin-bottom: 20px;
-	font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 30px;
 `;
 const Span = styled.span`
-	font-size: ${({ theme }) => theme.fontSizes.lg};
-	padding-bottom: 20px;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  padding-bottom: 20px;
 `;
 const IconContainer = styled.div`
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	color: gray;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: gray;
 `;
 
 export default function Tags() {

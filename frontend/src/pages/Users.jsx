@@ -7,46 +7,46 @@ import { InputContainer, SearchInput } from "../styles/styles_jh";
 import useUserInfo from "../hooks/useUserInfo";
 
 const UsersWrapper = styled.div`
-	width: 100%;
-	padding: 20px;
+  width: 100%;
+  padding: 20px;
 `;
 
 const H1 = styled.h1`
-	font-size: 30px;
-	margin-top: 10px;
-	margin-bottom: 20px;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 const SearchContainer = styled.div`
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-	align-items: flex-start;
-	flex-direction: column;
-	@media (min-width: ${({ theme }) => theme.screen.md}) {
-		flex-direction: row;
-	}
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  @media (min-width: ${({ theme }) => theme.screen.md}) {
+    flex-direction: row;
+  }
 `;
 
 const FilterContainer = styled.div`
-	display: inline-block;
-	border-left: 1px solid ${({ theme }) => theme.colors.gray};
-	background-color: ${({ theme }) => theme.colors.gray};
-	border-radius: 3px;
-	overflow: hidden;
-	justify-content: flex-start;
-	gap: 1px;
-	margin-bottom: 20px;
+  display: inline-block;
+  border-left: 1px solid ${({ theme }) => theme.colors.gray};
+  background-color: ${({ theme }) => theme.colors.gray};
+  border-radius: 3px;
+  overflow: hidden;
+  justify-content: flex-start;
+  gap: 1px;
+  margin-bottom: 20px;
 `;
 const IconContainer = styled.div`
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	color: gray;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: gray;
 `;
 
 const UserContainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 `;
 const buttons = ["Reputation", "New users", "Voters", "Editors", "Moderators"];
 export default function Users() {

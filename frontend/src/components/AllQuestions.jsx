@@ -6,6 +6,7 @@ import PageBtns from "./PageBtns";
 import { getQuestions } from "../utils/functions";
 import Aside from "./Aside";
 import useQuetion from "../hooks/useQuestion";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.section`
 	height: auto;

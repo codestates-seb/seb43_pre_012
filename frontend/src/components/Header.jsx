@@ -1,32 +1,25 @@
 import styled from 'styled-components';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
-import { Link } from "react-router-dom";
 
 const HeaderWrapper = styled.div`
 display: flex;
 align-items: center;
 justify-content: center;
 background-color: white;
-color: #fffefe;
+color: #faf9f9;
 height: 50px;
 border-top : 3px solid ${({ theme }) => theme.colors.orange};
 box-shadow : 0 0 3px gray;
 
 `;
 const Logo = styled.img`
-width: 200px;
+width: 150px;
 padding-right : 40px;
 &.smallLogo{
     display : none;
 }
 @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    &.largeLogo {
-        padding-right : 40px;
-    }
-}
-
-@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     &.largeLogo {
         display : none;
     }
@@ -58,14 +51,11 @@ padding-right : 9px;
 }
 `
 const Input = styled.input`
-width : 40%;
-height : 33px;
+width : 300px;
+height : 30px;
 margin-right : 5px;
 border-radius : 3px;
 border : 1px solid gray;
-@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    width : 300px;
-}
 @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     display : none;
 }
@@ -75,7 +65,6 @@ height : 34px;
 display: flex;
 justify-content: center;
 align-items: center;
-cursor: pointer;
 border : 1px solid ${({ theme }) => theme.colors.skyblue};
 margin-right : 5px;
 border-radius : 3px;
@@ -94,25 +83,17 @@ white-space: nowrap;
 export default function Header() {
 
     return (
-
         <HeaderWrapper>
-            <Link to = "/">
-                <Logo className='largeLogo' src={largeLogo} />
-                <Logo className='smallLogo' src={smallLogo} />
-            </Link>
+            <Logo className='largeLogo' src={largeLogo} />
+            <Logo className='smallLogo' src={smallLogo} />
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍 Search....'></Input>
+            <Input placeholder='🔍 Search...'></Input>
             <Scope className='scope'>🔍</Scope>
-            <Link to="login">
-                <Button className='login'>Log in</Button>
-			</Link>
-            <Link to="signup">
-                <Button className='signup'>Sign up</Button>
-			</Link>
+            <Button className='login'>Log in</Button>
+            <Button className='signup'>Sign up</Button>
         </HeaderWrapper>
-
     )
 }
 

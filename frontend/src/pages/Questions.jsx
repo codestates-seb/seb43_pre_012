@@ -11,8 +11,10 @@ const Wrapper = styled.section`
 
 export default function Questions() {
 	return (
-		<Wrapper>
-			<AllQuestions />
-		</Wrapper>
+		<>
+			<Wrapper>
+				<AllQuestions />
+			</Wrapper>
+		</>
 	);
 }
