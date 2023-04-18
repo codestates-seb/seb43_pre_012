@@ -53,7 +53,7 @@ public class MemberService {
     public Member findMember(long memberId) {
         Member findMember = findVerifiedMember(memberId);
 
-        // comments 출력
+//         comments 출력
 //        findMember.getComments().forEach(comments -> log.info("comment={}", comments.getComment()));
 
         return findMember;

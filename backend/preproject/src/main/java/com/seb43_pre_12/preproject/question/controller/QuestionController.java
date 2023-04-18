@@ -41,22 +41,16 @@ private final static String QUESTION_DEFAULT_URL ="/questions";
 
     // 질문 등록
     @PostMapping
+    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto) {
+        Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
 
-    public ResponseEntity postQuestion(@Valid @RequestBody QuestionPostDto questionPostDto){
-
-        Question question = mapper.questionPostDtoToQuestion(questionPostDto);
-        question.setQuestionStatus(Question.QuestionStatus.QUESTION_OPEN);
-
-        Question response = questionService.createQuestion(question);
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/questions/" + question.getQuestionId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();
-
-
-
     }
+
     // 질문 수정
     @PatchMapping("/{question-id}")
     public ResponseEntity patchQuestion(@PathVariable("question-id") @Positive Long questionId,
@@ -84,7 +78,6 @@ private final static String QUESTION_DEFAULT_URL ="/questions";
         Question response = questionService.findQuestion(questionId);
 
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(response), HttpStatus.OK);
-
     }
 
     // 전체 질문 조회

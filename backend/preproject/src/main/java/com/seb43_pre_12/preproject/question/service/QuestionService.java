@@ -2,11 +2,11 @@ package com.seb43_pre_12.preproject.question.service;
 
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
+import com.seb43_pre_12.preproject.member.service.MemberService;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import com.seb43_pre_12.preproject.question.repository.QuestionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,12 +19,16 @@ import java.util.Optional;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final MemberService memberService;
 
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionService(QuestionRepository questionRepository, MemberService memberService) {
         this.questionRepository = questionRepository;
+        this.memberService = memberService;
     }
 
     public Question createQuestion(Question question) {
+        question.setMember(memberService.findMember(1L));
+
         return questionRepository.save(question);
     }
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
@@ -37,6 +41,8 @@ public class QuestionService {
                 .ifPresent(title->findQuestion.setTitle(title));
         Optional.ofNullable(question.getQuestionStatus())
                 .ifPresent(questionStatus -> findQuestion.setQuestionStatus(questionStatus));
+        Optional.ofNullable(question.getMember())
+                .ifPresent(member -> findQuestion.setMember(member));
 
         return questionRepository.save(findQuestion);
 
