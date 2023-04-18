@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,7 +34,12 @@ public class MemberController {
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
         Member member = memberService.createMember(mapper.memberPostDtoToMember(requestBody));
 
-        return new ResponseEntity(mapper.memberToMemberResponseDto(member), HttpStatus.CREATED);
+        
+        URI uri = UriComponentsBuilder.newInstance()
+                .path("/members/" + member.getMemberId())
+                .build().toUri();
+
+        return ResponseEntity.created(uri).build();
     }
 
     @PatchMapping("{memberId}")
