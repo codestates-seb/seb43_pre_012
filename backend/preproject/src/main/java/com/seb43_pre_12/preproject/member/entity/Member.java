@@ -20,7 +20,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, updatable = false, unique = true)
     private String email;
 
     @Column(length = 100, nullable = false, unique = true)
@@ -30,8 +30,8 @@ public class Member {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
-    private MemberStatus status = MemberStatus.MEMBER_ACTIVE;
+    @Column(length = 20, nullable = false, name = "MEMBER_STATUS")
+    private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -39,7 +39,6 @@ public class Member {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-    // 연관관계 매핑
     // N : 1(Member) 양방향 매핑
     @OneToMany(mappedBy = "member")
     private List<Comments> comments = new ArrayList<>();

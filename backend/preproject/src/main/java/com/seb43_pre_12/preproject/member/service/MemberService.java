@@ -1,10 +1,15 @@
 package com.seb43_pre_12.preproject.member.service;
 
+
+import com.seb43_pre_12.preproject.exception.BusinessLogicException;
+import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +28,21 @@ public class MemberService {
     }
 
     public Member updateMember(Member member) {
-        return memberRepository.save(member);
+
+        Member findMember = findVerifiedMember(member.getMemberId());
+
+        Optional.ofNullable(member.getEmail())
+                .ifPresent(email -> findMember.setEmail(email));
+        Optional.ofNullable(member.getUsername())
+                .ifPresent(username -> findMember.setUsername(username));
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getMemberStatus())
+                .ifPresent(memberStatus -> findMember.setMemberStatus(memberStatus));
+        findMember.setModifiedAt(LocalDateTime.now());
+
+        return memberRepository.save(findMember);
+
     }
 
     @Transactional(readOnly = true)
@@ -43,18 +62,20 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
-//    public Member findVerifiedMember(long memberId) {
-//        Optional<Member> optionalMember = memberRepository.findById(memberId);
-//
-//        Member findMember =
-//                optionalMember.orElseThrow(() ->
-//                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-//        return findMember;
-//    }
-//
-//    private void verifyExistsEmail(String email) {
-//        Optional<Member> member = memberRepository.findByEmail(email);
-//        if (member.isPresent())
-//            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
-//    }
+    public Member findVerifiedMember(long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+
+        Member findMember =
+                optionalMember.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        return findMember;
+    }
+
+    private void verifyExistsEmail(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent())
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        // MEMBER_NOT_FOUND -> MEMBER_EXISTS 변경
+    }
+
 }

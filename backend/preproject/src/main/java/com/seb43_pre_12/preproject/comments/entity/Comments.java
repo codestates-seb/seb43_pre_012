@@ -22,14 +22,9 @@ public class Comments {
     @Column(nullable = false)
     private String comment;
 
-    // 연관관계 매핑
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
-    public void addMember(Member member) {
-        this.member = member;
-    }
 
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")

@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.question.dto;
 
+
 import com.seb43_pre_12.preproject.answers.validator.NotSpace;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class QuestionDto {
 
         @NotNull(message = "내용을 작성해주세요")
         @NotSpace
+
         private String content;
 
     }

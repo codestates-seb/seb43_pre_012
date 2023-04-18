@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.question.entity;
 
+
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
@@ -42,6 +43,7 @@ public class Question {
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")
     private Member member;
+
     public void addMember(Member member){
         this.member=member;
     }
@@ -58,6 +60,7 @@ public class Question {
         QUESTION_ANSWERED("QUESTION_ANSWERED"),
         QUESTION_CLOSED("QUESTION_CLOSED"),
         QUESTION_DELETED("QUESTION_DELETED");
+
 
         @Getter
         private String status;

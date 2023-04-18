@@ -3,9 +3,6 @@ plugins {
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "org.asciidoctor.jvm.convert" version "3.3.2"    // (1)
-
-
-
 }
 
 group = 'com.seb43_pre_12'
@@ -83,6 +80,6 @@ bootJar {
 		into 'static/docs'     // (10-3)
 	}
 }
-
 // junit5, test관련, spring rest docs
+
 
