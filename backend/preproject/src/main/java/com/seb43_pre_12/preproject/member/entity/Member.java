@@ -1,6 +1,8 @@
 package com.seb43_pre_12.preproject.member.entity;
 
+import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
+import com.seb43_pre_12.preproject.question.entity.Question;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,11 +44,11 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Comments> comments = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Answer> answers = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Answer> answers = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<Question> questions = new ArrayList<>();
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

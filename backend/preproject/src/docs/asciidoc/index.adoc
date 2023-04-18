@@ -1,0 +1,90 @@
+= StackOverFlow api 명세서
+
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+Nan yeung Lee <hinagogo@naver.com>
+v1.0.0, 2023.04.17
+
+***
+== QuestionController
+=== 질문 등록
+.curl-request
+include::{snippets}/post-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/post-question/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-question/http-response.adoc[]
+
+.response-headers
+include::{snippets}/post-question/response-headers.adoc[]
+
+=== 질문 정보 수정
+.curl-request
+include::{snippets}/patch-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/patch-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/patch-question/path-parameters.adoc[]
+
+.request-fields
+include::{snippets}/patch-question/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/patch-question/response-fields.adoc[]
+
+=== 질문 삭제
+.curl-request
+include::{snippets}/delete-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/delete-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-question/path-parameters.adoc[]
+
+
+.http-response
+include::{snippets}/delete-question/http-response.adoc[]
+
+=== 질문 조회
+.curl-request
+include::{snippets}/get-question/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-question/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-question/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-question/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-question/response-fields.adoc[]
+
+=== 질문 전체 조회
+.curl-request
+include::{snippets}/get-questions/curl-request.adoc[]
+
+.http-request
+include::{snippets}/get-questions/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-questions/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-questions/response-fields.adoc[]
