@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Footer from "./components/Footer";
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
-import Nav from "./components/Nav";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Routes, Route } from "react-router-dom";
 
 const Body = styled.div`
 	display: flex;

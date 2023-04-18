@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import { BsSearch } from "react-icons/bs";
 import { StackExchange } from "../utils/stackExchangeApi";
+import Nav from "../components/Nav";
 
 const TagsWrapper = styled.div`
 	padding: 20px;

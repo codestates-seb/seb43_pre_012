@@ -6,6 +6,7 @@ import PageBtns from "./PageBtns";
 import { getQuestions } from "../utils/functions";
 import Aside from "./Aside";
 import useQuetion from "../hooks/useQuestion";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.section`
 	height: auto;
@@ -122,12 +123,6 @@ export default function AllQuestions() {
 		})();
 	}, []);
 
-	//react-query custom hook
-	const {
-		getQuestions: { data: datas1 },
-	} = useQuetion();
-	datas1 && console.log(datas1);
-
 	return (
 		<>
 			<Wrapper>
@@ -135,7 +130,9 @@ export default function AllQuestions() {
 					<Header>
 						<TopHeader>
 							<Title>All Questions</Title>
-							<AskBtn>Ask Question</AskBtn>
+							<Link to="/questions/ask">
+								<AskBtn>Ask Question</AskBtn>
+							</Link>
 						</TopHeader>
 						<BottomHeader>
 							<QuestionNum>
