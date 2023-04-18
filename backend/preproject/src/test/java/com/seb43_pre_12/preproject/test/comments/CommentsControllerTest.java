@@ -89,9 +89,7 @@ public class CommentsControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 식별자")
+                                        fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글")
                                 )
                         ),
                         responseHeaders(
