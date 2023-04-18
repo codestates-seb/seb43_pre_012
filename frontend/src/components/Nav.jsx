@@ -9,50 +9,50 @@ import CreateTeamContents from "./CreateTeamContents";
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
-	padding-top: 20px;
-	border-right: 1px solid ${({ theme }) => theme.colors.gray};
-	padding-right: 10px;
-	margin: 5px;
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
-	align-items: start;
-	width: 160px;
-	height: 100vh;
-	flex-shrink: 0;
-	@media (max-width: ${({ theme }) => theme.screen.sm}) {
-		display: none;
-	}
-	position: -webkit-sticky;
-	position: sticky;
-	top: 0;
-	z-index: 10;
+  padding-top: 20px;
+  border-right: 1px solid ${({ theme }) => theme.colors.gray};
+  padding-right: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  width: 160px;
+  height: 100vh;
+  flex-shrink: 0;
+  @media (max-width: ${({ theme }) => theme.screen.sm}) {
+    display: none;
+  }
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 `;
 const PublicWrapper = styled.div`
-	padding-top: 5px;
-	display: flex;
-	padding-bottom: 20px;
-	flex-direction: column;
-	align-items: start;
-	width: 100%;
+  padding-top: 5px;
+  display: flex;
+  padding-bottom: 20px;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
 `;
 const PWrapper = styled.div`
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	padding-bottom: 25px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-bottom: 25px;
 `;
 const P = styled.div`
-	color: gray;
-	font-weight: 500;
-	display: flex;
-	justify-content: space-between;
-	margin-left: 5px;
-	width: 100%;
+  color: gray;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 5px;
+  width: 100%;
 `;
 const InfoIcon = styled.div`
-	position: relative;
-	cursor: pointer;
+  position: relative;
+  cursor: pointer;
 `;
 const buttons = ["Tags", "Users", "Companies"];
 export default function Nav() {

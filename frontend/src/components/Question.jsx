@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const MAX_LEN = 170;
 
@@ -90,7 +91,9 @@ export default function Question({ question }) {
         <Figure>{`${question.view_count} views`}</Figure>
       </Figures>
       <Infos>
-        <Title>{question.title}</Title>
+        <Link to={`${question.question_id}`}>
+          <Title>{question.title}</Title>
+        </Link>
         <Content>
           {loremIpsum.length >= MAX_LEN
             ? loremIpsum.slice(0, MAX_LEN) + "..."
