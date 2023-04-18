@@ -45,19 +45,22 @@ public class Member {
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
 
-
-
     // N : 1(Member) 양방향 매핑
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comments> comments = new ArrayList<>();
 
-
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Answer> answers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
+    public void setComments(Comments comment) {
+        comments.add(comment);
+        if (comment.getMember() != this) {
+            comment.setMember(this);
+        }
+    }
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.comments.service;
 
+import com.seb43_pre_12.preproject.answers.service.AnswerService;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.comments.repository.CommentsRepository;
 
@@ -12,21 +13,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-
-
 @Service
 @Transactional
 public class CommentsService {
 
     private final CommentsRepository commentsRepository;
     private final MemberService memberService;
+    private final AnswerService answerService;
 
-    public CommentsService(CommentsRepository commentsRepository, MemberService memberService) {
+    public CommentsService(CommentsRepository commentsRepository, MemberService memberService, AnswerService answerService) {
         this.commentsRepository = commentsRepository;
         this.memberService = memberService;
+        this.answerService = answerService;
     }
 
     public Comments createComment(Comments comment) {
+        comment.setMember(memberService.findMember(1L));
+        comment.setAnswer(answerService.findAnswer(1L));
+
         return commentsRepository.save(comment);
     }
 
@@ -35,21 +39,22 @@ public class CommentsService {
 
         Optional.ofNullable(comment.getComment())
                 .ifPresent(text -> findComment.setComment(text));
+        Optional.ofNullable(comment.getMember())
+                .ifPresent(member -> findComment.setMember(member));
+        Optional.ofNullable(comment.getAnswer())
+                .ifPresent(answer -> findComment.setAnswer(answer));
         findComment.setModifiedAt(LocalDateTime.now());
 
         return commentsRepository.save(findComment);
     }
-    
 
     public Comments findComment(long commentId) {
-        return commentsRepository.findById(commentId).get();
+        return findVerifiedComment(commentId);
     }
 
     public List<Comments> findComments() {
         return commentsRepository.findAll();
     }
-
-
 
     public void deleteComment(long commentId) {
         commentsRepository.deleteById(commentId);
@@ -58,10 +63,7 @@ public class CommentsService {
     public Comments findVerifiedComment(long commentId) {
         Optional<Comments> optionalComments = commentsRepository.findById(commentId);
 
-        Comments findComment =
-                optionalComments.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
-        return findComment;
+        return optionalComments.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
-
 }

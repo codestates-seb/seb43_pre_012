@@ -24,21 +24,21 @@ public class Comments {
     @Column(nullable = false)
     private String comment;
 
-
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
-
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
