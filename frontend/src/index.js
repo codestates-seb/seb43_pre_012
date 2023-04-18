@@ -13,6 +13,8 @@ import Users from "./pages/Users";
 import Tags from "./pages/Tags";
 import Companies from "./pages/Companies";
 import GlobalStyle from "./styles/GlobalStyle";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./redux/slices/userSlice";
 
@@ -21,7 +23,6 @@ const store = configureStore({
 		userReducer: userReducer,
 	},
 });
-
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -36,6 +37,8 @@ const router = createBrowserRouter([
 			{ path: "/user", element: <UserProfile /> },
 			{ path: "/user/sava", element: <UserSave /> },
 			{ path: "/questions/:id", element: <QuestionDetail /> },
+			{ path: "/login", element: <Login /> },
+			{ path: "/Signup", element: <Signup /> },
 		],
 	},
 ]);
