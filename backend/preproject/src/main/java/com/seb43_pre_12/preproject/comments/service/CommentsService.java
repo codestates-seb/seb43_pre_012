@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+
 @Service
 @Transactional
 public class CommentsService {
@@ -39,6 +40,7 @@ public class CommentsService {
         return commentsRepository.save(findComment);
     }
     
+
     public Comments findComment(long commentId) {
         return commentsRepository.findById(commentId).get();
     }
@@ -46,6 +48,7 @@ public class CommentsService {
     public List<Comments> findComments() {
         return commentsRepository.findAll();
     }
+
 
 
     public void deleteComment(long commentId) {
@@ -60,4 +63,5 @@ public class CommentsService {
                         new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
         return findComment;
     }
+
 }

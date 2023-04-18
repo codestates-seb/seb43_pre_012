@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 
+
 @Getter
 @AllArgsConstructor
 public class MemberResponseDto {
@@ -21,5 +22,6 @@ public class MemberResponseDto {
     private Member.MemberStatus memberStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
 
 }

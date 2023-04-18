@@ -5,6 +5,7 @@ package com.seb43_pre_12.preproject.question.entity;
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
+
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -63,6 +65,7 @@ public class Question {
         QUESTION_ANSWERED("QUESTION_ANSWERED"),
         QUESTION_CLOSED("QUESTION_CLOSED"),
         QUESTION_DELETED("QUESTION_DELETED");
+
 
 
         @Getter

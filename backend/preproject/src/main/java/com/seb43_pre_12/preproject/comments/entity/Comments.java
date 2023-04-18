@@ -2,6 +2,7 @@ package com.seb43_pre_12.preproject.comments.entity;
 
 
 import com.seb43_pre_12.preproject.answers.entity.Answer;
+
 import com.seb43_pre_12.preproject.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Comments {
     private String comment;
 
 
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
@@ -32,6 +34,7 @@ public class Comments {
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
+
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

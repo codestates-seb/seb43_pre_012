@@ -8,14 +8,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+
 import javax.validation.constraints.NotBlank;
 
 @Getter
 
 @Setter
+
 public class CommentsPostDto {
 
     @NotBlank(message = "comment 입력은 필수입니다.")
     private String comment;
+
 
 }

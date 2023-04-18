@@ -2,6 +2,7 @@ package com.seb43_pre_12.preproject.comments.dto;
 
 
 import com.seb43_pre_12.preproject.answers.entity.Answer;
+
 import com.seb43_pre_12.preproject.member.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Getter;
 
 
 import java.time.LocalDateTime;
+
 
 @Getter
 @AllArgsConstructor
@@ -29,4 +31,5 @@ public class CommentsResponseDto {
 //    public void setAnswer(Answer answer) {
 //        this.answerId = answer.getAnswerId();
 //    }
+
 }

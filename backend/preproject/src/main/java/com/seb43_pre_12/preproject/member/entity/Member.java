@@ -4,6 +4,7 @@ package com.seb43_pre_12.preproject.member.entity;
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.question.entity.Question;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class Member {
 
 
     @Column(nullable = false, updatable = false, unique = true)
+
     private String email;
 
     @Column(length = 100, nullable = false, unique = true)
@@ -36,11 +38,13 @@ public class Member {
     @Column(length = 20, nullable = false, name = "MEMBER_STATUS")
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
 
 
     // N : 1(Member) 양방향 매핑
@@ -53,6 +57,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Question> questions = new ArrayList<>();
+
 
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),

@@ -15,6 +15,7 @@ public class MemberPatchDto {
     private long memberId;
 
     private String username;
+
     private String password;
     private Member.MemberStatus memberStatus;
 

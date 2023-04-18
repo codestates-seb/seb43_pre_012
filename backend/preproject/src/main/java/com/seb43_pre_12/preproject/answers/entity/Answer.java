@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.seb43_pre_12.preproject.comments.entity.Comments;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.question.entity.Question;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,6 +46,7 @@ public class Answer {
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
     List<Comments> comments = new ArrayList<>();
 
+
     public enum Selected {
         ANSWER_SELECTED("ANSWER_SELECTED"),
         ANSWER_NOT_SELECTED("ANSWER_NOT_SELECTED");
@@ -62,5 +64,6 @@ public class Answer {
 //                    .findFirst()
 //                    .orElse(null);
 //        }
+
     }
 }
