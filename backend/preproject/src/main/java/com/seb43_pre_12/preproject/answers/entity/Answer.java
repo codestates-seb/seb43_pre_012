@@ -51,12 +51,12 @@ public class Answer {
             this.status = status;
         }
 
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static Selected findByCode(String code) {
-            return Stream.of(Selected.values())
-                    .filter(c -> c.status.equals(code))
-                    .findFirst()
-                    .orElse(null);
-        }
+//        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+//        public static Selected findByCode(String code) {
+//            return Stream.of(Selected.values())
+//                    .filter(c -> c.status.equals(code))
+//                    .findFirst()
+//                    .orElse(null);
+//        }
     }
 }
