@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import { BsSearch } from "react-icons/bs";
 import { StackExchange } from "../utils/stackExchangeApi";
+import Nav from "../components/Nav";
 
 const TagsWrapper = styled.div`
 	padding: 20px;
@@ -28,10 +29,10 @@ const IconContainer = styled.div`
 `;
 
 export default function Tags() {
-	// const { data: tags } = useQuery(["tags"], () => StackExchange.tags(), {
-	// 	staleTime: 1000 * 60 * 5,
-	// });
-	// tags && console.log(tags);
+	const { data: tags } = useQuery(["tags"], () => StackExchange.tags(), {
+		staleTime: 1000 * 60 * 5,
+	});
+	tags && console.log(tags);
 	return (
 		<TagsWrapper>
 			<TextContainer>
