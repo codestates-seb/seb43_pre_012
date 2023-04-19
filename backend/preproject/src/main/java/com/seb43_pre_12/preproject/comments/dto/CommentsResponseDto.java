@@ -20,7 +20,7 @@ public class CommentsResponseDto {
     private String comment;
     private long memberId;
     private long answerId;
-
+    private String username;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

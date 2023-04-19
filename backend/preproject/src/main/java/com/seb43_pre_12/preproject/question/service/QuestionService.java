@@ -2,6 +2,7 @@ package com.seb43_pre_12.preproject.question.service;
 
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
+import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.service.MemberService;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import com.seb43_pre_12.preproject.question.repository.QuestionRepository;
@@ -27,9 +28,16 @@ public class QuestionService {
     }
 
     public Question createQuestion(Question question) {
-        question.setMember(memberService.findMember(1L));
+        Member member = verifyExistingMember(question.getMember());
+        question.setMember(member);
+
+        member.setQuestion(question);
 
         return questionRepository.save(question);
+
+//        question.setMember(memberService.findMember(1L));
+//
+//        return questionRepository.save(question);
     }
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     public Question updateQuestion(Question question){
@@ -71,5 +79,9 @@ public class QuestionService {
                 new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
 
         return findQuestion;
+    }
+
+    private Member verifyExistingMember(Member member){
+        return memberService.findVerifiedMember(member.getMemberId());
     }
 }

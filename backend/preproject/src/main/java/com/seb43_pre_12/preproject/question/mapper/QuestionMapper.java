@@ -1,6 +1,5 @@
 package com.seb43_pre_12.preproject.question.mapper;
 
-import com.seb43_pre_12.preproject.question.dto.QuestionDto;
 import com.seb43_pre_12.preproject.question.dto.QuestionPatchDto;
 import com.seb43_pre_12.preproject.question.dto.QuestionPostDto;
 import com.seb43_pre_12.preproject.question.dto.QuestionResponseDto;
