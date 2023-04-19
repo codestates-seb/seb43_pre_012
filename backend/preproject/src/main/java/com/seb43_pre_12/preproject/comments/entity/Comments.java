@@ -36,4 +36,11 @@ public class Comments {
 
     @Column(nullable = false, name = "LAST_MODIFIED_AT")
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+    public String getUsername(){
+        return member.getUsername();
+    }
+    public long getAnswerId(){
+        return answer.getAnswerId();
+    }
 }

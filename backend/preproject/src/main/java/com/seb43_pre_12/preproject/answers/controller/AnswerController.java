@@ -2,6 +2,7 @@ package com.seb43_pre_12.preproject.answers.controller;
 
 import com.seb43_pre_12.preproject.answers.dto.AnswerPatchDto;
 import com.seb43_pre_12.preproject.answers.dto.AnswerPostDto;
+import com.seb43_pre_12.preproject.answers.dto.AnswerResponseDto;
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.answers.mapper.AnswerMapper;
 import com.seb43_pre_12.preproject.answers.service.AnswerService;
@@ -14,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/answers")

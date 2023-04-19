@@ -46,6 +46,19 @@ public class Answer {
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL)
     List<Comments> comments = new ArrayList<>();
 
+    public String getUsername(){
+        return member.getUsername();
+    }
+    public long getMemberId(){
+        return member.getMemberId();
+    }
+    public long getQuestionId(){
+        return question.getQuestionId();
+    }
+    public void addComment(Comments comment){
+        comments.add(comment);
+    }
+
 
     public enum Selected {
         ANSWER_SELECTED("ANSWER_SELECTED"),

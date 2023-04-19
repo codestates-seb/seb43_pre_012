@@ -62,123 +62,41 @@ public class QuestionControllerTest {
     @Test
     void postQuestionTest() throws Exception {
 
-//        QuestionPostDto postDto = new QuestionPostDto();
-//        postDto.setContent("질문 생성 테스트입니다.");
-//        String content = gson.toJson(postDto);
-//
-//        given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionPostDto.class))).willReturn(new Question());
-//
-//        Question mockAnswer = new Question();
-//        mockAnswer.setQuestionId(1L);
-//        mockAnswer.setContent("질문 생성 테스트입니다.");
-//        mockAnswer.setTitle("제목");
-//        mockAnswer.setModifiedAt(LocalDateTime.now());
-//        mockAnswer.setCreatedAt(LocalDateTime.now());
-//        mockAnswer.setQuestionStatus(Question.QuestionStatus.QUESTION_OPEN);
-//
-//        given(questionService.createQuestion(Mockito.any(Question.class))).willReturn(mockAnswer);
-//
-//        ResultActions actions =
-//                mockMvc.perform(
-//                        post("/questions")
-//                                .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
-//                                .contentType(MediaType.APPLICATION_JSON)  // 서버에서 처리하는 데이터 타입 설정
-//                                .content(content) // controller 로 전송하는 request body 데이터.
-//                );
-//
-//
-//        actions
-//                .andExpect(status().isCreated())
-//                .andExpect(header().string("Location",is(startsWith("/questions"))))
-//                .andDo(document(
-//                                "post-question",
-//                                preprocessRequest(prettyPrint()),
-//                                preprocessResponse(prettyPrint()),
-//                                requestFields(
-//                                        fieldWithPath("content").type(JsonFieldType.STRING).description("답변 내용")
-//                                ),
-//                                responseHeaders(
-//                                        headerWithName(HttpHeaders.LOCATION).description("Location header. 등록된 리소스의 URI")
-//                                )
-//                        )
-//                );
-//        QuestionPostDto postDto = new QuestionPostDto("제목1","내용1");
-//        String content = gson.toJson(postDto);
-//
-//        QuestionResponseDto responseDto = new QuestionResponseDto(1L, "제목1", "내용1",LocalDateTime.now(), LocalDateTime.now(), 1, Question.QuestionStatus.QUESTION_OPEN);
-//
-//        given(mapper.questionPostDtoToQuestion(Mockito.any(QuestionPostDto.class))).willReturn(new Question());
-//        given(questionService.createQuestion(Mockito.any(Question.class))).willReturn(new Question());
-//        given(mapper.questionToQuestionResponseDto(Mockito.any(Question.class))).willReturn(responseDto);
-//
-//        //when
-//        ResultActions actions =
-//                mockMvc.perform(
-//                        post("/questions")
-//                                .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
-//                                .contentType(MediaType.APPLICATION_JSON)  // 서버에서 처리하는 데이터 타입 설정
-//                                .content(content) // controller 로 전송하는 request body 데이터.
-//                );
-//
-//        //then
-//        actions
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.data.content").value(postDto.getContent()))
-//                .andExpect(jsonPath("$.data.title").value(postDto.getTitle()))
-//                .andExpect(header().string("Location",is(startsWith("/questions"))))
-//                .andDo(document(
-//                                "post-question",
-//                                preprocessRequest(prettyPrint()),
-//                                preprocessResponse(prettyPrint()),
-//                                requestFields(
-//                                        List.of(
-//                                                fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용"),
-//                                                fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목")
-//                                        )
-//                                ),
-//                                responseFields(
-//                                        List.of(
-//                                                fieldWithPath("questionId").type(JsonFieldType.NUMBER).description("질문 식별자"),
-//                                                fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용"),
-//                                                fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
-//                                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("질문 생성 시간"),
-//                                                fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("질문 수정 시간"),
-//                                                fieldWithPath("questionStatus").type(JsonFieldType.STRING).description("질문 상태"),
-//                                                fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("질문 작성자 식별자")
-//
-//                                        )
-//                                )
-//                        )
-//                );
-//    }
+        QuestionPostDto questionPostDto = new QuestionPostDto("제목1", "내용1", 1);
 
-    /*
-    @Test
-    void postAnswerTest() throws Exception {
-        AnswerPostDto postDto = new AnswerPostDto();
-        postDto.setContent("답변 생성 테스트입니다.");
-        String content = gson.toJson(postDto);
+        given(mapper.questionPostDtoToQuestion(Mockito.any())).willReturn(new Question());
 
-        given(mapper.AnswerPostDtoToAnswer(Mockito.any(AnswerPostDto.class))).willReturn(new Answer());
+        Question question = new Question();
+        question.setQuestionId(1L);
+        question.setCreatedAt(LocalDateTime.now());
+        question.setModifiedAt(LocalDateTime.now());
+        String content = gson.toJson(questionPostDto);
 
-        Answer mockAnswer = new Answer();
-        mockAnswer.setAnswerId(1L);
-        given(answerService.createAnswer(Mockito.any(Answer.class))).willReturn(mockAnswer);
+        given(questionService.createQuestion(Mockito.any(Question.class))).willReturn(question);
 
-        ResultActions actions =
-                mockMvc.perform(
-                        post("/answers")
-                                .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
-                                .contentType(MediaType.APPLICATION_JSON)  // 서버에서 처리하는 데이터 타입 설정
-                                .content(content) // controller 로 전송하는 request body 데이터.
-                );
-
-        actions
+        mockMvc.perform(
+                        post("/questions")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .content(content)
+                )
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location",is(startsWith("/answers"))));
-    }
+                .andExpect(header().string("Location", is(startsWith("/questions"))))
+                .andDo(document(
+                        "post-question",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("title").type(JsonFieldType.STRING).description("질문 제목"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("질문 내용")
+                                )
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("Location header. 등록된 리소스의 URI")
+                        )
 
-     */
+                ));
     }
 
 
@@ -189,7 +107,7 @@ public class QuestionControllerTest {
         QuestionPatchDto patchDto = new QuestionPatchDto(1L,"수정된 제목","수정된 내용", Question.QuestionStatus.QUESTION_UPDATE);
         String patchContent = gson.toJson(patchDto);
 
-        QuestionResponseDto responseDto = new QuestionResponseDto(1L, "수정된 제목","수정된 내용",LocalDateTime.now(), LocalDateTime.now(), 1, Question.QuestionStatus.QUESTION_UPDATE);
+        QuestionResponseDto responseDto = new QuestionResponseDto();
 
         given(mapper.questionPatchDtoToQuestion(Mockito.any(QuestionPatchDto.class))).willReturn(new Question());
         given(questionService.updateQuestion(Mockito.any(Question.class))).willReturn(new Question());

@@ -71,6 +71,17 @@ public class Member {
         }
     }
 
+    public void addAnswer(Answer answer){
+        answers.add(answer);
+    }
+    public void addQuestion(Question question){
+        questions.add(question);
+    }
+
+    public void addComment(Comments comment){
+        comments.add(comment);
+    }
+
     public enum MemberStatus {
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면 상태"),

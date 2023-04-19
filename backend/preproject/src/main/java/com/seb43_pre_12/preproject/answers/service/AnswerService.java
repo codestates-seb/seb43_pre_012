@@ -4,7 +4,9 @@ import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.answers.repository.AnswerRepository;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
+import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.service.MemberService;
+import com.seb43_pre_12.preproject.question.entity.Question;
 import com.seb43_pre_12.preproject.question.service.QuestionService;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,15 @@ public class AnswerService {
     }
 
     public Answer createAnswer(Answer answer) {
-        answer.setMember(memberService.findMember(1L));
-        answer.setQuestion(questionService.findQuestion(1L));
+        Question question = verifyExistingQuestion(answer.getQuestion());
+        Member member = verifyExistingMember(answer.getMember());
+
+        answer.setQuestion(question);
+        answer.setMember(member);
+
+        question.addAnswers(answer);
+        member.addAnswer(answer);
+
         return repository.save(answer);
     }
     public Answer updateAnswer(Answer answer) {
@@ -47,12 +56,25 @@ public class AnswerService {
 //    public List<Answer> findAnswers() {
 //
 //    }
+
+
     public void deleteAnswer(long answerId) {
         repository.delete(findVerifedAnswer(answerId));
     }
 
     private Answer findVerifedAnswer(long answerId) {
-        Optional<Answer> optionalAnswer = repository.findById(answerId);
-        return optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        Answer answer = repository.findById(answerId)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        return answer;
+//        Optional<Answer> optionalAnswer = repository.findById(answerId);
+//        return optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+    }
+
+    private Question verifyExistingQuestion(Question question){
+        return questionService.findVerifiedQuestion(question.getQuestionId());
+    }
+
+    private Member verifyExistingMember(Member member) {
+        return memberService.findVerifiedMember(member.getMemberId());
     }
 }

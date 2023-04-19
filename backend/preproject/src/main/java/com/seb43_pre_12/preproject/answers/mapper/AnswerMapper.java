@@ -14,6 +14,6 @@ public interface AnswerMapper {
     Answer AnswerPostDtoToAnswer(AnswerPostDto postDto);
     Answer AnswerPatchDtoToAnswer(AnswerPatchDto patchDto);
     AnswerResponseDto AnswerToAnswerResponseDto(Answer answer);
-//    List<AnswerResponseDto> AnswersToAnswerResponseDtos(List<Answer> answers);
+    List<AnswerResponseDto> AnswersToAnswerResponseDtos(List<Answer> answers);
     //todo 무한스크롤(페이지네이션) 적용해야함.
 }
