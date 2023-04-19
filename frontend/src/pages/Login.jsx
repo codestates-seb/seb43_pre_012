@@ -22,8 +22,9 @@ const GithubLogin = styled.button`
     width : 290px;
     height : 37px;
     margin-bottom : 10px;
-    background-color : black;
+    background-color : #23262A;
     color : white;
+    border-radius : 3px;
 `
 const EmailLogin = styled.div`
     display: flex;
@@ -31,7 +32,8 @@ const EmailLogin = styled.div`
     height : 235px;
     flex-direction: column;
     align-items: center;
-    border : 1px solid black;
+    border : 1px solid #23262A;
+    border-radius : 3px;
 `
 
 const EmailWrapper = styled.div`
@@ -81,7 +83,8 @@ const LoginButton = styled.button`
     height : 35px;
     color : white;
     background-color : ${({ theme }) => theme.colors.skyblue};
-
+    border-radius : 3px;
+    border : none;
 `
 
 export default function Login() {
