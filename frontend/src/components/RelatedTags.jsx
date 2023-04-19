@@ -4,7 +4,11 @@ const Container = styled.section`
   width: 300px;
   height: auto;
   padding-left: 10px;
-  // border: 1px solid black;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h3`

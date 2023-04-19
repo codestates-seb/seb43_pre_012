@@ -1,7 +1,11 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import TipBox from "../components/TipBox";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Editor } from "@toast-ui/react-editor";
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
 const Wrapper = styled.form`
   width: 100%;
@@ -110,6 +114,12 @@ const Input = styled.input`
   padding-left: 10px;
 `;
 
+const EditorBlock = styled.div`
+  height: ${(props) => props.height};
+  width: 90%;
+  margin-bottom: 6px;
+`;
+
 const Btn = styled.div`
   width: 50px;
   height: 35px;
@@ -147,11 +157,14 @@ const Block = styled.div`
   height: 100%;
   background-color: ${(props) => props.theme.colors.gray};
   opacity: 0.5;
+  z-index: 10;
 `;
 
 export default function QuestionDetail() {
   const { register, handleSubmit, watch, setValue } = useForm();
   const [inputTurn, setInputTurn] = useState(0);
+  const detailRef = useRef();
+  const efforRef = useRef();
 
   // console.log(watch());
 
@@ -234,10 +247,20 @@ export default function QuestionDetail() {
             Introduce the problem and expand on what you put in the title.
             Minimum 20 characters.
           </InputExplan>
-          <Input height={"220px"} {...register("detail", { required: true })} />
+          <EditorBlock height={"220px"}>
+            <Editor
+              previewStyle="vertical"
+              height="100%"
+              initialEditType="wysiwyg"
+              useCommandShortcut={false}
+              language="ko-KR"
+              ref={detailRef}
+            />
+          </EditorBlock>
           <Btn
             onClick={() => {
-              if (watch()["detail"] === "") return;
+              if (detailRef.current.getInstance().getMarkdown().length === 0)
+                return;
               setInputTurn((prev) => prev + 1);
             }}
           >
@@ -264,10 +287,20 @@ export default function QuestionDetail() {
             Describe what you tried, what you expected to happen, and what
             actually resulted. Minimum 20 characters.
           </InputExplan>
-          <Input height={"220px"} {...register("effort", { required: true })} />
+          <EditorBlock height={"220px"}>
+            <Editor
+              previewStyle="vertical"
+              height="100%"
+              initialEditType="wysiwyg"
+              useCommandShortcut={false}
+              language="ko-KR"
+              ref={efforRef}
+            />
+          </EditorBlock>
           <Btn
             onClick={() => {
-              if (watch()["effort"] === "") return;
+              if (efforRef.current.getInstance().getMarkdown().length === 0)
+                return;
               setInputTurn((prev) => prev + 1);
             }}
           >

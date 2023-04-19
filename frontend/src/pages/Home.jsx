@@ -12,7 +12,7 @@ const Wrapper = styled.section`
 export default function Questions() {
   return (
     <Wrapper>
-      <AllQuestions showContent={true} title={"All Questions"} />
+      <AllQuestions showContent={false} title={"Top Questions"} />
     </Wrapper>
   );
 }
