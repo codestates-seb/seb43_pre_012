@@ -5,7 +5,6 @@ import smallLogo from "../static/small-logo.png"
 import { Link } from "react-router-dom";
 import { Fade as Hamburger } from 'hamburger-react'
 
-
 const HeaderWrapper = styled.div`
 display: flex;
 align-items: center;
@@ -94,6 +93,9 @@ white-space: nowrap;
 
 `
 
+
+
+
 export default function Header() {
 
     return (
@@ -102,6 +104,7 @@ export default function Header() {
             <Hamburger color='black' size={18} />
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
+                
                 <Logo className='smallLogo' src={smallLogo} />
             </Link>
             <Menu className='about' href="About.js">About</Menu>
@@ -113,10 +116,10 @@ export default function Header() {
             </Scope>
             <Link to="login">
                 <Button className='login'>Log in</Button>
-			</Link>
+			      </Link>
             <Link to="signup">
                 <Button className='signup'>Sign up</Button>
-			</Link>
+			      </Link>
         </HeaderWrapper>
 
     )
