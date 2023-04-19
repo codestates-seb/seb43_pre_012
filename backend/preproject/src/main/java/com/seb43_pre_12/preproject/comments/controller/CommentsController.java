@@ -35,14 +35,12 @@ public class CommentsController {
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentsPostDto requestBody) {
         Comments comment = commentsService.createComment(mapper.commentsPostDtoToComments(requestBody));
-
-
+        
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/comments/" + comment.getCommentId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();
-
     }
 
     @GetMapping("{commentId}")
