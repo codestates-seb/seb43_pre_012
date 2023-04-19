@@ -7,6 +7,8 @@
 | [@nowaveosu](https://github.com/nowaveosu) |   [@Latemarch](https://github.com/Latemarch) | [@als982001](https://github.com/als982001) | [@mikiehw](https://github.com/mikiehw) | [@NYinJP](https://github.com/NYinJP) |[@SHyeonCoding](https://github.com/SHyeonCoding) |
 |<p align="left">- Front </p> | <p align="left">- Front </p>| <p align="left">- Front </p> | <p align="left">- Back </p> | <p align="left">- Back </p>| <p align="left">- Back </p>|
 
+## Skils
+
 ### ⌨Tools
 | Git | Github | Discord |
 | :---: | :---: | :---: |
