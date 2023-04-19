@@ -249,7 +249,7 @@ include::{snippets}/delete-answer/http-response.adoc[]
 //
 // .response-headers
 // include::{snippets}/post-question/response-headers.adoc[]
-=======
+
 == QuestionController
 === 질문 등록
 .curl-request

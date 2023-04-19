@@ -51,12 +51,16 @@ import static org.mockito.BDDMockito.given;
 public class AnswerControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    
     @Autowired
     private Gson gson;
+    
     @MockBean
     private AnswerService answerService;
+    
     //    @Autowired
 //    private AnswerMapper mapper;
+
     @MockBean
     private AnswerMapper mapper;
 

@@ -63,6 +63,7 @@ public class Question {
 
         @Getter
         private String status;
+        
         QuestionStatus(String status){
             this.status = status;
         }
