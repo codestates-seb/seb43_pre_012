@@ -14,24 +14,42 @@ const LoginWrapper = styled.div`
 `
 
 const Logo = styled.img`
-    width : 80px;
+    width : 40px;
+    margin-bottom : 20px;
 `
 const GithubLogin = styled.button`
-    width : 200px;
-    height : 40px;
+    width : 290px;
+    height : 37px;
     margin-bottom : 10px;
+    background-color : black;
+    color : white;
 `
 const EmailLogin = styled.div`
     display: flex;
+    width : 290px;
+    height : 235px;
     flex-direction: column;
     align-items: center;
     border : 1px solid black;
 `
+
+const EmailWrapper = styled.div`
+    display: flex;
+    justify-content: start;
+
+    align-items: center;
+    width: 100%;
+
+`
 const EmailLabel = styled.div`
-    margin: 10px;
+    margin: 10px 10px 2px 24px;
+    font-weight : bold;
+    font-size : ${({ theme }) => theme.fontSizes.lg};
 `
 const EmailInput = styled.input`
     margin: 10px;
+    width : 240px;
+    height : 35px;
 `
 const PasswordWrapper = styled.div`
     display: flex;
@@ -41,17 +59,28 @@ const PasswordWrapper = styled.div`
 `
 
 const PasswordLabel = styled.div`
-    margin: 5px;
+    margin-left: 26px;
+    font-weight : bold;
+    font-size : ${({ theme }) => theme.fontSizes.lg};
 `
 const ForgotPassword = styled.a`
-    margin: 5px;
+    margin-right: 26px;
+    color : blue;
 `
+
 const PasswordInput = styled.input`
     margin: 10px;
+    width : 240px;
+    height : 35px;
 `
 
 const LoginButton = styled.button`
     margin: 10px;
+    width : 240px;
+    height : 35px;
+    color : white;
+    background-color : ${({ theme }) => theme.colors.skyblue};
+
 `
 
 export default function Login() {
@@ -60,13 +89,15 @@ export default function Login() {
             <Logo src={smallLogo} />
             <GithubLogin>Log in with Github</GithubLogin>
             <EmailLogin>
-                <EmailLabel>Email</EmailLabel>
-                <EmailInput type="email" placeholder="Email" />
+                <EmailWrapper>
+                    <EmailLabel>Email</EmailLabel>
+                </EmailWrapper>
+                <EmailInput type="email" />
                 <PasswordWrapper>
                     <PasswordLabel>Password</PasswordLabel>
                     <ForgotPassword>Forgot password?</ForgotPassword>
                 </PasswordWrapper>
-                <PasswordInput type="password" placeholder="Password" />
+                <PasswordInput type="password" />
                 <LoginButton>Log in</LoginButton>
             </EmailLogin>
         </LoginWrapper>

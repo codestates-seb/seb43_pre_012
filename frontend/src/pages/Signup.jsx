@@ -1,61 +1,38 @@
 import React from "react";
+import { IconLogo, IconSearch } from '@stackoverflow/stacks-icons';
 import styled from "styled-components";
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
+import Login from "./Login"
 
-
-const LoginWrapper = styled.div`
+const DescWrapper = styled.div`
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
     flex-direction: column;
     height : 100vh;
-    width : 100%;
+    width : 1000px;
+	margin-left : 40px;
 `
 
-const Logo = styled.img`
-    width : 80px;
-`
-const GithubLogin = styled.button`
-    width : 200px;
-    height : 40px;
-    margin-bottom : 10px;
-`
-const EmailLogin = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border : 1px solid black;
-`
-const EmailLabel = styled.div`
-    margin: 10px;
-`
-const EmailInput = styled.input`
-    margin: 10px;
-`
-const PasswordLabel = styled.div`
-    margin-bottom: 5px;
-`
-const PasswordInput = styled.input`
-    margin: 10px;
+const Desc = styled.div`
+	font-size : 18px;
+	margin-bottom :20px;
 `
 
-const LoginButton = styled.button`
-    margin: 10px;
-`
 
-export default function Login() {
+
+export default function Signup() {
 	return (
-        <LoginWrapper>
-            <Logo src={smallLogo} />
-            <GithubLogin>Log in with Github</GithubLogin>
-            <EmailLogin>
-                <EmailLabel>Email</EmailLabel>
-                <EmailInput type="email" placeholder="Email" />
-                <PasswordLabel>Password</PasswordLabel>
-                <PasswordInput type="password" placeholder="Password" />
-                <LoginButton>Log in</LoginButton>
-            </EmailLogin>
-        </LoginWrapper>
+		<>
+			<DescWrapper>
+				<Desc>Get unstuck - ask a question</Desc>
+				<Desc>Unlock new privileges like voting and commenting</Desc>
+				<Desc>Save your favorite questions, answers, watch tags, and more</Desc>
+				<Desc>Earn reputation and badges</Desc>
+			</DescWrapper>
+			<Login />
+		</>
+
 	);
 }

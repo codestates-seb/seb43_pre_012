@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { IconSearch } from '@stackoverflow/stacks-icons/icons';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import { Link } from "react-router-dom";
+import { useState } from "react"
 
 const HeaderWrapper = styled.div`
 display: flex;
@@ -91,19 +93,24 @@ white-space: nowrap;
 
 `
 
+
+
+
 export default function Header() {
 
     return (
 
         <HeaderWrapper>
+
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
+                
                 <Logo className='smallLogo' src={smallLogo} />
             </Link>
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍 Search....'></Input>
+            <Input placeholder='🔍Search....'></Input>
             <Scope className='scope'>🔍</Scope>
             <Link to="login">
                 <Button className='login'>Log in</Button>
