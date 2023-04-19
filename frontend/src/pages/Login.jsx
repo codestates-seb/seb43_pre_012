@@ -22,7 +22,7 @@ const GithubLogin = styled.button`
     width : 290px;
     height : 37px;
     margin-bottom : 10px;
-    background-color : black;
+    background-color : #23262A;
     color : white;
 `
 const EmailLogin = styled.div`

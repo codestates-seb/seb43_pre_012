@@ -116,12 +116,11 @@ export default function Header() {
             </Scope>
             <Link to="login">
                 <Button className='login'>Log in</Button>
-			      </Link>
+			</Link>
             <Link to="signup">
                 <Button className='signup'>Sign up</Button>
-			      </Link>
+			</Link>
         </HeaderWrapper>
-
     )
 }
 
