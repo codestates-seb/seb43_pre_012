@@ -1,7 +1,12 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&text=Early%20Bird&height=350&fontSize=100&animation=twinkling)
 
+# 💻 Stack Overflow 클론 코딩
+
+개발자 질의응답 커뮤니티 Stack Overflow 클론 프로젝트<br>
+개발 기간: 23.04.13 - 23.04.27
+
 ## 🐣 Intro
-- 안녕하세요. Early Bird 팀입니다.
+- 안녕하세요. 팀 Early Bird 입니다.
 
 ## 👩‍💻 Team
 | 노호준<br>(FE, FE팀장) | 전준형<br>(FE) | 주재민<br>(FE) | 조현우<br>(BE, BE팀장) | 이난영<br>(BE) | 변상현<br>(BE) |
