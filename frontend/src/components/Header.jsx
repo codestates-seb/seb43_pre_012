@@ -74,17 +74,18 @@ border : 1px solid gray;
 `
 const Button = styled.button`
 height : 34px;
+width : 60px;
 display: flex;
 justify-content: center;
 align-items: center;
 cursor: pointer;
-border : 1px solid ${({ theme }) => theme.colors.skyblue};
+border : 1px solid #7AA8C7;
 margin-right : 5px;
 border-radius : 3px;
 white-space: nowrap;
 &.login{
     background-color : ${({ theme }) => theme.colors.tagblue};
-    color : navy;
+    color : #7AA8C7;
 }
 &.signup{
     background-color : ${({ theme }) => theme.colors.skyblue};
