@@ -1,9 +1,6 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { useEffect } from "react";
 import Question from "./Question";
 import PageBtns from "./PageBtns";
-import { getQuestions } from "../utils/functions";
 import Aside from "./Aside";
 import useQuetion from "../hooks/useQuestion";
 import { Link } from "react-router-dom";
@@ -108,20 +105,10 @@ const Loader = styled.h1`
 `;
 
 export default function AllQuestions() {
-	const [datas, setDatas] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-
-	useEffect(() => {
-		(async () => {
-			setIsLoading((prev) => true);
-
-			const questions = await getQuestions(10);
-
-			setDatas((prev) => questions.items);
-
-			setIsLoading((prev) => false);
-		})();
-	}, []);
+	const {
+		getQuestions: { data: datas, isLoading },
+	} = useQuetion();
+	datas && console.log(datas);
 
 	return (
 		<>
