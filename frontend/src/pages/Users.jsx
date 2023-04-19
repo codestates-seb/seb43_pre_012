@@ -5,7 +5,6 @@ import { BsSearch } from "react-icons/bs";
 import FilterButton from "../components/FilterButton";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import useUserInfo from "../hooks/useUserInfo";
-import Nav from "../components/Nav";
 
 const UsersWrapper = styled.div`
 	width: 100%;

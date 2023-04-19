@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Footer from "./components/Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
@@ -24,8 +24,11 @@ const Container = styled.div`
 `;
 
 const queryClient = new QueryClient();
+const pagesWithoutNav = ["ask", "login", "signup"];
 
 function App() {
+	const location = useLocation().pathname.split("/").pop();
+	const isNav = pagesWithoutNav.includes(location) ? true : false;
 	return (
 		<>
 			<Header />
@@ -33,7 +36,7 @@ function App() {
 				<Page>
 					<QueryClientProvider client={queryClient}>
 						<Container>
-							<Nav />
+							{!isNav && <Nav />}
 							<Outlet />
 						</Container>
 					</QueryClientProvider>
