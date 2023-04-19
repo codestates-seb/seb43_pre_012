@@ -5,6 +5,7 @@ import smallLogo from "../static/small-logo.png"
 import { Link } from "react-router-dom";
 import { useState } from "react"
 
+
 const HeaderWrapper = styled.div`
 display: flex;
 align-items: center;
@@ -52,7 +53,7 @@ text-decoration-line: none;
 }
 
 `;
-const Scope = styled.div`
+const Scope = styled.svg`
 display : none;
 padding-right : 9px;
 @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
@@ -98,6 +99,7 @@ white-space: nowrap;
 
 export default function Header() {
 
+
     return (
 
         <HeaderWrapper>
@@ -110,8 +112,8 @@ export default function Header() {
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍Search....'></Input>
-            <Scope className='scope'>🔍</Scope>
+            <Input placeholder='🔍 Search....'></Input>
+            <IconSearch/>
             <Link to="login">
                 <Button className='login'>Log in</Button>
 			</Link>
