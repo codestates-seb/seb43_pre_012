@@ -14,10 +14,7 @@ public class CommentsPatchDto {
     @NotBlank(message = "comment 입력은 필수입니다.")
     private String comment;
 
-
     public void setCommentId(long commentId) {
         this.commentId = commentId;
     }
-
-
 }

@@ -35,13 +35,11 @@ public class MemberController {
     public ResponseEntity postMember(@Valid @RequestBody MemberPostDto requestBody) {
         Member member = memberService.createMember(mapper.memberPostDtoToMember(requestBody));
 
-        
         URI uri = UriComponentsBuilder.newInstance()
                 .path("/members/" + member.getMemberId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();
-
     }
 
     @PatchMapping("{memberId}")

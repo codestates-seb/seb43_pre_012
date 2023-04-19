@@ -24,12 +24,11 @@ public class CommentsResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-//    public void setMember(Member member) {
-//        this.memberId = member.getMemberId();
-//    }
-//
-//    public void setAnswer(Answer answer) {
-//        this.answerId = answer.getAnswerId();
-//    }
+    public void setMember(Member member) {
+        this.memberId = member.getMemberId();
+    }
 
+    public void setAnswer(Answer answer) {
+        this.answerId = answer.getAnswerId();
+    }
 }

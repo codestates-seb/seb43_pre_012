@@ -1,5 +1,6 @@
 package com.seb43_pre_12.preproject.question.dto;
 
+import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import lombok.*;
 
@@ -7,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class QuestionResponseDto {
@@ -16,10 +16,10 @@ public class QuestionResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    private int memberId;
+    private long memberId;
     private Question.QuestionStatus questionStatus;
 
-    public String getQuestionStatus(){
-        return questionStatus.getStatus();
+    public void setMember(Member member) {
+        this.memberId = member.getMemberId();
     }
 }

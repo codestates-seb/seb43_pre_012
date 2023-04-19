@@ -1,6 +1,5 @@
 package com.seb43_pre_12.preproject.comments.entity;
 
-
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 
 import com.seb43_pre_12.preproject.member.entity.Member;
@@ -24,17 +23,13 @@ public class Comments {
     @Column(nullable = false)
     private String comment;
 
-
-
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
-
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
