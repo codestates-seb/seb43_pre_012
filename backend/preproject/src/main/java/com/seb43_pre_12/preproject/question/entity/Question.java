@@ -41,18 +41,31 @@ public class Question {
     @Column(length = 30, nullable = false)
     private QuestionStatus questionStatus = QuestionStatus.QUESTION_OPEN;
 
+    public long getMemberId(){
+        return member.getMemberId();
+    }
+    public void addMember(Member member){
+
+        this.member=member;
+    }
     // 연관관계 매핑
     // N : 1(Member) 단방향 매핑
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")
     private Member member;
 
-    public void addMember(Member member){
-        this.member=member;
-    }
-
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     List<Answer> answers = new ArrayList<>();
+
+    public void addAnswers(Answer answer){
+        answers.add(answer);
+    }
+    public long getAnswerCount(){
+        return answers.stream().count();
+    }
+    public String getUsername(){
+        return member.getUsername();
+    }
 
     public enum QuestionStatus{
         QUESTION_OPEN("QUESTION_OPEN"),
