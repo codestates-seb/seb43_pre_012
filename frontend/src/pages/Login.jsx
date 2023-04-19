@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { AiFillGithub } from 'react-icons/ai';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 
@@ -87,7 +88,7 @@ export default function Login() {
 	return (
         <LoginWrapper>
             <Logo src={smallLogo} />
-            <GithubLogin>Log in with Github</GithubLogin>
+            <GithubLogin><AiFillGithub size={22}/> Log in with Github</GithubLogin>
             <EmailLogin>
                 <EmailWrapper>
                     <EmailLabel>Email</EmailLabel>
