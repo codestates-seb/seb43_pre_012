@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { IconSearch } from '@stackoverflow/stacks-icons/icons';
+import { AiOutlineSearch } from 'react-icons/ai';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import { Link } from "react-router-dom";
-import { useState } from "react"
+import { Fade as Hamburger } from 'hamburger-react'
 
 const HeaderWrapper = styled.div`
 display: flex;
@@ -101,7 +101,7 @@ export default function Header() {
     return (
 
         <HeaderWrapper>
-
+            <Hamburger color='black' size={18} />
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
                 
@@ -110,14 +110,16 @@ export default function Header() {
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍Search....'></Input>
-            <Scope className='scope'>🔍</Scope>
+            <Input placeholder='🔍 Search....'></Input>
+            <Scope className='scope'>
+                <AiOutlineSearch size={28} color="#000"/>
+            </Scope>
             <Link to="login">
                 <Button className='login'>Log in</Button>
-			</Link>
+			      </Link>
             <Link to="signup">
                 <Button className='signup'>Sign up</Button>
-			</Link>
+			      </Link>
         </HeaderWrapper>
 
     )
