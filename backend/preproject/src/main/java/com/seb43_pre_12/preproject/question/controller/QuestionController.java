@@ -27,10 +27,6 @@ import java.util.List;
 @Slf4j
 public class QuestionController {
 
-
-private final static String QUESTION_DEFAULT_URL ="/questions";
-
-
     private final QuestionService questionService;
     private final QuestionMapper mapper;
 
@@ -66,7 +62,7 @@ private final static String QUESTION_DEFAULT_URL ="/questions";
     @DeleteMapping("/{question-id}")
     public ResponseEntity deleteQuestion(@PathVariable("question-id") @Positive Long questionId){
 
-        System.out.println("delete Question");
+        log.info("delete Question");
         questionService.deleteQuestion(questionId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 

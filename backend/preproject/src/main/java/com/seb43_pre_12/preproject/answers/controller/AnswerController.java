@@ -6,6 +6,8 @@ import com.seb43_pre_12.preproject.answers.dto.AnswerResponseDto;
 import com.seb43_pre_12.preproject.answers.entity.Answer;
 import com.seb43_pre_12.preproject.answers.mapper.AnswerMapper;
 import com.seb43_pre_12.preproject.answers.service.AnswerService;
+import com.seb43_pre_12.preproject.dto.MultiResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -54,8 +56,16 @@ public class AnswerController {
     }
 
     //todo 무한스크롤(페이지네이션)이 구현된 getAnswers 핸들러 메서드 구현
-//    @GetMapping
-//    public
+    @GetMapping
+    public ResponseEntity getAnswers(@RequestParam @Positive int page,
+                                     @RequestParam @Positive int size) {
+        Page<Answer> pageAnswers = answerService.findAnswers(page - 1, size);
+        List<Answer> answers = pageAnswers.getContent();
+
+        return new ResponseEntity(
+                new MultiResponseDto<>(mapper.AnswersToAnswerResponseDtos(answers), pageAnswers)
+                , HttpStatus.OK);
+    }
 
     @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id")@Positive Long answerId) {
