@@ -35,7 +35,7 @@ public class MemberDetailsService implements UserDetailsService {
         public MemberDetatils(Member m) {
             setMemberId(m.getMemberId());
             setEmail(m.getEmail());
-            setUsername(m.getUsername());
+//            setUsername(m.getUsername());
             setPassword(m.getPassword());
             setRoles(m.getRoles());
         }
@@ -47,27 +47,28 @@ public class MemberDetailsService implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return getUsername();
+//            return getUsername();
+            return getEmail();
         }
 
         @Override
         public boolean isAccountNonExpired() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isAccountNonLocked() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean isEnabled() {
-            return false;
+            return true;
         }
     }
 }
