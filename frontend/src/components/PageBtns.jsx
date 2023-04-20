@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.section`
@@ -24,6 +26,15 @@ const Btn = styled.div`
   border: 1px solid #d4d8da;
   padding: 10px;
   margin-right: 5px;
+  background-color: ${(props) =>
+    props.currentPage ? props.theme.colors.orange : "white"};
+
+  &:hover {
+    background-color: ${(props) =>
+      props.currentPage
+        ? (props) => props.theme.colors.orange
+        : props.theme.colors.gray};
+  }
 `;
 
 const DotDotDot = styled.span`
@@ -32,25 +43,46 @@ const DotDotDot = styled.span`
   font-weight: 400;
 `;
 
-export default function PageBtns() {
+export default function PageBtns({ totalPage, currentPage, handlePage }) {
+  const [pages, setPages] = useState([]);
+
+  useEffect(() => {
+    let initPages = [];
+
+    for (let page = 1; page <= totalPage; ++page) {
+      initPages.push(page);
+    }
+
+    setPages((prev) => initPages);
+  }, []);
+
   return (
     <Container>
       <Btns>
-        <Btn>1</Btn>
-        <Btn>2</Btn>
-        <Btn>3</Btn>
-        <Btn>4</Btn>
-        <Btn>5</Btn>
+        {pages.map((page) => (
+          <Btn
+            currentPage={page === currentPage}
+            key={page + ""}
+            onClick={() => handlePage(page)}
+          >
+            {page}
+          </Btn>
+        ))}
         <DotDotDot fontSize={"10px"}>...</DotDotDot>
-        <Btn>1234567</Btn>
+        <Btn onClick={() => handlePage(totalPage)}>{`${totalPage}`}</Btn>
         <Btn>Next</Btn>
       </Btns>
       <Btns>
-        <Btn>15</Btn>
-        <Btn>30</Btn>
-        <Btn>50</Btn>
-        <DotDotDot fontSize={"12px"}>per page</DotDotDot>
+        {totalPage >= 15 && <Btn>15</Btn>}
+        {totalPage >= 30 && <Btn>30</Btn>}
+        {totalPage >= 50 && <Btn>50</Btn>}
       </Btns>
     </Container>
   );
 }
+
+/*
+<Link
+to={page === 1 ? "/questions" : `/questions&page=${page}`}
+></Link>
+*/

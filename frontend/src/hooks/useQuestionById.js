@@ -1,15 +1,15 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { StackExchange } from "../utils/stackExchangeApi";
 
-export default function useQuestion() {
+export default function useQuestionById(id) {
   const queryClient = useQueryClient();
 
-  const getQuestions = useQuery(
-    ["questions"],
-    () => StackExchange.questions(),
+  const getQuestionById = useQuery(
+    ["question"],
+    () => StackExchange.question(id),
     {
       staleTime: 1000 * 60 * 5,
     }
   );
-  return { getQuestions };
+  return { getQuestionById };
 }

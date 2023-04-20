@@ -6,11 +6,15 @@ import HotQuestions from "./HotQuestions";
 
 const Container = styled.aside`
   width: auto;
-  height: auto;
-  display: grid;
-  grid-template-rows: repeat(auto, 1fr);
-  gap: 20px;
   margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    width: 100%;
+    align-items: center;
+    padding: 0 20px;
+  }
 `;
 
 export default function Aside() {

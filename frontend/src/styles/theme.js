@@ -8,6 +8,7 @@ const theme = {
     tagblue: "#E1ECF4",
     blue: "#0074CC",
     green: "#5fba7c",
+    btnHover: "#0064bd",
   },
   fontSizes: {
     sm: "12px",

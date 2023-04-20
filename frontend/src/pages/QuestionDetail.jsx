@@ -12,11 +12,8 @@ const Wrapper = styled.section`
 
 export default function QuestionDetail() {
   return (
-    <>
-      <Nav />
-      <Wrapper>
-        <QnDetail />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <QnDetail />
+    </Wrapper>
   );
 }

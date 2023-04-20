@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretUp,
@@ -11,9 +10,13 @@ import {
   faG,
   faF,
 } from "@fortawesome/free-solid-svg-icons";
-import { getQuestionDetail } from "../utils/functions";
 import Aside from "./Aside";
 import Tag from "./Tag";
+import useQuestionById from "../hooks/useQuestionById";
+import { Editor } from "@toast-ui/react-editor";
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 
 const Wrapper = styled.section`
   height: auto;
@@ -101,7 +104,38 @@ const Contents = styled.section`
 `;
 
 const Content = styled.div`
+  margin-top: 10px;
   margin-bottom: 25px;
+  max-width: 660px;
+  width: 100%;
+
+  & * {
+    margin-bottom: 10px;
+  }
+
+  & p {
+    font-size: ${(props) => props.theme.fontSizes.lg};
+  }
+
+  & pre {
+    padding: 20px;
+    width: 100%;
+    max-height: 600px;
+    overflow: auto;
+
+    background-color: #f6f7f6;
+  }
+
+  & code {
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: "Courier New", Courier, monospace;
+    font-size: ${(props) => props.theme.fontSizes.sm};
+  }
+
+  & img {
+    width: 100%;
+  }
 `;
 
 const Tags = styled.section`
@@ -121,8 +155,10 @@ const QuestionerLine = styled.section`
 const QuestionerIcon = styled.div`
   width: 35px;
   height: 35px;
-  background-color: black;
   margin-right: 5px;
+  background-image: url(${(props) => props.bgImage});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Questioner = styled.div`
@@ -188,7 +224,7 @@ const RelatedQuestionName = styled.span`
   color: ${(props) => props.theme.colors.blue};
 `;
 
-const Answer = styled.form``;
+const Answer = styled.div``;
 
 const AnswerTitle = styled.h4`
   font-size: 16px;
@@ -196,7 +232,8 @@ const AnswerTitle = styled.h4`
   margin-bottom: 5px;
 `;
 
-const AnswerInput = styled.input`
+const AnswerInput = styled.div`
+  max-width: 700px;
   width: 100%;
   height: 250px;
   font-size: ${(props) => props.theme.fontSizes.lg};
@@ -247,33 +284,32 @@ const GuestInput = styled.input`
 const PostLine = styled.section`
   width: 100%;
   height: 70px;
-  border: 1px solid black;
   padding: 5px;
   display: flex;
   align-items: center;
-  margin-top: 50px;
 `;
 
-const PostBtn = styled.button`
-  min-width: 120px;
-  height: 60px;
+const PostBtn = styled.div`
+  min-width: 130px;
+  height: 40px;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  font-size: 15px;
   color: white;
   background-color: ${(props) => props.theme.colors.skyblue};
+  border-radius: 5px;
 
   &:hover {
     background-color: ${(props) => props.theme.colors.btnHover};
   }
-`;
 
-const PostSpan = styled.span`
-  width: auto;
-  font-size: 15px;
-  margin-left: 10px;
+  &:active {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  }
 `;
 
 const Loader = styled.h1`
@@ -284,26 +320,31 @@ const Loader = styled.h1`
 const loremIpsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget sem suscipit, dictum ligula id, iaculis mi. Nullam iaculis ligula quis ante condimentum sollicitudin. Pellentesque lectus turpis, vehicula nec arcu a, iaculis dignissim dolor. Mauris gravida risus eget orci aliquet, quis euismod nunc tempus. Maecenas tincidunt, est non sagittis accumsan, urna erat aliquet lacus, id sollicitudin mauris orci ut enim. Duis enim nibh, fermentum ut lacinia in, cursus at velit. Proin hendrerit, leo et aliquet posuere, tortor diam vulputate orci, ut congue nisl dolor et magna. Nam rhoncus varius tellus, ac gravida nulla placerat vehicula. Cras ornare sodales nisl congue vulputate. Sed dapibus varius lorem ut fermentum. Cras volutpat eu tellus a interdum. Etiam blandit mauris vestibulum lacus laoreet semper. Pellentesque pellentesque massa turpis, eu dignissim ligula volutpat non. Etiam vitae velit ornare, ultrices purus vel, fermentum dui. Nullam auctor gravida venenatis.";
 
+const getDate = (date) => {
+  const dateInfo = Date(1681826527).split(" ");
+
+  return `${dateInfo[3]}.${dateInfo[1]}.${dateInfo[2]}`;
+};
+
 export default function QnDetail() {
   // 일단은 거의 다 section으로 처리했는데, 나중에 수정할 여유가 된다면 수정하는 것이 좋아보임
 
-  const [question, setQuestion] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { id } = useParams();
+  const editorRef = useRef();
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading((prev) => true);
+  const {
+    getQuestionById: { data: question, isLoading },
+  } = useQuestionById(id);
 
-      // const response = await getQuestionDetail(76012599);
-      // setQuestion((prev) => response.items[0]);
+  const handlePostAnswer = () => {
+    // html형식으로 텍스트를 가져오려면, getHTML()
+    // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
+    const answer = editorRef.current.getInstance().getHTML();
 
-      // console.log(response.items[0]);
-
-      setIsLoading((prev) => false);
-    })();
-  }, []);
+    console.log("작성한 답!!!");
+    console.log(answer);
+  };
 
   return (
     <>
@@ -314,15 +355,17 @@ export default function QnDetail() {
           <Container>
             <Header>
               <TopHeader>
-                <Title>대충제목이라는뜻</Title>
+                <Title>{question.title}</Title>
                 <Link to="/questions/ask">
                   <AskBtn>Ask Question</AskBtn>
                 </Link>
               </TopHeader>
               <BottomHeader>
-                <HeaderInfo>Asked today</HeaderInfo>
+                <HeaderInfo>{`Asked ${getDate(
+                  question.creation_date
+                )}`}</HeaderInfo>
                 <HeaderInfo>Modified today</HeaderInfo>
-                <HeaderInfo>Viewed ?? times</HeaderInfo>
+                <HeaderInfo>{`Viewd ${question.view_count} times`}</HeaderInfo>
               </BottomHeader>
             </Header>
             <MainContents>
@@ -332,7 +375,7 @@ export default function QnDetail() {
                     icon={faCaretUp}
                     style={{ fontSize: "50px" }}
                   />
-                  <UsefulCount>999</UsefulCount>
+                  <UsefulCount>{question.score}</UsefulCount>
                   <FontAwesomeIcon
                     icon={faCaretDown}
                     style={{ fontSize: "50px" }}
@@ -347,16 +390,19 @@ export default function QnDetail() {
                   />
                 </UpDownBtns>
                 <Contents>
-                  <Content>{`${loremIpsum}`}</Content>
+                  {/* <Content
+                    dangerouslySetInnerHTML={{ __html: question.body }}
+                  /> */}
+                  <Viewer initialValue={question.body} />
                   <Tags>
-                    <Tag tag={"tag1"} />
-                    <Tag tag={"tag2"} />
-                    <Tag tag={"tag3"} />
+                    {question.tags.map((tag) => (
+                      <Tag key={tag} tag={tag} />
+                    ))}
                   </Tags>
                   <QuestionerLine>
                     <Questioner>
-                      <QuestionerIcon />
-                      Hong Gil Dong
+                      <QuestionerIcon bgImage={question.owner.profile_image} />
+                      {question.owner.display_name}
                     </Questioner>
                   </QuestionerLine>
                   <RelatedQuestions>
@@ -388,7 +434,16 @@ export default function QnDetail() {
                       via email, Twitter, or Facebook.
                     </AnswerTitle>
                     <AnswerTitle>Your Answer</AnswerTitle>
-                    <AnswerInput />
+                    <AnswerInput>
+                      <Editor
+                        previewStyle="vertical"
+                        height="100%"
+                        initialEditType="wysiwyg"
+                        useCommandShortcut={false}
+                        language="ko-KR"
+                        ref={editorRef}
+                      />
+                    </AnswerInput>
                     {isLogin ? null : (
                       <AccountChoices>
                         <AccountChoice>
@@ -451,12 +506,9 @@ export default function QnDetail() {
                       </AccountChoices>
                     )}
                     <PostLine>
-                      <PostBtn>Post Your Answer</PostBtn>
-                      <PostSpan>Discard</PostSpan>
-                      <PostSpan>
-                        By clicking “Post Your Answer”, you agree to our terms
-                        of service, privacy policy and cookie policy
-                      </PostSpan>
+                      <PostBtn onClick={() => handlePostAnswer()}>
+                        Post Your Answer
+                      </PostBtn>
                     </PostLine>
                   </Answer>
                 </Contents>
