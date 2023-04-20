@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretUp,
@@ -17,6 +17,8 @@ import { Editor } from "@toast-ui/react-editor";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import axios from "axios";
+import EditQuestion from "./EditQuestion";
 
 const Wrapper = styled.section`
   height: auto;
@@ -150,6 +152,7 @@ const QuestionerLine = styled.section`
   display: flex;
   justify-content: right;
   align-items: center;
+  position: relative;
 `;
 
 const QuestionerIcon = styled.div`
@@ -312,13 +315,39 @@ const PostBtn = styled.div`
   }
 `;
 
+const CRUDBtns = styled.div`
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  display: flex;
+  align-items: center;
+`;
+
+const CRUDBtn = styled.h6`
+  font-size: 15px;
+  font-weight: bold;
+  color: ${(props) => props.theme.colors.gray};
+  margin-right: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
 const Loader = styled.h1`
   font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: bold;
 `;
 
-const loremIpsum =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eget sem suscipit, dictum ligula id, iaculis mi. Nullam iaculis ligula quis ante condimentum sollicitudin. Pellentesque lectus turpis, vehicula nec arcu a, iaculis dignissim dolor. Mauris gravida risus eget orci aliquet, quis euismod nunc tempus. Maecenas tincidunt, est non sagittis accumsan, urna erat aliquet lacus, id sollicitudin mauris orci ut enim. Duis enim nibh, fermentum ut lacinia in, cursus at velit. Proin hendrerit, leo et aliquet posuere, tortor diam vulputate orci, ut congue nisl dolor et magna. Nam rhoncus varius tellus, ac gravida nulla placerat vehicula. Cras ornare sodales nisl congue vulputate. Sed dapibus varius lorem ut fermentum. Cras volutpat eu tellus a interdum. Etiam blandit mauris vestibulum lacus laoreet semper. Pellentesque pellentesque massa turpis, eu dignissim ligula volutpat non. Etiam vitae velit ornare, ultrices purus vel, fermentum dui. Nullam auctor gravida venenatis.";
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 15;
+
+  width: 100vw;
+  height: 100vh;
+`;
 
 const getDate = (date) => {
   const dateInfo = Date(1681826527).split(" ");
@@ -328,8 +357,9 @@ const getDate = (date) => {
 
 export default function QnDetail() {
   // 일단은 거의 다 section으로 처리했는데, 나중에 수정할 여유가 된다면 수정하는 것이 좋아보임
-
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
+  const [edit, setEdit] = useState(false);
   const { id } = useParams();
   const editorRef = useRef();
 
@@ -346,177 +376,200 @@ export default function QnDetail() {
     console.log(answer);
   };
 
+  const handleDelete = async () => {
+    await axios.delete(`http://localhost:3001/questions/${id}`);
+    navigate("/questions");
+  };
+
   return (
     <>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
-        <Wrapper>
-          <Container>
-            <Header>
-              <TopHeader>
-                <Title>{question.title}</Title>
-                <Link to="/questions/ask">
-                  <AskBtn>Ask Question</AskBtn>
-                </Link>
-              </TopHeader>
-              <BottomHeader>
-                <HeaderInfo>{`Asked ${getDate(
-                  question.creation_date
-                )}`}</HeaderInfo>
-                <HeaderInfo>Modified today</HeaderInfo>
-                <HeaderInfo>{`Viewd ${question.view_count} times`}</HeaderInfo>
-              </BottomHeader>
-            </Header>
-            <MainContents>
-              <Question>
-                <UpDownBtns>
-                  <FontAwesomeIcon
-                    icon={faCaretUp}
-                    style={{ fontSize: "50px" }}
-                  />
-                  <UsefulCount>{question.score}</UsefulCount>
-                  <FontAwesomeIcon
-                    icon={faCaretDown}
-                    style={{ fontSize: "50px" }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faBookmark}
-                    style={{ fontSize: "25px", marginBottom: "10px" }}
-                  />
-                  <FontAwesomeIcon
-                    icon={faClockRotateLeft}
-                    style={{ fontSize: "25px" }}
-                  />
-                </UpDownBtns>
-                <Contents>
-                  {/* <Content
-                    dangerouslySetInnerHTML={{ __html: question.body }}
-                  /> */}
-                  <Viewer initialValue={question.body} />
-                  <Tags>
-                    {question.tags.map((tag) => (
-                      <Tag key={tag} tag={tag} />
-                    ))}
-                  </Tags>
-                  <QuestionerLine>
-                    <Questioner>
-                      <QuestionerIcon bgImage={question.owner.profile_image} />
-                      {question.owner.display_name}
-                    </Questioner>
-                  </QuestionerLine>
-                  <RelatedQuestions>
-                    <RelatedQuestionTitle>
-                      Related questions
-                    </RelatedQuestionTitle>
-                    <RelatedQuestion>
-                      <RelatedQuestionNum>7621</RelatedQuestionNum>
-                      <RelatedQuestionName>
-                        How do JavaScript closure work?
-                      </RelatedQuestionName>
-                    </RelatedQuestion>
-                    <RelatedQuestion>
-                      <RelatedQuestionNum>8570</RelatedQuestionNum>
-                      <RelatedQuestionName>
-                        How do I check if an element is hidden in jQuery?
-                      </RelatedQuestionName>
-                    </RelatedQuestion>
-                    <RelatedQuestion>
-                      <RelatedQuestionNum>7323</RelatedQuestionNum>
-                      <RelatedQuestionName>
-                        HHow do I remove a property from a JavaScript object?
-                      </RelatedQuestionName>
-                    </RelatedQuestion>
-                  </RelatedQuestions>
-                  <Answer>
-                    <AnswerTitle>
-                      Know someone who can answer? Share a link to this question
-                      via email, Twitter, or Facebook.
-                    </AnswerTitle>
-                    <AnswerTitle>Your Answer</AnswerTitle>
-                    <AnswerInput>
-                      <Editor
-                        previewStyle="vertical"
-                        height="100%"
-                        initialEditType="wysiwyg"
-                        useCommandShortcut={false}
-                        language="ko-KR"
-                        ref={editorRef}
-                      />
-                    </AnswerInput>
-                    {isLogin ? null : (
-                      <AccountChoices>
-                        <AccountChoice>
-                          <AccountChoiceTitle>
-                            Sign up or log in
-                          </AccountChoiceTitle>
-                          <AccountType>
-                            <FontAwesomeIcon
-                              icon={faG}
-                              style={{ marginRight: "5px" }}
-                            />
-                            Sign up using Google
-                          </AccountType>
-                          <AccountType
-                            style={{
-                              backgroundColor: "#3b5998",
-                              color: "white",
-                            }}
-                          >
-                            <FontAwesomeIcon
-                              icon={faF}
+        <>
+          {" "}
+          <Wrapper>
+            <Container>
+              <Header>
+                <TopHeader>
+                  <Title>{question.title}</Title>
+                  <Link to="/questions/ask">
+                    <AskBtn>Ask Question</AskBtn>
+                  </Link>
+                </TopHeader>
+                <BottomHeader>
+                  <HeaderInfo>{`Asked ${getDate(
+                    question.creation_date
+                  )}`}</HeaderInfo>
+                  <HeaderInfo>Modified today</HeaderInfo>
+                  <HeaderInfo>{`Viewd ${question.view_count} times`}</HeaderInfo>
+                </BottomHeader>
+              </Header>
+              <MainContents>
+                <Question>
+                  <UpDownBtns>
+                    <FontAwesomeIcon
+                      icon={faCaretUp}
+                      style={{ fontSize: "50px" }}
+                    />
+                    <UsefulCount>{question.score}</UsefulCount>
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      style={{ fontSize: "50px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faBookmark}
+                      style={{ fontSize: "25px", marginBottom: "10px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faClockRotateLeft}
+                      style={{ fontSize: "25px" }}
+                    />
+                  </UpDownBtns>
+                  <Contents>
+                    {/* <Content
+                 dangerouslySetInnerHTML={{ __html: question.body }}
+               /> */}
+                    <Viewer initialValue={question.body} />
+                    <Tags>
+                      {question.tags.map((tag) => (
+                        <Tag key={tag} tag={tag} />
+                      ))}
+                    </Tags>
+                    <QuestionerLine>
+                      <CRUDBtns>
+                        <CRUDBtn onClick={() => setEdit((prev) => true)}>
+                          Edit
+                        </CRUDBtn>
+                        <CRUDBtn onClick={handleDelete}>Delete</CRUDBtn>
+                      </CRUDBtns>
+
+                      <Questioner>
+                        <QuestionerIcon
+                          bgImage={question.owner.profile_image}
+                        />
+                        {question.owner.display_name}
+                      </Questioner>
+                    </QuestionerLine>
+                    <RelatedQuestions>
+                      <RelatedQuestionTitle>
+                        Related questions
+                      </RelatedQuestionTitle>
+                      <RelatedQuestion>
+                        <RelatedQuestionNum>7621</RelatedQuestionNum>
+                        <RelatedQuestionName>
+                          How do JavaScript closure work?
+                        </RelatedQuestionName>
+                      </RelatedQuestion>
+                      <RelatedQuestion>
+                        <RelatedQuestionNum>8570</RelatedQuestionNum>
+                        <RelatedQuestionName>
+                          How do I check if an element is hidden in jQuery?
+                        </RelatedQuestionName>
+                      </RelatedQuestion>
+                      <RelatedQuestion>
+                        <RelatedQuestionNum>7323</RelatedQuestionNum>
+                        <RelatedQuestionName>
+                          HHow do I remove a property from a JavaScript object?
+                        </RelatedQuestionName>
+                      </RelatedQuestion>
+                    </RelatedQuestions>
+                    <Answer>
+                      <AnswerTitle>
+                        Know someone who can answer? Share a link to this
+                        question via email, Twitter, or Facebook.
+                      </AnswerTitle>
+                      <AnswerTitle>Your Answer</AnswerTitle>
+                      <AnswerInput>
+                        <Editor
+                          previewStyle="vertical"
+                          height="100%"
+                          initialEditType="wysiwyg"
+                          useCommandShortcut={false}
+                          language="ko-KR"
+                          ref={editorRef}
+                        />
+                      </AnswerInput>
+                      {isLogin ? null : (
+                        <AccountChoices>
+                          <AccountChoice>
+                            <AccountChoiceTitle>
+                              Sign up or log in
+                            </AccountChoiceTitle>
+                            <AccountType>
+                              <FontAwesomeIcon
+                                icon={faG}
+                                style={{ marginRight: "5px" }}
+                              />
+                              Sign up using Google
+                            </AccountType>
+                            <AccountType
                               style={{
-                                backgroundColor: "white",
-                                color: "#3b5998",
-                                marginRight: "5px",
-                                padding: "5px",
+                                backgroundColor: "#3b5998",
+                                color: "white",
                               }}
-                            />
-                            Sign up using Facebook
-                          </AccountType>
-                          <AccountType>
-                            Sign up using Email and Password
-                          </AccountType>
-                        </AccountChoice>
-                        <AccountChoice>
-                          <AccountChoiceTitle>
-                            Post as a guest
-                          </AccountChoiceTitle>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "100%",
-                            }}
-                          >
-                            <GuestLabel>Name</GuestLabel>
-                            <GuestInput />
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              width: "100%",
-                            }}
-                          >
-                            <GuestLabel>Email</GuestLabel>
-                            <GuestInput />
-                          </div>
-                        </AccountChoice>
-                      </AccountChoices>
-                    )}
-                    <PostLine>
-                      <PostBtn onClick={() => handlePostAnswer()}>
-                        Post Your Answer
-                      </PostBtn>
-                    </PostLine>
-                  </Answer>
-                </Contents>
-              </Question>
-            </MainContents>
-          </Container>
-          <Aside />
-        </Wrapper>
+                            >
+                              <FontAwesomeIcon
+                                icon={faF}
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "#3b5998",
+                                  marginRight: "5px",
+                                  padding: "5px",
+                                }}
+                              />
+                              Sign up using Facebook
+                            </AccountType>
+                            <AccountType>
+                              Sign up using Email and Password
+                            </AccountType>
+                          </AccountChoice>
+                          <AccountChoice>
+                            <AccountChoiceTitle>
+                              Post as a guest
+                            </AccountChoiceTitle>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                              }}
+                            >
+                              <GuestLabel>Name</GuestLabel>
+                              <GuestInput />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                              }}
+                            >
+                              <GuestLabel>Email</GuestLabel>
+                              <GuestInput />
+                            </div>
+                          </AccountChoice>
+                        </AccountChoices>
+                      )}
+                      <PostLine>
+                        <PostBtn onClick={() => handlePostAnswer()}>
+                          Post Your Answer
+                        </PostBtn>
+                      </PostLine>
+                    </Answer>
+                  </Contents>
+                </Question>
+              </MainContents>
+            </Container>
+            <Aside />
+          </Wrapper>
+          {edit && (
+            <>
+              <Overlay onClick={() => setEdit((prev) => false)} />
+              <EditQuestion question={question} />
+            </>
+          )}
+        </>
       )}
     </>
   );
