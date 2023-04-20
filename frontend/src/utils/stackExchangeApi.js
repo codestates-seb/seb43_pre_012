@@ -98,6 +98,9 @@ export const StackExchange = {
       return result;
     }
   },
+	async addItem(question){},
+	async updateItem(question){},
+	async removeItem(question){}
 };
 
 //https://api.stackexchange.com/2.3/tags/python/wikis?site=stackoverflow
