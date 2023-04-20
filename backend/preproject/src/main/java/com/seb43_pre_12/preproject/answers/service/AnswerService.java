@@ -8,9 +8,13 @@ import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.service.MemberService;
 import com.seb43_pre_12.preproject.question.entity.Question;
 import com.seb43_pre_12.preproject.question.service.QuestionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,9 +57,10 @@ public class AnswerService {
     }
 
     //TODO 무한스크롤(페이지네이션) 구현해야함!
-//    public List<Answer> findAnswers() {
-//
-//    }
+    public Page<Answer> findAnswers(int page, int size) {
+        return repository.findAll(PageRequest.of(page,size,
+                Sort.by("createdAt").descending()));
+    }
 
 
     public void deleteAnswer(long answerId) {
