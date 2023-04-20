@@ -50,6 +50,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)  // SpringSecurity 권한 컬럼 생성용
+    private List<String> roles = new ArrayList<>();
+
     public void setComments(Comments comment) {
         comments.add(comment);
         if (comment.getMember() != this) {

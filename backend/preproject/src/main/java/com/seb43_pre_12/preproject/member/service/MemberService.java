@@ -1,11 +1,13 @@
 package com.seb43_pre_12.preproject.member.service;
 
+import com.seb43_pre_12.preproject.auth.CustomAuthorityUtils;
 import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.repositoy.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +24,25 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder; // SpringSecurity
+    private final CustomAuthorityUtils authorityUtils; // SpringSecurity
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils) {
         this.memberRepository = memberRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
     }
 
     public Member createMember(Member member) {
         verifyExistsEmail(member.getEmail());
+
+        // SpringSecurity password암호화
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        member.setPassword(encryptedPassword);
+
+        // SpringSecurity member 권한 저장
+        List<String> roles = authorityUtils.createRoles(member.getEmail());
+        member.setRoles(roles);
 
         return memberRepository.save(member);
     }
