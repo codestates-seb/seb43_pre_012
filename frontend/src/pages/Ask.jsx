@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import TipBox from "../components/TipBox";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
-import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 
@@ -12,7 +12,7 @@ const Wrapper = styled.form`
   height: auto;
   display: flex;
   align-items: start;
-  margin-bottom: 500px;
+  margin-bottom: 50px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -160,16 +160,61 @@ const Block = styled.div`
   z-index: 10;
 `;
 
+const getDateNumber = () => {
+  const date = new Date();
+  return date.getTime();
+};
+
 export default function QuestionDetail() {
-  const { register, handleSubmit, watch, setValue } = useForm();
+  const navigate = useNavigate();
+  const { register, handleSubmit, watch } = useForm();
   const [inputTurn, setInputTurn] = useState(0);
   const detailRef = useRef();
   const efforRef = useRef();
 
   // console.log(watch());
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { title } = data;
+    const tags = data.tags.split(",");
+    const body = detailRef.current.getInstance().getHTML();
+    const questionId = getDateNumber();
+
+    const newQuestion = {
+      id: questionId,
+      tags,
+      owner: {
+        account_id: 123456789,
+        reputation: 0,
+        user_id: 123456789,
+        user_type: "registered",
+        profile_image:
+          "https://lh3.googleusercontent.com/a-/AOh14GhAoTHeWPDnkDv7atnHxEBdRBFn4OYq1Np_d1j4=k-s256",
+        display_name: "Gil-Dong Hong",
+        link: "https://stackoverflow.com/users/19263679/kayd-anderson",
+      },
+      is_answered: false,
+      view_count: 0,
+      answer_count: 0,
+      score: 0,
+      last_activity_date: questionId,
+      creation_date: questionId,
+      last_edit_date: questionId,
+      question_id: questionId,
+      content_license: "CC BY-SA 4.0",
+      link: `https://localhost:3000/questions/${questionId}`,
+      title,
+      body,
+    };
+
+    const response = await fetch("http://localhost:3001/questions", {
+      method: "POST",
+      headers: { "Content-type": "Application/json" },
+      body: JSON.stringify(newQuestion),
+    });
+
+    console.log(response);
+    navigate("/questions");
   };
 
   return (
@@ -331,17 +376,10 @@ export default function QuestionDetail() {
           </InputExplan>
           <Input
             height={"35px"}
-            placeholder="e.g. (.net json vba)"
+            placeholder="You can separate tags using ','"
             {...register("tags", { required: true })}
           />
-          <Btn
-            onClick={() => {
-              if (watch()["tags"] === "") return;
-              setInputTurn((prev) => prev + 1);
-            }}
-          >
-            Next
-          </Btn>
+          <QuestionBtn>Review your question</QuestionBtn>
         </InputBox>
         <TipSpace>
           {inputTurn === 3 && (
@@ -351,40 +389,6 @@ export default function QuestionDetail() {
               contents={[
                 "Tags help ensure that your question will get attention from the right people.",
                 "Tag things in more than one way so people can find them more easily. Add tags for product lines, projects, teams, and the specific technologies or languages used.",
-              ]}
-            />
-          )}
-        </TipSpace>
-      </Line>
-      <Line height={"170px"}>
-        <InputBox>
-          {inputTurn < 4 && <Block />}
-          <InputTitle>
-            Review questions already on Stack Overflow to see if your question
-            is a duplicate.
-          </InputTitle>
-          <InputExplan>
-            Clicking on these questions will open them in a new tab for you to
-            review. Your progress here will be saved so you can come back and
-            continue.
-          </InputExplan>
-          <Input
-            height={"35px"}
-            placeholder="Do any of these posts answer your question?"
-            {...register("duplicateCheck", { required: true })}
-          />
-          <QuestionBtn>Review your question</QuestionBtn>
-        </InputBox>
-        <TipSpace>
-          {inputTurn === 4 && (
-            <TipBox
-              icon="bell"
-              title={
-                "Make sure we don’t already have an answer for your question"
-              }
-              contents={[
-                "Stack Overflow is a huge database of knowledge.",
-                "Please make sure your question isn’t already answered before posting, or your question might be closed as a duplicate.",
               ]}
             />
           )}

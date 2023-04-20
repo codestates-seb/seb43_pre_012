@@ -57,9 +57,21 @@ export const StackExchange = {
         .then((json) => json.data.items);
     } else {
       console.log("local data..");
+
+      /*
+      const response = await fetch("http://localhost:3001/questions");
+      const json = await response.json();
+      return json;
+      */
+
+      const response = await axios.get("http://localhost:3001/questions");
+      return response.data;
+
+      /*
       return await axios
         .get("/datas/questions.json")
         .then((json) => json.data.items);
+        */
     }
   },
 
@@ -89,13 +101,10 @@ export const StackExchange = {
     } else {
       console.log("local data..");
 
-      const response = await axios.get("/datas/questions.json");
+      const response = await axios.get(`http://localhost:3001/questions/${id}`);
+      const { data } = response;
 
-      const { items } = response.data;
-
-      const result = items.find((item) => item.question_id + "" === id);
-
-      return result;
+      return data;
     }
   },
 	async addItem(question){},
