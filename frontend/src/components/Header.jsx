@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import { Link } from "react-router-dom";
@@ -40,7 +41,7 @@ padding-right : 40px;
 }
 `;
 const Menu = styled.a`
-font-size: 13px;
+font-size: 15px;
 padding-right: 22px;
 color : black;
 white-space: nowrap;
@@ -54,23 +55,52 @@ text-decoration-line: none;
 `;
 const Scope = styled.div`
 display : none;
+font-size : 20px;
 padding-right : 9px;
 @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     display : block;
 }
+
 `
-const Input = styled.input`
-width : 40%;
-height : 33px;
-margin-right : 5px;
-border-radius : 3px;
-border : 1px solid gray;
-@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+
+const SearchBar = styled.div`
+    width: 40%;
+    height: 33px;
+    border-radius: 4px;
+    border: solid 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    z-index: 1;
+    opacity: 1;
+    margin-right: 10px;
+
+    .search-bar__input {
+        width: 90%;
+        border: none;
+        text-align: start;
+        margin-left: 5px;
+        overflow: auto;
+        z-index: -3;
+        font-size: 15px;
+
+        &:focus {
+        outline: none;
+        width: 300px;
+        text-align: left;
+        }
+    }
+
+    .searchIcon {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+    @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
     width : 300px;
-}
-@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
-    display : none;
-}
+    }
+    @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+        display : none;
+    }
 `
 const Button = styled.button`
 height : 34px;
@@ -93,27 +123,28 @@ white-space: nowrap;
 }
 
 `
-
-
+;
 
 
 export default function Header() {
 
     return (
-
         <HeaderWrapper>
             <Hamburger color='black' size={18} />
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
-                
                 <Logo className='smallLogo' src={smallLogo} />
             </Link>
             <Menu className='about' href="About.js">About</Menu>
             <Menu className='products' href="Products.js">Products</Menu>
             <Menu className='forteams' href="ForTeams">For Teams</Menu>
-            <Input placeholder='🔍 Search....'></Input>
+            
+            <SearchBar>
+                <FontAwesomeIcon className = "searchIcon" icon={faMagnifyingGlass} color='#838C95'/>
+                <input className="search-bar__input" type="search" placeholder="Search..." />
+            </SearchBar>
             <Scope className='scope'>
-                <AiOutlineSearch size={28} color="#000"/>
+            <FontAwesomeIcon className = "searchIcon" icon={faMagnifyingGlass} color='#838C95'/>
             </Scope>
             <Link to="login">
                 <Button className='login'>Log in</Button>
