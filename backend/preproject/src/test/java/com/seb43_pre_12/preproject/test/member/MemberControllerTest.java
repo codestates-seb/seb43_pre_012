@@ -43,7 +43,6 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MemberController.class)
-@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 public class MemberControllerTest {
 
@@ -148,8 +147,8 @@ public class MemberControllerTest {
                                         fieldWithPath("username").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                         fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태: MEMBER_ACTIVE / MEMBER_SLEEP / MEMBER_QUIT"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원 생성시간"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("회원 수정시간")
                                 )
                         )
                 ));
@@ -198,8 +197,8 @@ public class MemberControllerTest {
                                         fieldWithPath("username").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                                         fieldWithPath("memberStatus").type(JsonFieldType.STRING).description("회원 상태: MEMBER_ACTIVE / MEMBER_SLEEP / MEMBER_QUIT"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("회원 생성시간"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("회원 수정시간")
                                 )
                         )
                 ));
@@ -207,18 +206,6 @@ public class MemberControllerTest {
 
     @Test
     void getMembersTest() throws Exception {
-        Member member1 = new Member();
-        member1.setMemberId(1L);
-        member1.setEmail("test@gmail.com");
-        member1.setUsername("test");
-        member1.setPassword("1234");
-
-        Member member2 = new Member();
-        member2.setMemberId(2L);
-        member2.setEmail("test2@gmail.com");
-        member2.setUsername("test2");
-        member2.setPassword("12345");
-
         List<MemberResponseDto> responseDtos = List.of(
                 new MemberResponseDto(1L,
                         "test@gmail.com",
@@ -257,8 +244,8 @@ public class MemberControllerTest {
                                         fieldWithPath("[].username").type(JsonFieldType.STRING).description("닉네임"),
                                         fieldWithPath("[].password").type(JsonFieldType.STRING).description("비밀번호"),
                                         fieldWithPath("[].memberStatus").type(JsonFieldType.STRING).description("회원 상태: MEMBER_ACTIVE / MEMBER_SLEEP / MEMBER_QUIT"),
-                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("[].modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("회원 생성시간"),
+                                        fieldWithPath("[].modifiedAt").type(JsonFieldType.STRING).description("회원 수정시간")
                                 )
                         )
                 )).andReturn();

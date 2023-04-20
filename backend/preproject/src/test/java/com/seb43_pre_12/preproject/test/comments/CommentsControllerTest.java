@@ -46,7 +46,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentsController.class)
-@AutoConfigureMockMvc
 @AutoConfigureRestDocs
 public class CommentsControllerTest {
 
@@ -66,6 +65,8 @@ public class CommentsControllerTest {
     void postCommentTest() throws Exception {
         CommentsPostDto commentsPostDto = new CommentsPostDto();
         commentsPostDto.setComment("댓글입니다.");
+        commentsPostDto.setMemberId(1L);
+        commentsPostDto.setAnswerId(1L);
 
         given(mapper.commentsPostDtoToComments(Mockito.any())).willReturn(new Comments());
 
@@ -89,7 +90,9 @@ public class CommentsControllerTest {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 List.of(
-                                        fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글")
+                                        fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글"),
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("댓글 작성 회원 식별자"),
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("댓글 작성 답변 식별자")
                                 )
                         ),
                         responseHeaders(
@@ -106,6 +109,7 @@ public class CommentsControllerTest {
                 "댓글입니다.",
                 1L,
                 1L,
+                "홍길동",
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -141,10 +145,11 @@ public class CommentsControllerTest {
                                 List.of(
                                         fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 식별자"),
                                         fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 식별자"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("댓글 작성 회원 식별자"),
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("댓글 작성 질문 식별자"),
+                                        fieldWithPath("username").type(JsonFieldType.STRING).description("댓글 작성 회원 닉네임"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("댓글 생성시간"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("댓글 수정시간")
                                 )
                         )
                 ));
@@ -160,6 +165,7 @@ public class CommentsControllerTest {
                 "댓글입니다.",
                 1L,
                 1L,
+                "홍길동",
                 LocalDateTime.now(),
                 LocalDateTime.now());
 
@@ -184,10 +190,11 @@ public class CommentsControllerTest {
                                 List.of(
                                         fieldWithPath("commentId").type(JsonFieldType.NUMBER).description("댓글 식별자"),
                                         fieldWithPath("comment").type(JsonFieldType.STRING).description("댓글"),
-                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("질문 식별자"),
-                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("댓글 작성 회원 식별자"),
+                                        fieldWithPath("answerId").type(JsonFieldType.NUMBER).description("댓글 작성 질문 식별자"),
+                                        fieldWithPath("username").type(JsonFieldType.STRING).description("댓글 작성 회원 닉네임"),
+                                        fieldWithPath("createdAt").type(JsonFieldType.STRING).description("댓글 생성시간"),
+                                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING).description("댓글 수정시간")
                                 )
                         )
                 ));
@@ -208,12 +215,14 @@ public class CommentsControllerTest {
                         "첫번째 댓글입니다.",
                         1L,
                         1L,
+                        "홍길동",
                         LocalDateTime.now(),
                         LocalDateTime.now()),
                 new CommentsResponseDto(2L,
                         "두번째 댓글입니다.",
                         2L,
                         1L,
+                        "홍길은",
                         LocalDateTime.now(),
                         LocalDateTime.now())
         );
@@ -236,10 +245,11 @@ public class CommentsControllerTest {
                                 List.of(
                                         fieldWithPath("[].commentId").type(JsonFieldType.NUMBER).description("댓글 식별자"),
                                         fieldWithPath("[].comment").type(JsonFieldType.STRING).description("댓글"),
-                                        fieldWithPath("[].memberId").type(JsonFieldType.NUMBER).description("회원 식별자"),
-                                        fieldWithPath("[].answerId").type(JsonFieldType.NUMBER).description("질문 식별자"),
-                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("생성시간"),
-                                        fieldWithPath("[].modifiedAt").type(JsonFieldType.STRING).description("수정시간")
+                                        fieldWithPath("[].memberId").type(JsonFieldType.NUMBER).description("댓글 작성 회원 식별자"),
+                                        fieldWithPath("[].answerId").type(JsonFieldType.NUMBER).description("댓글 작성 질문 식별자"),
+                                        fieldWithPath("[].username").type(JsonFieldType.STRING).description("댓글 작성 회원 닉네임"),
+                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING).description("댓글 생성시간"),
+                                        fieldWithPath("[].modifiedAt").type(JsonFieldType.STRING).description("댓글 수정시간")
                                 )
                         )
                 )).andReturn();
