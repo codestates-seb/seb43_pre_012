@@ -2,6 +2,8 @@ package com.seb43_pre_12.preproject.config;
 
 import com.seb43_pre_12.preproject.auth.JwtAuthenticationFilter;
 import com.seb43_pre_12.preproject.auth.JwtTokenizer;
+import com.seb43_pre_12.preproject.auth.handler.MemberAuthenticationFailureHandler;
+import com.seb43_pre_12.preproject.auth.handler.MemberAuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -70,6 +73,10 @@ public class SecurityConfiguration {
 
             // 쉽게 말하면, 로그인 인증을 위한 엔드포인트(주소)를 설정하는 메서드임. setFilterProcessesUrl()
             jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+
+            // 로그인 인증에 성공 또는 실패했을 때 수행되는 핸들러 (핸들러를 작성했다고 끝이 아니고, 필터에 적용하는 작업이 필요함)
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());
 
             // addFilter로 JwtAuthenticationFilter 를 spring security filter에 추가할 수 있음.
             // 궁극적으로는 설정기의 객체를 apply() 메서드에 넣어줘야함.
