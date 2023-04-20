@@ -47,3 +47,9 @@ logging:
     org:
       hibernate:
         SQL: debug
+
+# Spring Security
+jwt:
+  key: seb4312431243124312v4312431243124312
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
