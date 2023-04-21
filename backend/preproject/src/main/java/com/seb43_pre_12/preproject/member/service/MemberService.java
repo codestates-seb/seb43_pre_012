@@ -44,6 +44,12 @@ public class MemberService {
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
 
+        // 회원 가입에 성공하면 로그 출력
+        log.info("###############################################");
+        log.info("### 계정 명 :{} 님 께서 회원가입 하셨습니다. ###",member.getEmail());
+        log.info("### 해당 계정( {} )은 {} 권한입니다. ###",member.getEmail(), member.getRoles().get(0));
+        log.info("###############################################");
+
         return memberRepository.save(member);
     }
 

@@ -51,6 +51,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
+
+        //AuthenticationManager 내부에서 인증이 성공하면, 인증된 authentication객체가 생성되고, 그 객체가 principal 필드에 할당된다.
         Member member = (Member) authResult.getPrincipal();
 
         // 토큰을 생성하는 private 메서드를 호출한다.
@@ -58,8 +60,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = delegateRefreshToken(member);
 
         // response의 헤더에 각각 Authorization, Refresh 항목의 헤더에 accessToken, refreshToken 을 보낸다.
-        response.setHeader("Authorization","Bearer"+accessToken);
+        response.setHeader("Authorization","Bearer "+accessToken);
         response.setHeader("Refresh",refreshToken);
+
+        getSuccessHandler().onAuthenticationSuccess(request,response,authResult);
     }
     // accessToken 을 생성하는 로직 (JwtTokenizer의 generateAccessToken 메서드를 결국 사용한다.)
     private String delegateAccessToken(Member member) {
