@@ -1,7 +1,7 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { StackExchange } from "../utils/stackExchangeApi";
 
-export default function useQuestion() {
+export default function useQuestion(id) {
   const queryClient = useQueryClient();
 
   const getQuestions = useQuery(
