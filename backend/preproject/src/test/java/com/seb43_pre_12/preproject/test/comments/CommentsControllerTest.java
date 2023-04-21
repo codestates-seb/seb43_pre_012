@@ -19,6 +19,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -42,11 +43,13 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CommentsController.class)
 @AutoConfigureRestDocs
+@WithMockUser
 public class CommentsControllerTest {
 
     @Autowired
@@ -81,6 +84,7 @@ public class CommentsControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 )
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith("/comments/"))))
@@ -125,6 +129,7 @@ public class CommentsControllerTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.comment").value(commentsPatchDto.getComment()))
@@ -264,7 +269,10 @@ public class CommentsControllerTest {
 
         doNothing().when(commentsService).deleteComment(commentId);
 
-        ResultActions actions = mockMvc.perform(delete("/comments/{commentId}", commentId));
+        ResultActions actions = mockMvc.perform(
+                delete("/comments/{commentId}", commentId)
+                        .with(csrf())
+        );
 
         actions.andExpect(status().isNoContent())
                 .andDo(document(

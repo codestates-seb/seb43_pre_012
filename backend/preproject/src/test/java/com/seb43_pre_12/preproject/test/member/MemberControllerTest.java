@@ -13,12 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -40,10 +40,12 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MemberController.class)
 @AutoConfigureRestDocs
+@WithMockUser // 요청할 때 권한을 같이 넘겨준다
 public class MemberControllerTest {
 
     @Autowired
@@ -75,6 +77,7 @@ public class MemberControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf()) // 파라미터로 csrf 값을 같이 보내준다
                 )
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith("/members/"))))
@@ -122,6 +125,7 @@ public class MemberControllerTest {
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value(memberPatchDto.getUsername()))
@@ -260,7 +264,10 @@ public class MemberControllerTest {
 
         doNothing().when(memberService).deleteMember(memberId);
 
-        ResultActions actions = mockMvc.perform(delete("/members/{memberId}", memberId));
+        ResultActions actions = mockMvc.perform(
+                delete("/members/{memberId}", memberId)
+                        .with(csrf())
+        );
 
         actions.andExpect(status().isNoContent())
                 .andDo(document(
