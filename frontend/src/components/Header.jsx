@@ -129,18 +129,19 @@ const Button = styled.button`
 
 
 
-
 export default function Header() {
 
     const [isOpen, setIsOpen] = useState(false);
     
-    const toggleModal = () => {
-        setIsOpen(!isOpen);
+    const openModalHandler = () => {
+        // isOpen의 상태를 변경하는 메소드를 구현
+        // !false -> !true -> !false
+        setIsOpen(!isOpen) 
     };
 
     return (
         <HeaderWrapper>
-            <Hamburger color='black' size={18} onClick={toggleModal} />
+            <Hamburger color='black' size={18} onClick={openModalHandler} />
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
                 <Logo className='smallLogo' src={smallLogo} />
