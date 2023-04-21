@@ -55,23 +55,25 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN","USER")
                         .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER") // 특정 회원 정보 삭제는 회원 본인만 가능.
 
-                        .antMatchers(HttpMethod.POST, "/questions").permitAll()
+                        .antMatchers(HttpMethod.POST, "/questions").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/questions/**").hasAnyRole("USER","ADMIN") // 불량 질문의 경우 관리자가 수정 및 삭제 가능.
                         .antMatchers(HttpMethod.GET, "/questions").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/questions/**").hasAnyRole("USER","ADMIN") // 불량 질문의 경우 관리자가 수정 및 삭제 가능.
 
-                        .antMatchers(HttpMethod.POST, "/answers").permitAll()
+                        .antMatchers(HttpMethod.POST, "/answers").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/answers/**").hasAnyRole("USER","ADMIN") // 불량 답변의 경우 관리자가 수정 및 삭제 가능.
                         .antMatchers(HttpMethod.GET, "/answers").hasRole("ADMIN") // 전체 답변 조회는 관리자만 가능
                         .antMatchers(HttpMethod.GET, "/answers/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/answers/**").hasAnyRole("USER","ADMIN") // 불량 답변의 경우 관리자가 수정 및 삭제 가능.
 
-                        .antMatchers(HttpMethod.POST, "/comments").permitAll()
+                        .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/comments/**").hasAnyRole("USER","ADMIN") // 불량 댓글의 경우 관리자가 수정 및 삭제 가능.
                         .antMatchers(HttpMethod.GET, "/comments").hasRole("ADMIN") // 전체 댓글 조회는 관리자만 가능
                         .antMatchers(HttpMethod.GET, "/comments/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/comments/**").hasAnyRole("USER","ADMIN") // 불량 답변의 경우 관리자가 수정 및 삭제 가능.
+
+                        .anyRequest().permitAll()
 
                 );
 
