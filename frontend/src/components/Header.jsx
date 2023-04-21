@@ -40,18 +40,18 @@ const Logo = styled.img`
     }
   }
 `;
-const Menu = styled.a`
-  font-size: 15px;
-  padding-right: 22px;
-  color: black;
-  white-space: nowrap;
-  text-decoration-line: none;
-  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    &.about,
-    &.forteams {
-      display: none;
-    }
-  }
+
+const Menu = styled.div`
+    font-size: 15px;
+    padding-right: 22px;
+    color : black;
+    white-space: nowrap;
+    text-decoration-line: none;
+    @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+        &.about, &.forteams {
+            display : none;
+        }
+}
 `;
 const Scope = styled.div`
   display: none;
@@ -124,52 +124,45 @@ const Button = styled.button`
 `;
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleModal = () => {
-    setIsOpen(!isOpen);
-  };
+    const [isOpen, setIsOpen] = useState(false);
+    
+    const openModalHandler = () => {
+        // isOpen의 상태를 변경하는 메소드를 구현
+        // !false -> !true -> !false
+        setIsOpen(!isOpen) 
+    };
 
-  return (
-    <HeaderWrapper>
-      <Hamburger color="black" size={18} onClick={toggleModal} />
-      <Link to="/">
-        <Logo className="largeLogo" src={largeLogo} />
-      </Link>
-      <Link to="Questions">
-        <Menu>Questions</Menu>
-      </Link>
-      <Link to="Tags">
-        <Menu>Tags</Menu>
-      </Link>
-      <Link to="Companies">
-        <Menu>Companies</Menu>
-      </Link>
-      <SearchBar>
-        <FontAwesomeIcon
-          className="searchIcon"
-          icon={faMagnifyingGlass}
-          color="#838C95"
-        />
-        <input
-          className="search-bar__input"
-          type="search"
-          placeholder="Search..."
-        />
-      </SearchBar>
-      <Scope className="scope">
-        <FontAwesomeIcon
-          className="searchIcon"
-          icon={faMagnifyingGlass}
-          color="#838C95"
-        />
-      </Scope>
-      <Link to="login">
-        <Button className="login">Log in</Button>
-      </Link>
-      <Link to="signup">
-        <Button className="signup">Sign up</Button>
-      </Link>
-    </HeaderWrapper>
-  );
+    return (
+        <HeaderWrapper>
+            <Hamburger color='black' size={18} onClick={openModalHandler} />
+            <Link to = "/">
+                <Logo className='largeLogo' src={largeLogo} />
+                <Logo className='smallLogo' src={smallLogo} />
+            </Link>
+            <Link to="Questions">
+                <Menu >Questions</Menu>
+			</Link>
+            <Link to="Tags">
+                <Menu >Tags</Menu>
+			</Link>
+            <Link to="Companies">
+                <Menu >Companies</Menu>
+			</Link>
+            <SearchBar>
+                <FontAwesomeIcon className = "searchIcon" icon={faMagnifyingGlass} color='#838C95'/>
+                <input className="search-bar__input" type="search" placeholder="Search..." />
+            </SearchBar>
+            <Scope className='scope'>
+            <FontAwesomeIcon className = "searchIcon" icon={faMagnifyingGlass} color='#838C95'/>
+            </Scope>
+            <Link to="login">
+                <Button className='login'>Log in</Button>
+			</Link>
+            <Link to="signup">
+                <Button className='signup'>Sign up</Button>
+			</Link>
+
+        </HeaderWrapper>
+    )
 }
