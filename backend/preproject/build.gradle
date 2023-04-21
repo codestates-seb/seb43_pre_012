@@ -39,8 +39,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-//	runtimeOnly 'mysql:mysql-connector-java'
-//	implementation 'mysql:mysql-connector-java:8.0.32'
+	runtimeOnly 'mysql:mysql-connector-java'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 	annotationProcessor 'org.projectlombok:lombok'
 
 
@@ -141,4 +141,4 @@ bootJar {
 //tasks.bootJar {
 //	dependsOn "copyReactBuildFiles"
 //}
-
+//

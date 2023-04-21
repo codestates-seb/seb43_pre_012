@@ -1,0 +1,33 @@
+{
+	"items": [
+		{
+			"tags": ["javascript", "reactjs", "react-hooks"],
+			"owner": {
+				"account_id": 11530995,
+				"reputation": 2913,
+				"user_id": 8449956,
+				"user_type": "registered",
+				"profile_image": "https://i.stack.imgur.com/XhQSK.jpg?s=256&g=1",
+				"display_name": "Atul",
+				"link": "https://stackoverflow.com/users/8449956/atul"
+			},
+			"is_answered": true,
+			"view_count": 397165,
+			"closed_date": 1599951349,
+			"accepted_answer_id": 56394177,
+			"answer_count": 8,
+			"score": 217,
+			"last_activity_date": 1669309159,
+			"creation_date": 1551486947,
+			"last_edit_date": 1669309159,
+			"question_id": 54954091,
+			"link": "https://stackoverflow.com/questions/54954091/how-to-use-callback-with-usestate-hook-in-react",
+			"closed_reason": "Duplicate",
+			"title": "How to use callback with useState hook in react",
+			"body": "<p>I am using functional component with hooks. I need to update state in parent from a child. I am using a prop function in Parent. \nAll works fine except my prop function is getting the previous state and not the current state. My prop function gets executed before <strong>useState</strong> hook setting current state.\nHow can I can I wait for my call back function to be executed after useState call. I am looking for something like <strong>setState(state,callback)</strong> from class based components.</p>\n\n<p>Here is the code snippet:</p>\n\n<pre><code>function Parent() {\n  const [Name, setName] = useState(\"\");\n  getChildChange = getChildChange.bind(this);\n  function getChildChange(value) {\n    setName(value);\n  }\n\n  return &lt;div&gt; {Name} :\n    &lt;Child getChildChange={getChildChange} &gt;&lt;/Child&gt;\n  &lt;/div&gt;\n}\n\nfunction Child(props) {\n  const [Name, setName] = useState(\"\");\n  handleChange = handleChange.bind(this);\n\n  function handleChange(ele) {\n    setName(ele.target.value);\n    props.getChildChange(collectState());\n  }\n\n  function collectState() {\n    return Name;\n  }\n\n  return (&lt;div&gt;\n    &lt;input onChange={handleChange} value={Name}&gt;&lt;/input&gt;\n  &lt;/div&gt;);\n} \n</code></pre>\n"
+		}
+	],
+	"has_more": false,
+	"quota_max": 300,
+	"quota_remaining": 295
+}
