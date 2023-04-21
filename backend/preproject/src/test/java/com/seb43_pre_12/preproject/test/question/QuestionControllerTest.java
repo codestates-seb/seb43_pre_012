@@ -23,6 +23,7 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -40,6 +41,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 //import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -47,6 +49,7 @@ import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(QuestionController.class)
 @AutoConfigureRestDocs
+@WithMockUser
 public class QuestionControllerTest {
 
     @Autowired
@@ -78,6 +81,7 @@ public class QuestionControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
+                                .with(csrf())
                 )
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", is(startsWith("/questions"))))
@@ -126,6 +130,7 @@ public class QuestionControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(patchContent)
+                                .with(csrf())
                 );
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").value(patchDto.getContent()))
@@ -277,6 +282,7 @@ public class QuestionControllerTest {
 
         ResultActions actions = mockMvc.perform(
                 delete("/questions/{question-id}", 1L)
+                        .with(csrf())
         );
         actions.andExpect(status().isNoContent())
                 .andDo(document(

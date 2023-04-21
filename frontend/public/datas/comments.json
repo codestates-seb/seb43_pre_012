@@ -1,0 +1,82 @@
+{
+	"items": [
+		{
+			"owner": {
+				"account_id": 152915,
+				"reputation": 5261,
+				"user_id": 367796,
+				"user_type": "registered",
+				"accept_rate": 59,
+				"profile_image": "https://i.stack.imgur.com/knppv.jpg?s=256&g=1",
+				"display_name": "steinybot",
+				"link": "https://stackoverflow.com/users/367796/steinybot"
+			},
+			"edited": false,
+			"score": 0,
+			"creation_date": 1656276477,
+			"post_id": 54954091,
+			"comment_id": 128526445,
+			"content_license": "CC BY-SA 4.0",
+			"body": "Most answers are putting too much emphasis on making this behave like a class based component. That is a red herring. The real problem is that the child is calling <code>getChildChange</code> with the old value. Changing it to <code>props.getChildChange(ele.target.value)</code> would solve it. See <a href=\"https://stackoverflow.com/a/56267744/367796\">stackoverflow.com/a/56267744/367796</a>"
+		},
+		{
+			"owner": {
+				"account_id": 7685582,
+				"reputation": 1486,
+				"user_id": 5823517,
+				"user_type": "registered",
+				"accept_rate": 75,
+				"profile_image": "https://www.gravatar.com/avatar/177eb27f5cdf6cab6a2d66535a420311?s=256&d=identicon&r=PG&f=1",
+				"display_name": "Tunn",
+				"link": "https://stackoverflow.com/users/5823517/tunn"
+			},
+			"edited": false,
+			"score": 0,
+			"creation_date": 1639849045,
+			"post_id": 54954091,
+			"comment_id": 124455418,
+			"content_license": "CC BY-SA 4.0",
+			"body": "There&#39;s an easy way to do this without useEffect <a href=\"https://stackoverflow.com/a/70405577/5823517\">stackoverflow.com/a/70405577/5823517</a>"
+		},
+		{
+			"owner": {
+				"account_id": 3899553,
+				"reputation": 127,
+				"user_id": 3227713,
+				"user_type": "registered",
+				"profile_image": "https://graph.facebook.com/100001076624069/picture?type=large",
+				"display_name": "RajaSekhar K",
+				"link": "https://stackoverflow.com/users/3227713/rajasekhar-k"
+			},
+			"edited": false,
+			"score": 0,
+			"creation_date": 1587267645,
+			"post_id": 54954091,
+			"comment_id": 108441930,
+			"content_license": "CC BY-SA 4.0",
+			"body": "I hope we get interesting comments in this thread <a href=\"https://github.com/facebook/react/issues/17969\" rel=\"nofollow noreferrer\">github.com/facebook/react/issues/17969</a>"
+		},
+		{
+			"owner": {
+				"account_id": 257211,
+				"reputation": 13554,
+				"user_id": 538471,
+				"user_type": "registered",
+				"accept_rate": 77,
+				"profile_image": "https://www.gravatar.com/avatar/d2051553a8bdd27c26fec84b47806714?s=256&d=identicon&r=PG",
+				"display_name": "dan-klasson",
+				"link": "https://stackoverflow.com/users/538471/dan-klasson"
+			},
+			"edited": false,
+			"score": 6,
+			"creation_date": 1551498105,
+			"post_id": 54954091,
+			"comment_id": 96672381,
+			"content_license": "CC BY-SA 4.0",
+			"body": "why don&#39;t you just pass down <code>setName</code> and call it from the child?"
+		}
+	],
+	"has_more": false,
+	"quota_max": 300,
+	"quota_remaining": 293
+}

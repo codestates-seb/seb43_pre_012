@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const MAX_LEN = 170;
 
@@ -27,7 +28,7 @@ const Figure = styled.h5`
 `;
 
 const Infos = styled.section`
-  width: auto;
+  width: 100%;
   height: 100%;
   position: relative;
   display: flex;
@@ -67,38 +68,55 @@ const Tag = styled.div`
   border-radius: 5px;
 `;
 
-const Icon = styled.div``;
-
-const Questioner = styled.h5`
+const Questioner = styled.div`
   position: absolute;
-  right: 15px;
+  right: 40px;
   bottom: 25px;
   font-size: 13px;
   font-weight: 400;
   color: #237ed0;
+  display: flex;
+  align-items: center;
 `;
 
-export default function Question({ question }) {
+const Icon = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background-image: url(${(props) => props.bgImage});
+  background-size: cover;
+  background-position: center;
+`;
+
+const cleanContent = (body) => {
+  const regex = /(<([^>]+)>)/gi;
+  const result = body.slice(0, MAX_LEN).replace(regex, "");
+
+  return result;
+};
+
+export default function Question({ question, showContent }) {
   return (
     <Container>
       <Figures>
-        <Figure>{`${question.votes} votes`}</Figure>
-        <Figure>{`${question.answers} answers`}</Figure>
-        <Figure>{`${question.views} views`}</Figure>
+        <Figure>{`${question.score} votes`}</Figure>
+        <Figure>{`${question.answer_count} answers`}</Figure>
+        <Figure>{`${question.view_count} views`}</Figure>
       </Figures>
       <Infos>
-        <Title>{question.title}</Title>
-        <Content>
-          {question.content.length >= MAX_LEN
-            ? question.content.slice(0, MAX_LEN) + "..."
-            : question.content}
-        </Content>
+        <Link to={`/questions/${question.question_id}`}>
+          <Title>{question.title}</Title>
+        </Link>
+        <Content>{showContent && <>{cleanContent(question.body)}</>}</Content>
         <Tags>
           {question.tags.map((tag) => (
-            <Tag>{tag}</Tag>
+            <Tag key={tag}>{tag}</Tag>
           ))}
         </Tags>
-        <Questioner>{question.questioner}</Questioner>
+        <Questioner>
+          <Icon bgImage={question.owner.profile_image} />
+          {question.owner.display_name}
+        </Questioner>
       </Infos>
     </Container>
   );

@@ -4,6 +4,11 @@ const Container = styled.aside`
   width: 300px;
   height: auto;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.section`

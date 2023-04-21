@@ -22,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -39,6 +40,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -46,6 +48,7 @@ import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(AnswerController.class)
 @AutoConfigureRestDocs
+@WithMockUser
 public class AnswerControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -80,6 +83,7 @@ public class AnswerControllerTest {
                                 .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
                                 .contentType(MediaType.APPLICATION_JSON)  // 서버에서 처리하는 데이터 타입 설정
                                 .content(content) // controller 로 전송하는 request body 데이터.
+                                .with(csrf())
                 );
 
         actions
@@ -149,6 +153,7 @@ public class AnswerControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(patchContent)
+                                .with(csrf())
                 );
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").value(patchDto.getContent()))
@@ -368,6 +373,7 @@ public class AnswerControllerTest {
 
         ResultActions actions = mockMvc.perform(
                 delete("/answers/{answer-id}",1L)
+                        .with(csrf())
         );
         actions.andExpect(status().isNoContent())
                 .andDo(document(
