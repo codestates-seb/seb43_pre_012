@@ -41,7 +41,7 @@ const Logo = styled.img`
     }
 }
 `;
-const Menu = styled.a`
+const Menu = styled.div`
     font-size: 15px;
     padding-right: 22px;
     color : black;
