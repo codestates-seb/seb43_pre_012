@@ -1,46 +1,46 @@
-import React, { useState } from 'react'; 
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import largeLogo from "../static/large-logo.png"
-import smallLogo from "../static/small-logo.png"
+import largeLogo from "../static/large-logo.png";
+import smallLogo from "../static/small-logo.png";
 import { Link } from "react-router-dom";
-import { Fade as Hamburger } from 'hamburger-react'
+import { Fade as Hamburger } from "hamburger-react";
 
 const HeaderWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    color: #fffefe;
-    height: 50px;
-    border-top : 3px solid ${({ theme }) => theme.colors.orange};
-    box-shadow : 0 0 3px gray;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: #fffefe;
+  height: 50px;
+  border-top: 3px solid ${({ theme }) => theme.colors.orange};
+  box-shadow: 0 0 3px gray;
 `;
 const Logo = styled.img`
-    width: 200px;
-    padding-right : 40px;
-    &.smallLogo{
-        display : none;
-}
-@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+  width: 200px;
+  padding-right: 40px;
+  &.smallLogo {
+    display: none;
+  }
+  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
     &.largeLogo {
-        padding-right : 40px;
+      padding-right: 40px;
     }
-}
+  }
 
-@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+  @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
     &.largeLogo {
-        display : none;
+      display: none;
     }
-    &.smallLogo{
-        width: 35px;
-        padding-left : 20px;
-        display : block;
+    &.smallLogo {
+      width: 35px;
+      padding-left: 20px;
+      display: block;
     }
-}
+  }
 `;
+
 const Menu = styled.div`
     font-size: 15px;
     padding-right: 22px;
@@ -52,82 +52,76 @@ const Menu = styled.div`
             display : none;
         }
 }
-
 `;
 const Scope = styled.div`
-    display : none;
-    font-size : 20px;
-    padding-right : 9px;
-    @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
-        display : block;
-    }
-
-`
-
-const SearchBar = styled.div`
-    width: 40%;
-    height: 33px;
-    border-radius: 4px;
-    border: solid 1px rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    z-index: 1;
-    opacity: 1;
-    margin-right: 10px;
-
-    .search-bar__input {
-        width: 90%;
-        border: none;
-        text-align: start;
-        margin-left: 5px;
-        overflow: auto;
-        z-index: -3;
-        font-size: 15px;
-
-        &:focus {
-        outline: none;
-        width: 300px;
-        text-align: left;
-        }
-    }
-
-    .searchIcon {
-        font-size: 20px;
-        margin-left: 10px;
-    }
-    @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    width : 300px;
-    }
-    @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
-        display : none;
-    }
-`
-
-const Button = styled.button`
-    height : 34px;
-    width : 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border : 1px solid #7AA8C7;
-    margin-right : 5px;
-    border-radius : 3px;
-    white-space: nowrap;
-    &.login{
-        background-color : ${({ theme }) => theme.colors.tagblue};
-        color : #7AA8C7;
-    }
-    &.signup{
-        background-color : ${({ theme }) => theme.colors.skyblue};
-        color : white;
-    }
-
+  display: none;
+  font-size: 20px;
+  padding-right: 9px;
+  @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+    display: block;
+  }
 `;
 
+const SearchBar = styled.div`
+  width: 40%;
+  height: 33px;
+  border-radius: 4px;
+  border: solid 1px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  z-index: 1;
+  opacity: 1;
+  margin-right: 10px;
 
+  .search-bar__input {
+    width: 90%;
+    border: none;
+    text-align: start;
+    margin-left: 5px;
+    overflow: auto;
+    z-index: -3;
+    font-size: 15px;
 
+    &:focus {
+      outline: none;
+      width: 300px;
+      text-align: left;
+    }
+  }
+
+  .searchIcon {
+    font-size: 20px;
+    margin-left: 10px;
+  }
+  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+    width: 300px;
+  }
+  @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+    display: none;
+  }
+`;
+
+const Button = styled.button`
+  height: 34px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #7aa8c7;
+  margin-right: 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  &.login {
+    background-color: ${({ theme }) => theme.colors.tagblue};
+    color: #7aa8c7;
+  }
+  &.signup {
+    background-color: ${({ theme }) => theme.colors.skyblue};
+    color: white;
+  }
+`;
 
 export default function Header() {
 
@@ -172,4 +166,3 @@ export default function Header() {
         </HeaderWrapper>
     )
 }
-

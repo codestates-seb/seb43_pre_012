@@ -5,7 +5,7 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { updateQuestion } from "../hooks/tempUseQuestion";
 
 const Container = styled.form`
   max-width: 800px;
@@ -76,7 +76,7 @@ const Btn = styled.button`
 
 export default function EditQuestion({ question }) {
   const navigate = useNavigate();
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit } = useForm();
   const detailRef = useRef();
 
   const handleEdit = async (data) => {
@@ -87,10 +87,9 @@ export default function EditQuestion({ question }) {
 
     const editedQuestion = { ...question, title, tags, body };
 
-    await axios.patch(
-      `http://localhost:3001/questions/${question.id}`,
-      editedQuestion
-    );
+    // updateQuestion(editedQuestion);
+
+    await updateQuestion(editedQuestion);
 
     navigate(`/questions/${question.id}`);
   };

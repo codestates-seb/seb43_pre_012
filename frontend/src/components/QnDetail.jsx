@@ -12,13 +12,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Aside from "./Aside";
 import Tag from "./Tag";
-import useQuestionById from "../hooks/useQuestionById";
 import { Editor } from "@toast-ui/react-editor";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import axios from "axios";
 import EditQuestion from "./EditQuestion";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { getQuestionById, removeQuestion } from "../hooks/tempUseQuestion";
 
 const Wrapper = styled.section`
   height: auto;
@@ -363,9 +364,9 @@ export default function QnDetail() {
   const { id } = useParams();
   const editorRef = useRef();
 
-  const {
-    getQuestionById: { data: question, isLoading },
-  } = useQuestionById(id);
+  const { data: question, isLoading } = useQuery("question", () =>
+    getQuestionById(id)
+  );
 
   const handlePostAnswer = () => {
     // html형식으로 텍스트를 가져오려면, getHTML()
@@ -377,7 +378,9 @@ export default function QnDetail() {
   };
 
   const handleDelete = async () => {
-    await axios.delete(`http://localhost:3001/questions/${id}`);
+    await removeQuestion(id);
+
+    // removeQuestion(id);
     navigate("/questions");
   };
 
@@ -387,7 +390,6 @@ export default function QnDetail() {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          {" "}
           <Wrapper>
             <Container>
               <Header>

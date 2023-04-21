@@ -12,7 +12,7 @@ export default function useQuestion(id) {
     }
   );
 
-	const getQuestionById = useQuery(
+  const getQuestionById = useQuery(
     ["question"],
     () => StackExchange.question(id),
     {
@@ -20,25 +20,40 @@ export default function useQuestion(id) {
     }
   );
 
-	const addQuestion= useMutation((question) => StackExchange.addItem(question), {
-		onSuccess: (_, question) => {
-			queryClient.invalidateQueries(["questions"]);
-			queryClient.invalidateQueries(["questions", question.question_id]);
-		},
-	});
+  const addQuestion = useMutation(
+    (question) => StackExchange.addItem(question),
+    {
+      onSuccess: (_, question) => {
+        queryClient.invalidateQueries(["questions"]);
+        queryClient.invalidateQueries(["questions", question.question_id]);
+      },
+    }
+  );
 
-	const updateQuestion = useMutation((question) => StackExchange.updateItem(question), {
-		onSuccess: (_, question) => {
-			queryClient.invalidateQueries(["questions"]);
-			queryClient.invalidateQueries(["questions", question.question_id]);
-		},
-	});
+  const updateQuestion = useMutation(
+    (question) => StackExchange.updateItem(question),
+    {
+      onSuccess: (_, question) => {
+        queryClient.invalidateQueries(["questions"]);
+        queryClient.invalidateQueries(["questions", question.question_id]);
+      },
+    }
+  );
 
-	const removeQuestion= useMutation((question) => StackExchange.removeItem(question), {
-		onSuccess: () => {
-			queryClient.invalidateQueries(["questions"]);
-		},
-	});
+  const removeQuestion = useMutation(
+    (question) => StackExchange.removeItem(question),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["questions"]);
+      },
+    }
+  );
 
-  return { getQuestions,getQuestionById,addQuestion,updateQuestion,removeQuestion };
+  return {
+    getQuestions,
+    getQuestionById,
+    addQuestion,
+    updateQuestion,
+    removeQuestion,
+  };
 }

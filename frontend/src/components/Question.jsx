@@ -88,11 +88,18 @@ const Icon = styled.div`
   background-position: center;
 `;
 
+const cleanContent = (body) => {
+  const regex = /(<([^>]+)>)/gi;
+  const result = body.slice(0, MAX_LEN).replace(regex, "");
+
+  return result;
+};
+
 export default function Question({ question, showContent }) {
   return (
     <Container>
       <Figures>
-        <Figure>{`임의의숫자 votes`}</Figure>
+        <Figure>{`${question.score} votes`}</Figure>
         <Figure>{`${question.answer_count} answers`}</Figure>
         <Figure>{`${question.view_count} views`}</Figure>
       </Figures>
@@ -100,16 +107,7 @@ export default function Question({ question, showContent }) {
         <Link to={`/questions/${question.question_id}`}>
           <Title>{question.title}</Title>
         </Link>
-        <Content>
-          {showContent && (
-            <>
-              {" "}
-              {question.body.length >= MAX_LEN
-                ? question.body.slice(0, MAX_LEN) + "..."
-                : question.body}
-            </>
-          )}
-        </Content>
+        <Content>{showContent && <>{cleanContent(question.body)}</>}</Content>
         <Tags>
           {question.tags.map((tag) => (
             <Tag key={tag}>{tag}</Tag>

@@ -2,9 +2,10 @@ import styled from "styled-components";
 import Question from "./Question";
 import PageBtns from "./PageBtns";
 import Aside from "./Aside";
-import useQuestion from "../hooks/useQuestion";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useQuery } from "react-query";
+import { getQuestions } from "../hooks/tempUseQuestion";
 
 const Wrapper = styled.section`
   height: auto;
@@ -110,10 +111,8 @@ const OFFSET = 10;
 export default function AllQuestions({ title, showContent }) {
   const [page, setPage] = useState(1);
 
-  const {
-    getQuestions: { data: datas, isLoading },
-  } = useQuestion();
-  datas && console.log(datas);
+  const { data: datas, isLoading } = useQuery("questions", getQuestions);
+  // datas && console.log(datas);
 
   const handlePage = (nxtPage) => {
     setPage((prev) => nxtPage);

@@ -80,9 +80,3 @@ export default function PageBtns({ totalPage, currentPage, handlePage }) {
     </Container>
   );
 }
-
-/*
-<Link
-to={page === 1 ? "/questions" : `/questions&page=${page}`}
-></Link>
-*/

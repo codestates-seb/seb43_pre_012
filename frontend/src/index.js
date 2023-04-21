@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./redux/slices/userSlice";
 import Home from "./pages/Home";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const store = configureStore({
   reducer: {
@@ -45,12 +46,17 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+const queryClient = new QueryClient();
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <GlobalStyle />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </QueryClientProvider>
   </ThemeProvider>
 );
