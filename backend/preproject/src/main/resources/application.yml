@@ -32,12 +32,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        highlight_sql: true
-        color-codes: true
+        format_sql: false
+        highlight_sql: false
+        color-codes: false
         use_sql_comments: true
     database-platform: org.hibernate.dialect.H2Dialect
 
