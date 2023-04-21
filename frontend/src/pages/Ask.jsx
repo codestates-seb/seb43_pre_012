@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
+import { addQuestion } from "../hooks/tempUseQuestion";
 
 const Wrapper = styled.form`
   width: 100%;
@@ -207,13 +208,7 @@ export default function QuestionDetail() {
       body,
     };
 
-    const response = await fetch("http://localhost:3001/questions", {
-      method: "POST",
-      headers: { "Content-type": "Application/json" },
-      body: JSON.stringify(newQuestion),
-    });
-
-    console.log(response);
+    await addQuestion(newQuestion);
     navigate("/questions");
   };
 
