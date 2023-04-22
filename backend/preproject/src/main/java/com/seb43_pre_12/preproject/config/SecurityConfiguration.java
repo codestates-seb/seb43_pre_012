@@ -52,9 +52,10 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/members").permitAll() // 회원가입을 로그인 없이도 가능.
-                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/members").hasRole("ADMIN") // 전체 회원 정보 조회는 관리자만 가능.
+                        .antMatchers(HttpMethod.GET, "/members/").hasRole("ADMIN") // 전체 회원 정보 조회는 관리자만 가능.
                         .antMatchers(HttpMethod.GET, "/members/**").hasAnyRole("ADMIN","USER")
+                        .antMatchers(HttpMethod.PATCH, "/members/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/members/**").hasRole("USER") // 특정 회원 정보 삭제는 회원 본인만 가능.
 
                         .antMatchers(HttpMethod.GET, "/questions").permitAll() // 전체 질문 조회는 로그인 없이도 가능.
@@ -64,12 +65,14 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/questions/**").hasAnyRole("USER","ADMIN") // 불량 질문의 경우 관리자가 수정 및 삭제 가능.
 
                         .antMatchers(HttpMethod.GET, "/answers").hasRole("ADMIN") // 전체 답변 조회는 관리자만 가능
+                        .antMatchers(HttpMethod.GET, "/answers/").hasRole("ADMIN") // 전체 답변 조회는 관리자만 가능
                         .antMatchers(HttpMethod.GET, "/answers/**").permitAll() // 특정 답변은 로그인 없이도 가능
                         .antMatchers(HttpMethod.POST, "/answers").hasRole("USER") // 답변 작성은 회원만 가능
                         .antMatchers(HttpMethod.PATCH, "/answers/**").hasAnyRole("USER","ADMIN") // 불량 답변의 경우 관리자가 수정 및 삭제 가능.
                         .antMatchers(HttpMethod.DELETE, "/answers/**").hasAnyRole("USER","ADMIN") // 불량 답변의 경우 관리자가 수정 및 삭제 가능.
 
                         .antMatchers(HttpMethod.GET, "/comments").hasRole("ADMIN") // 전체 댓글 조회는 관리자만 가능
+                        .antMatchers(HttpMethod.GET, "/comments/").hasRole("ADMIN") // 전체 댓글 조회는 관리자만 가능
                         .antMatchers(HttpMethod.GET, "/comments/**").permitAll() // 특정 댓글 조회는 로그인 없이도 가능
                         .antMatchers(HttpMethod.POST, "/comments").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/comments/**").hasAnyRole("USER","ADMIN") // 불량 댓글의 경우 관리자가 수정 및 삭제 가능.
