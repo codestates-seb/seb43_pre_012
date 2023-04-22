@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -106,7 +107,9 @@ public class QuestionService {
         Member ownerOfQuestion = findQuestion.getMember();
         final String questionOwnerEmail = ownerOfQuestion.getEmail();
         // 질문을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
-        if(!memberEmail.equals(ownerOfQuestion.getEmail())) throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
-
+        List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");
+        if(adminMailAddress.contains(memberEmail)) return;
+        else if (memberEmail.equals(questionOwnerEmail)) return;
+        else throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
         }
     }

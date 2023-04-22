@@ -97,7 +97,9 @@ public class AnswerService {
         Member ownerOfAnswer = verifedAnswer.getMember();
         final String AnswerOwnerEmail = ownerOfAnswer.getEmail();
         // 댭변을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
-        if(!memberEmail.equals(AnswerOwnerEmail)) throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
-
+        List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");
+        if(adminMailAddress.contains(memberEmail)) return;
+        else if (memberEmail.equals(adminMailAddress)) return;
+        else throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
     }
 }

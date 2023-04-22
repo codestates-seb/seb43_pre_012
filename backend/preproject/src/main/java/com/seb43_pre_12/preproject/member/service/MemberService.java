@@ -116,7 +116,10 @@ public class MemberService {
         Member verifiedMember = findVerifiedMember(memberId);
         final String ownerMemberEmail1 = verifiedMember.getEmail();
         // 회원가입을 진행한 실제 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
-        if(!memberEmail.equals(ownerMemberEmail1)) throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
+        List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");
+        if(adminMailAddress.contains(memberEmail)) return;
+        else if (memberEmail.equals(ownerMemberEmail1)) return;
+        else throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
 
     }
 }
