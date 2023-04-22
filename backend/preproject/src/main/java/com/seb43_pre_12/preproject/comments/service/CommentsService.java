@@ -9,6 +9,9 @@ import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.service.MemberService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -44,6 +47,7 @@ public class CommentsService {
     }
 
     public Comments updateComment(Comments comment) {
+        verifyAuthorizedMember(comment.getCommentId());
         Comments findComment = findVerifiedComment(comment.getCommentId());
 
         Optional.ofNullable(comment.getComment())
@@ -66,6 +70,7 @@ public class CommentsService {
     }
 
     public void deleteComment(long commentId) {
+        verifyAuthorizedMember(commentId);
         commentsRepository.deleteById(commentId);
     }
 
@@ -86,4 +91,17 @@ public class CommentsService {
 //        return answerService.findVerifedAnswer(answer.getAnswerId());
     }
 
+    private void verifyAuthorizedMember(Long commentId) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        String memberEmail = (String)authentication.getPrincipal();
+
+        // 댓글을 작성한 회원 객체를 찾는 로직
+        Comments verifiedComment = findVerifiedComment(commentId);
+        Member ownerOfComment = verifiedComment.getMember();
+        final String CommnetOwnerEmail = ownerOfComment.getEmail();
+        // 댓글을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
+        if(!memberEmail.equals(CommnetOwnerEmail)) throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
+
+    }
 }
