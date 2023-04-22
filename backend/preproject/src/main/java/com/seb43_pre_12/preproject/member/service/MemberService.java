@@ -76,6 +76,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findMember(long memberId) {
+        verifyAuthorizedMember(memberId);
         Member findMember = findVerifiedMember(memberId);
 
 //         comments 출력
