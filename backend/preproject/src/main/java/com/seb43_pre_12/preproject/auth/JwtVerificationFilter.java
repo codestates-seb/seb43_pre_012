@@ -62,14 +62,22 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
 
         // SecurityContext에 authentication 객체를 저장.
-        // SecurityContext에 authentication 을 저장하는 이유(목적)이 궁금..
-        // 궁금한 이유. setAuthenticationToContext메서드는 "로그인 인증이 이.미. 완료된 이후에 호출되는" 메서드임. 그러니까, 로그인 인증은 이미 끝났고,
-        // 사용자가 권한검증이 필요한 리소스에 접근 요청을 보냈을 때, requst에 실어서 보내는 jwt가 위변조된 jwt가 아닌지 검증과정에서 실행되는 메서드임.
-        // 기존의 학습내용 기반으로는, SecurityContext에 authentication가 저장되는 시점은 "로그인 인증이 처리되는 과정 중"이고,
-        // 저장되는 이유는 세션인증 방식에서 사용자의 로그인 인증정보를 context에 저장해두고 사용자에게 세션아이디를 제공함으로서,
-        // 사용자는 세션아이디만 제공하는 것으로 본인이 로그인에 성공한 사용자임을 서버에게 알려줄수 있도록 하는 것이 그 목적이자 이유임.
-        // 그런데, 현재 코드에서 SecurityContext에 authentication가 저장되는 것은 세션인증방식때와 시점 자체도 다르고, 그러기에 저장목적(이유)도 모르겠음.
-        // 추측하기로는 JWT 방식임에도 사용자에게 세션아이디를 제공함으로서, 추후에 JWT를 재차 검증하는 과정을 생략하는 이점을 누리기 위한 것이 아닌지 생각되기도함..
+        // SecurityContext에 authentication 을 저장하는 이유(목적)
+        // = 다음 차례 필터인 AuthorizationFilter가 SecurityContext에서 authentication객체를 받아서 권한검증에 사용한다.
+        // 그러려면 앞선 단계 필터에서 SecurityContext에 authentication 객체를 저장해놔야한다.
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
+/*
+* <세션인증방식>
+* AuthenticationFilter의 successfulAuthentication() 에서 유저의 인증(authentication)객체를 securityContext에 저장한다.
+* SpringSecurity의 세션정책에 따라서 securityContext를 세션저장소에 저장하고, "request-response" 과정이 종료될 즈음 securityContext는 제거한다.
+* 즉, 세션인증방식은 사용자인증정보를 securityContext가 아닌, 세션저장소에 유지하는 방식으로 인증상태를 유지하는 것이다.
+* 세션방식은 로그인 인증 할때 securityContext 에 인증객체가 저장되고, securityContext 는 세션저장소에 저장된다.
+*
+* <JWT인증방식>
+* AuthenticationFilter의 successfulAuthentication() 에서 유저의 인증(authentication)객체를 securityContext에 저장하지 않는다.
+* JwtVerificationFilter 에서 유저의 인증객체를 securityContext에 저장한다. JwtVerificationFilter 는 AuthenticationFilter의 다음에 수행되는 필터이다.
+* 하지만 세션인증방식처럼 securityContext를 세션저장소에 저장하지 않는다. 왜냐하면 SecurityConfig에서 세션정책을 STATELESS로 설정했기 때문이다.
+* JWT방식은 리소스에 접근할때 securityContext 에 인증객체가 저장된다.
+* */
