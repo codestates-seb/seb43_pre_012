@@ -98,18 +98,17 @@ public class QuestionService {
     }
 
     private void verifyAuthorizedMember(Long questionId) {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        String memberEmail = (String)authentication.getPrincipal();
+        // 현재 로그인한 회원의 이메일을 찾는 로직
+        String loginEmail = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         // 질문을 작성한 회원 객체를 찾는 로직
-        Question findQuestion = findVerifiedQuestion(questionId);
-        Member ownerOfQuestion = findQuestion.getMember();
-        final String questionOwnerEmail = ownerOfQuestion.getEmail();
-        // 질문을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
+        final String questionOwnerEmail = findVerifiedQuestion(questionId).getMember().getEmail();
+        // 관리자 계정 리스트
         List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");
-        if(adminMailAddress.contains(memberEmail)) return;
-        else if (memberEmail.equals(questionOwnerEmail)) return;
+
+        // 질문을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
+        if(adminMailAddress.contains(loginEmail)) return;
+        else if (loginEmail.equals(questionOwnerEmail)) return;
         else throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
         }
     }
