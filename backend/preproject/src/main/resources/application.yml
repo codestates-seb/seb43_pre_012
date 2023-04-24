@@ -10,11 +10,14 @@ spring:
 
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        highlight_sql: true
-        color-codes: true
+        format_sql: false
+        highlight_sql: false
+        color-codes: false
         use_sql_comments: true
 
 logging:

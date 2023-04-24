@@ -9,6 +9,9 @@ import com.seb43_pre_12.preproject.exception.BusinessLogicException;
 import com.seb43_pre_12.preproject.exception.ExceptionCode;
 import com.seb43_pre_12.preproject.member.entity.Member;
 import com.seb43_pre_12.preproject.member.service.MemberService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -44,6 +47,7 @@ public class CommentsService {
     }
 
     public Comments updateComment(Comments comment) {
+        verifyAuthorizedMember(comment.getCommentId());
         Comments findComment = findVerifiedComment(comment.getCommentId());
 
         Optional.ofNullable(comment.getComment())
@@ -66,6 +70,7 @@ public class CommentsService {
     }
 
     public void deleteComment(long commentId) {
+        verifyAuthorizedMember(commentId);
         commentsRepository.deleteById(commentId);
     }
 
@@ -86,4 +91,18 @@ public class CommentsService {
 //        return answerService.findVerifedAnswer(answer.getAnswerId());
     }
 
+    private void verifyAuthorizedMember(Long commentId) {
+        // 현재 로그인한 회원의 이메일을 찾는 로직
+        String loginEmail = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // 댓글을 작성한 회원 객체를 찾는 로직
+        final String CommnetOwnerEmail = findVerifiedComment(commentId).getMember().getEmail();
+        // 관리자 계정 리스트
+        List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");
+
+        // 댓글을 작성한 회원 객체의 email 과 로그인한 회원의 email 이 동일한지 조건문을 통해서 검사한다.
+        if(adminMailAddress.contains(loginEmail)) return;
+        else if (loginEmail.equals(CommnetOwnerEmail)) return;
+        else throw  new BusinessLogicException(ExceptionCode.MEMBER_NOT_VALID);
+    }
 }

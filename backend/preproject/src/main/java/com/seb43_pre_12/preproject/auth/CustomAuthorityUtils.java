@@ -5,13 +5,16 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 // SpringSecurity member의 권한정보를 생성하거나 알아내는 클래스
 @Component
 public class CustomAuthorityUtils {
-    private String adminMailAddress = "admin@gmail.com";
+    private List<String> adminMailAddress = List.of("hw@email.com", "ny@email.com","sh@email.com","hj@email.com","jh@email.com","jm@email.com");//"admin@email.com";
+    private String adminMailAddress2 = "admin@email.com";
     private final List<GrantedAuthority> ADMIN_ROLES = AuthorityUtils.createAuthorityList("ROLE_ADMIN","ROLE_USER");
     private final List<GrantedAuthority> USER_ROLES = AuthorityUtils.createAuthorityList("ROLE_USER");
     private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN","USER");
@@ -27,7 +30,17 @@ public class CustomAuthorityUtils {
 
     // 회원가입 시에 member의 email에 따라서 권한정보를 생성해서 DB에 member의 권한 정보를 저장하기 위한 코드(MemberService-create 에서 사용)
     public List<String> createRoles(String email) {
-        if(email.equals(adminMailAddress)) return ADMIN_ROLES_STRING;
-        else return USER_ROLES_STRING;
+        Iterator i = adminMailAddress.iterator();
+        while(i.hasNext()) {
+            if(email.equals(i.next())) {return ADMIN_ROLES_STRING;}
+        }
+        return USER_ROLES_STRING;
+//        if(email.equals(adminMailAddress)) return ADMIN_ROLES_STRING;
+//        else return USER_ROLES_STRING;
     }
+
+//    public List<String> createRoles(String email) {
+//        if(email.equals(adminMailAddress2)) return ADMIN_ROLES_STRING;
+//        else return USER_ROLES_STRING;
+//    }
 }
