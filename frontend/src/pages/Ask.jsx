@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import { addQuestion } from "../hooks/tempUseQuestion";
+import { addQuestion, getDateNumber } from "../hooks/tempUseQuestion";
+import { isLocal } from "../hooks/tempUseQuestion";
 
 const Wrapper = styled.form`
   width: 100%;
@@ -161,11 +162,6 @@ const Block = styled.div`
   z-index: 10;
 `;
 
-const getDateNumber = () => {
-  const date = new Date();
-  return date.getTime();
-};
-
 export default function QuestionDetail() {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
@@ -178,37 +174,48 @@ export default function QuestionDetail() {
   const onSubmit = async (data) => {
     const { title } = data;
     const tags = data.tags.split(",");
-    const body = detailRef.current.getInstance().getHTML();
+    const content = detailRef.current.getInstance().getHTML();
     const questionId = getDateNumber();
 
-    const newQuestion = {
-      id: questionId,
-      tags,
-      owner: {
-        account_id: 123456789,
-        reputation: 0,
-        user_id: 123456789,
-        user_type: "registered",
-        profile_image:
-          "https://lh3.googleusercontent.com/a-/AOh14GhAoTHeWPDnkDv7atnHxEBdRBFn4OYq1Np_d1j4=k-s256",
-        display_name: "Gil-Dong Hong",
-        link: "https://stackoverflow.com/users/19263679/kayd-anderson",
-      },
-      is_answered: false,
-      view_count: 0,
-      answer_count: 0,
-      score: 0,
-      last_activity_date: questionId,
-      creation_date: questionId,
-      last_edit_date: questionId,
-      question_id: questionId,
-      content_license: "CC BY-SA 4.0",
-      link: `https://localhost:3000/questions/${questionId}`,
-      title,
-      body,
-    };
+    if (isLocal) {
+      const newQuestion = {
+        id: questionId,
+        tags,
+        owner: {
+          account_id: 123456789,
+          reputation: 0,
+          user_id: 123456789,
+          user_type: "registered",
+          profile_image:
+            "https://lh3.googleusercontent.com/a-/AOh14GhAoTHeWPDnkDv7atnHxEBdRBFn4OYq1Np_d1j4=k-s256",
+          display_name: "Gil-Dong Hong",
+          link: "https://stackoverflow.com/users/19263679/kayd-anderson",
+        },
+        is_answered: false,
+        view_count: 0,
+        answer_count: 0,
+        score: 0,
+        last_activity_date: questionId,
+        creation_date: questionId,
+        last_edit_date: questionId,
+        question_id: questionId,
+        content_license: "CC BY-SA 4.0",
+        link: `https://localhost:3000/questions/${questionId}`,
+        title,
+        body: content,
+      };
 
-    await addQuestion(newQuestion);
+      await addQuestion(newQuestion);
+    } else {
+      const newQuestion = {
+        title,
+        content,
+        memberId: 987654321,
+      };
+
+      await addQuestion(newQuestion);
+    }
+
     navigate("/questions");
   };
 
