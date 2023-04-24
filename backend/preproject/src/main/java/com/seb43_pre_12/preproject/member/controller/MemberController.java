@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 @Validated
 public class MemberController {
 
@@ -36,7 +36,7 @@ public class MemberController {
         Member member = memberService.createMember(mapper.memberPostDtoToMember(requestBody));
 
         URI uri = UriComponentsBuilder.newInstance()
-                .path("/members/" + member.getMemberId())
+                .path("/api/members/" + member.getMemberId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();

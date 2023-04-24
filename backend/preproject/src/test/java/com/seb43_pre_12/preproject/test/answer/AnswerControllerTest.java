@@ -79,7 +79,7 @@ public class AnswerControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        post("/answers")
+                        post("/api/answers")
                                 .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
                                 .contentType(MediaType.APPLICATION_JSON)  // 서버에서 처리하는 데이터 타입 설정
                                 .content(content) // controller 로 전송하는 request body 데이터.
@@ -88,7 +88,7 @@ public class AnswerControllerTest {
 
         actions
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location",is(startsWith("/answers"))))
+                .andExpect(header().string("Location",is(startsWith("/api/answers"))))
                 .andDo(document(
                                 "post-answer",
                                 preprocessRequest(prettyPrint()),
@@ -149,7 +149,7 @@ public class AnswerControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/answers/{answer-id}", 1L)
+                        patch("/api/answers/{answer-id}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(patchContent)
@@ -238,7 +238,7 @@ public class AnswerControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/answers/{answer-id}",1L)
+                        get("/api/answers/{answer-id}",1L)
                                 .accept(MediaType.APPLICATION_JSON)  // response 데이터 타입 설정
                 );
 
@@ -329,7 +329,7 @@ public class AnswerControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/answers?page={page}&size={size}", page, size)
+                get("/api/answers?page={page}&size={size}", page, size)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -372,7 +372,7 @@ public class AnswerControllerTest {
         doNothing().when(answerService).deleteAnswer(1L);
 
         ResultActions actions = mockMvc.perform(
-                delete("/answers/{answer-id}",1L)
+                delete("/api/answers/{answer-id}",1L)
                         .with(csrf())
         );
         actions.andExpect(status().isNoContent())

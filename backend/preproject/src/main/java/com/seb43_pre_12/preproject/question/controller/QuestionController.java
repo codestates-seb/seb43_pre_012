@@ -22,7 +22,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/questions")
+@RequestMapping("/api/questions")
 @Validated
 @Slf4j
 public class QuestionController {
@@ -41,7 +41,7 @@ public class QuestionController {
         Question question = questionService.createQuestion(mapper.questionPostDtoToQuestion(questionPostDto));
 
         URI uri = UriComponentsBuilder.newInstance()
-                .path("/questions/" + question.getQuestionId())
+                .path("/api/questions/" + question.getQuestionId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();

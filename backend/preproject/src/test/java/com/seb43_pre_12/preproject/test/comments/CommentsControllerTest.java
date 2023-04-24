@@ -80,14 +80,14 @@ public class CommentsControllerTest {
         given(commentsService.createComment(Mockito.any(Comments.class))).willReturn(comments);
 
         mockMvc.perform(
-                        post("/comments")
+                        post("/api/comments")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
                                 .with(csrf())
                 )
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(startsWith("/comments/"))))
+                .andExpect(header().string("Location", is(startsWith("/api/comments/"))))
                 .andDo(document(
                         "post-comment",
                         preprocessRequest(prettyPrint()),
@@ -125,7 +125,7 @@ public class CommentsControllerTest {
 
         long commentId = 1L;
         mockMvc.perform(
-                        patch("/comments/{commentId}", commentId)
+                        patch("/api/comments/{commentId}", commentId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -179,7 +179,7 @@ public class CommentsControllerTest {
 
         long commentId = 1L;
         mockMvc.perform(
-                        get("/comments/{commentId}", commentId)
+                        get("/api/comments/{commentId}", commentId)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -236,7 +236,7 @@ public class CommentsControllerTest {
         given(mapper.commentsToCommentsResponseDtos(Mockito.anyList())).willReturn(responseDtos);
 
         ResultActions actions = mockMvc.perform(
-                get("/comments")
+                get("/api/comments")
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -270,7 +270,7 @@ public class CommentsControllerTest {
         doNothing().when(commentsService).deleteComment(commentId);
 
         ResultActions actions = mockMvc.perform(
-                delete("/comments/{commentId}", commentId)
+                delete("/api/comments/{commentId}", commentId)
                         .with(csrf())
         );
 
