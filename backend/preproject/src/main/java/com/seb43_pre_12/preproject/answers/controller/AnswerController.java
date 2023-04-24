@@ -20,7 +20,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/api/answers")
 @Validated
 public class AnswerController {
     private final AnswerService answerService;
@@ -35,7 +35,7 @@ public class AnswerController {
     public ResponseEntity postAnswer(@Valid  @RequestBody AnswerPostDto postDto) {
         Answer answer = answerService.createAnswer(mapper.AnswerPostDtoToAnswer(postDto));
         URI uri = UriComponentsBuilder.newInstance()
-                .path("/answers/" + answer.getAnswerId())
+                .path("/api/answers/" + answer.getAnswerId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();

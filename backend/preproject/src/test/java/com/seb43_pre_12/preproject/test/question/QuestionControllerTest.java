@@ -77,14 +77,14 @@ public class QuestionControllerTest {
         given(questionService.createQuestion(Mockito.any(Question.class))).willReturn(question);
 
         mockMvc.perform(
-                        post("/questions")
+                        post("/api/questions")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
                                 .with(csrf())
                 )
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(startsWith("/questions"))))
+                .andExpect(header().string("Location", is(startsWith("/api/questions"))))
                 .andDo(document(
                         "post-question",
                         preprocessRequest(prettyPrint()),
@@ -126,7 +126,7 @@ public class QuestionControllerTest {
         long questionId = 1L;
         ResultActions actions =
                 mockMvc.perform(
-                        patch("/questions/{question-id}", questionId)
+                        patch("/api/questions/{question-id}", questionId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(patchContent)
@@ -190,7 +190,7 @@ public class QuestionControllerTest {
 
         ResultActions actions =
                 mockMvc.perform(
-                        get("/questions/{question-id}",1L)
+                        get("/api/questions/{question-id}",1L)
                                 .accept(MediaType.APPLICATION_JSON)
                 );
         actions
@@ -241,7 +241,7 @@ public class QuestionControllerTest {
 
         //when
         ResultActions actions = mockMvc.perform(
-                get("/questions?page={page}&size={size}", page, size)
+                get("/api/questions?page={page}&size={size}", page, size)
                         .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -281,7 +281,7 @@ public class QuestionControllerTest {
         doNothing().when(questionService).deleteQuestion(1L);
 
         ResultActions actions = mockMvc.perform(
-                delete("/questions/{question-id}", 1L)
+                delete("/api/questions/{question-id}", 1L)
                         .with(csrf())
         );
         actions.andExpect(status().isNoContent())

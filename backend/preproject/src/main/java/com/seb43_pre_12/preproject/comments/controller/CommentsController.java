@@ -20,7 +20,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 @Validated
 public class CommentsController {
 
@@ -37,7 +37,7 @@ public class CommentsController {
         Comments comment = commentsService.createComment(mapper.commentsPostDtoToComments(requestBody));
         
         URI uri = UriComponentsBuilder.newInstance()
-                .path("/comments/" + comment.getCommentId())
+                .path("/api/comments/" + comment.getCommentId())
                 .build().toUri();
 
         return ResponseEntity.created(uri).build();

@@ -73,14 +73,14 @@ public class MemberControllerTest {
         given(memberService.createMember(Mockito.any(Member.class))).willReturn(member);
 
         mockMvc.perform(
-                        post("/members")
+                        post("/api/members")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .content(content)
                                 .with(csrf()) // 파라미터로 csrf 값을 같이 보내준다
                 )
                 .andExpect(status().isCreated())
-                .andExpect(header().string("Location", is(startsWith("/members/"))))
+                .andExpect(header().string("Location", is(startsWith("/api/members/"))))
                 .andDo(document(
                         "post-member",
                         preprocessRequest(prettyPrint()),
@@ -121,7 +121,7 @@ public class MemberControllerTest {
 
         long memberId = 1L;
         mockMvc.perform(
-                        patch("/members/{memberId}", memberId)
+                        patch("/api/members/{memberId}", memberId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(content)
@@ -180,7 +180,7 @@ public class MemberControllerTest {
 
         long memberId = 1L;
         mockMvc.perform(
-                        get("/members/{memberId}", memberId)
+                        get("/api/members/{memberId}", memberId)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
@@ -231,7 +231,7 @@ public class MemberControllerTest {
         given(mapper.memberToMemberResponseDtos(Mockito.anyList())).willReturn(responseDtos);
 
         ResultActions actions = mockMvc.perform(
-                        get("/members")
+                        get("/api/members")
                                 .accept(MediaType.APPLICATION_JSON)
                 );
 
@@ -265,7 +265,7 @@ public class MemberControllerTest {
         doNothing().when(memberService).deleteMember(memberId);
 
         ResultActions actions = mockMvc.perform(
-                delete("/members/{memberId}", memberId)
+                delete("/api/members/{memberId}", memberId)
                         .with(csrf())
         );
 

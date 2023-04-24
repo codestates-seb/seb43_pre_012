@@ -51,6 +51,7 @@ public class Member {
     private List<Question> questions = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)  // SpringSecurity 권한 컬럼 생성용
+    @CollectionTable(joinColumns = @JoinColumn(name = "MEMBER_ID"))
     private List<String> roles = new ArrayList<>();
 
     public void setComments(Comments comment) {
