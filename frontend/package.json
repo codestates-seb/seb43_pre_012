@@ -10,7 +10,6 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@stackoverflow/stacks-icons": "^5.3.1",
-    "@tanstack/react-query": "^4.29.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -54,5 +53,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080/" 
+  "proxy": "http://localhost:8080/"
 }
