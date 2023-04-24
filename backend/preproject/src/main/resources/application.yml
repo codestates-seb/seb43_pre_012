@@ -9,6 +9,7 @@ spring:
     use-legacy-processing: true
 
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: create
     show-sql: false
