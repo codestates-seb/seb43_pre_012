@@ -159,7 +159,7 @@ export default function AllQuestions({ title, showContent }) {
               .slice((page - 1) * OFFSET, page * OFFSET)
               .map((data) => (
                 <Question
-                  key={data.question_id + ""}
+                  key={data.questionId || data.question_id}
                   question={data}
                   showContent={showContent}
                 />
