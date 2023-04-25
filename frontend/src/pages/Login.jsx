@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { AiFillGithub } from 'react-icons/ai';
+import axios from "axios";
+import jwt_decode from 'jwt-decode';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 
@@ -26,7 +28,7 @@ const GithubLogin = styled.button`
     color : white;
     border-radius : 3px;
 `
-const EmailLogin = styled.div`
+const EmailLogin = styled.form`
     display: flex;
     width : 290px;
     height : 235px;
@@ -88,21 +90,37 @@ const LoginButton = styled.button`
 `
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/login', {
+                email,
+                password,
+            });
+            localStorage.setItem('token', response.data.token);
+            const decoded = jwt_decode(response.data.token);
+            console.log(decoded);
+            } catch (error) {
+            console.error(error);
+            }
+        };
 	return (
         <LoginWrapper>
             <Logo src={smallLogo} />
             <GithubLogin><AiFillGithub size={22}/> Log in with Github</GithubLogin>
-            <EmailLogin>
+            <EmailLogin onSubmit={handleSubmit}>
                 <EmailWrapper>
                     <EmailLabel>Email</EmailLabel>
                 </EmailWrapper>
-                <EmailInput type="email" />
+                <EmailInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 <PasswordWrapper>
                     <PasswordLabel>Password</PasswordLabel>
                     <ForgotPassword>Forgot password?</ForgotPassword>
                 </PasswordWrapper>
-                <PasswordInput type="password" />
-                <LoginButton>Log in</LoginButton>
+                <PasswordInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <LoginButton type="submit">Log in</LoginButton>
             </EmailLogin>
         </LoginWrapper>
 	);
