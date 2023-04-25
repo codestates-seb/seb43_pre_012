@@ -2,12 +2,14 @@ import styled from "styled-components";
 import Footer from "./components/Footer";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
+import HamModal from "./components/HamModal";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
+import { useState } from "react";
 
 const Body = styled.div`
 	display: flex;
+	min-width: 450px;
 	flex-direction: column;
 	align-items: center;
 `;
@@ -29,9 +31,12 @@ const pagesWithoutNav = ["ask", "login", "signup"];
 function App() {
 	const location = useLocation().pathname.split("/").pop();
 	const isNav = pagesWithoutNav.includes(location) ? true : false;
+	const [modalOpen, setModalOpen] = useState(false);
+
 	return (
 		<>
-			<Header />
+			<Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
+			{modalOpen && <HamModal />}
 			<Body>
 				<Page>
 					<QueryClientProvider client={queryClient}>
