@@ -1,7 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { AiFillGithub } from "react-icons/ai";
-import smallLogo from "../static/small-logo.png";
+import { AiFillGithub } from 'react-icons/ai';
+import axios from "axios";
+import jwt_decode from 'jwt-decode';
+import largeLogo from "../static/large-logo.png"
+import smallLogo from "../static/small-logo.png"
+
+
 
 const LoginWrapper = styled.div`
 	display: flex;
@@ -17,22 +22,23 @@ const Logo = styled.img`
 	margin-bottom: 20px;
 `;
 const GithubLogin = styled.button`
-	width: 290px;
-	height: 37px;
-	margin-bottom: 10px;
-	background-color: #23262a;
-	color: white;
-	border-radius: 3px;
-`;
-const EmailLogin = styled.div`
-	display: flex;
-	width: 290px;
-	height: 235px;
-	flex-direction: column;
-	align-items: center;
-	border: 1px solid #23262a;
-	border-radius: 3px;
-`;
+    width : 290px;
+    height : 37px;
+    margin-bottom : 10px;
+    background-color : #23262A;
+    color : white;
+    border-radius : 3px;
+`
+const EmailLogin = styled.form`
+    display: flex;
+    width : 290px;
+    height : 235px;
+    flex-direction: column;
+    align-items: center;
+    border : 1px solid #23262A;
+    border-radius : 3px;
+`
+
 
 const EmailWrapper = styled.div`
 	display: flex;
@@ -85,24 +91,38 @@ const LoginButton = styled.button`
 `;
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/login', {
+                email,
+                password,
+            });
+            localStorage.setItem('token', response.data.token);
+            const decoded = jwt_decode(response.data.token);
+            console.log(decoded);
+            } catch (error) {
+            console.error(error);
+            }
+        };
 	return (
-		<LoginWrapper>
-			<Logo src={smallLogo} />
-			<GithubLogin>
-				<AiFillGithub size={22} /> Log in with Github
-			</GithubLogin>
-			<EmailLogin>
-				<EmailWrapper>
-					<EmailLabel>Email</EmailLabel>
-				</EmailWrapper>
-				<EmailInput type="email" />
-				<PasswordWrapper>
-					<PasswordLabel>Password</PasswordLabel>
-					<ForgotPassword>Forgot password?</ForgotPassword>
-				</PasswordWrapper>
-				<PasswordInput type="password" />
-				<LoginButton>Log in</LoginButton>
-			</EmailLogin>
-		</LoginWrapper>
+        <LoginWrapper>
+            <Logo src={smallLogo} />
+            <GithubLogin><AiFillGithub size={22}/> Log in with Github</GithubLogin>
+            <EmailLogin onSubmit={handleSubmit}>
+                <EmailWrapper>
+                    <EmailLabel>Email</EmailLabel>
+                </EmailWrapper>
+                <EmailInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <PasswordWrapper>
+                    <PasswordLabel>Password</PasswordLabel>
+                    <ForgotPassword>Forgot password?</ForgotPassword>
+                </PasswordWrapper>
+                <PasswordInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <LoginButton type="submit">Log in</LoginButton>
+            </EmailLogin>
+        </LoginWrapper>
 	);
 }
