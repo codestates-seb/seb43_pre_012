@@ -82,27 +82,16 @@ export default function EditQuestion({ question }) {
   const detailRef = useRef();
 
   const handleEdit = async (data) => {
-    const { questionStatus } = question;
+    const { questionStatus, questionId } = question;
     const { title } = data;
     const tags = data.tags.split(",");
     const content = detailRef.current.getInstance().getHTML();
     if (content === "") return;
 
-    if (isLocal) {
-      const editedQuestion = {
-        ...question,
-        title,
-        body: content,
-        questionStatus,
-      };
+    const editedQuestion = { questionId, title, content, questionStatus };
+    await updateQuestion(editedQuestion);
 
-      await updateQuestion(editedQuestion);
-    } else {
-      const editedQuestion = { ...question, title, content, questionStatus };
-      await updateQuestion(editedQuestion);
-    }
-
-    navigate(`/questions/${question.id}`);
+    navigate(`/questions/${question.questionId}`);
   };
 
   return (

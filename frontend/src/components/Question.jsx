@@ -98,39 +98,34 @@ const cleanContent = (body) => {
 export default function Question({ question, showContent }) {
 	const tempTags = ["JavaScript", "Java"];
 
-	return (
-		<Container>
-			<Figures>
-				<Figure>{`${question.score || 0} votes`}</Figure>
-				<Figure>{`${
-					question.answerCount || question.answer_count
-				} answers`}</Figure>
-				<Figure>{`${question.viewCount || question.view_count} views`}</Figure>
-			</Figures>
-			<Infos>
-				<Link to={`/questions/${question.questionId || question.question_id}`}>
-					<Title>{question.title}</Title>
-				</Link>
-				<Content>
-					{showContent && (
-						<>{cleanContent(question.content || question.body)}</>
-					)}
-				</Content>
-				<Tags>
-					{question.tags
-						? question.tags.map((tag) => <Tag key={tag}>{tag}</Tag>)
-						: tempTags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
-				</Tags>
-				<Questioner>
-					<Icon
-						bgImage={
-							"https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg" ||
-							question.owner.profile_image
-						}
-					/>
-					{question.username || question.owner.display_name}
-				</Questioner>
-			</Infos>
-		</Container>
-	);
+  return (
+    <Container>
+      <Figures>
+        <Figure>{`${question.score || 0} votes`}</Figure>
+        <Figure>{`${question.answerCount} answers`}</Figure>
+        <Figure>{`1 views`}</Figure>
+      </Figures>
+      <Infos>
+        <Link to={`/questions/${question.questionId}`}>
+          <Title>{question.title}</Title>
+        </Link>
+        <Content>
+          {showContent && <>{cleanContent(question.content)}</>}
+        </Content>
+        <Tags>
+          {question.tags
+            ? question.tags.map((tag) => <Tag key={tag}>{tag}</Tag>)
+            : tempTags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
+        </Tags>
+        <Questioner>
+          <Icon
+            bgImage={
+              "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
+            }
+          />
+          {question.username}
+        </Questioner>
+      </Infos>
+    </Container>
+  );
 }

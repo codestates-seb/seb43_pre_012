@@ -21,18 +21,12 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import EditQuestion from "./EditQuestion";
 import { useQuery } from "react-query";
 import {
-	addAnswer,
-	getAnswerByQuestionId,
-	getCommentsByQuestionId,
-	getDateNumber,
-	getQuestionById,
-	isLocal,
-	removeComment,
-	removeQuestion,
-	updateComment,
+  addAnswer,
+  getAnswersByQuestionId,
+  getQuestionById,
+  removeQuestion,
 } from "../hooks/tempUseQuestion";
-import EditAnswer from "./EditAnswer";
-import MakeComment from "./MakeComment";
+import { useEffect } from "react";
 
 const Wrapper = styled.section`
 	width: 100%;
@@ -119,41 +113,6 @@ const ContextsWrapper = styled.div``; //jh
 const Contents = styled.section`
 	display: flex;
 	flex-direction: column;
-`;
-
-const Content = styled.div`
-	margin-top: 10px;
-	margin-bottom: 25px;
-	max-width: 660px;
-	width: 100%;
-
-	& * {
-		margin-bottom: 10px;
-	}
-
-	& p {
-		font-size: ${(props) => props.theme.fontSizes.lg};
-	}
-
-	& pre {
-		padding: 20px;
-		width: 100%;
-		max-height: 600px;
-		overflow: auto;
-
-		background-color: #f6f7f6;
-	}
-
-	& code {
-		padding: 2px 4px;
-		border-radius: 4px;
-		font-family: "Courier New", Courier, monospace;
-		font-size: ${(props) => props.theme.fontSizes.sm};
-	}
-
-	& img {
-		width: 100%;
-	}
 `;
 
 const Tags = styled.section`
@@ -318,55 +277,6 @@ const CRUDBtn = styled.h6`
 	}
 `;
 
-// Comments
-const Comments = styled.div`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
-
-const CommentLine = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 80%;
-	height: 35px;
-	border-top: 1px solid gray;
-	border-bottom: 1px solid gray;
-	margin-bottom: 2px;
-	padding-left: 10px;
-`;
-
-const CommentInfos = styled.div`
-	display: flex;
-	align-items: center;
-`;
-
-const CommentInfo = styled.h5`
-	font-size: ${(props) => props.theme.fontSizes.lg};
-	margin-right: 10px;
-`;
-
-const CommentBtn = styled.span`
-	margin: 20px;
-	font-size: ${(props) => props.theme.fontSizes.lg};
-	color: gray;
-
-	&:hover {
-		color: #0c0d0e;
-		cursor: pointer;
-	}
-`;
-
-const EditCommentInput = styled.input`
-	width: 60%;
-	height: 80%;
-	padding-left: 10px;
-`;
-
-// ===
-
 const Loader = styled.h1`
 	font-size: ${(props) => props.theme.fontSizes.lg};
 	font-weight: bold;
@@ -388,356 +298,237 @@ const StyledEditor = styled(Editor)`
 	width: 100% !important;
 `;
 
-const getDate = (date) => {
-	const dateInfo = Date(1681826527).split(" ");
-
-	return `${dateInfo[3]}.${dateInfo[1]}.${dateInfo[2]}`;
-};
+const tempMemberId = 28;
 
 export default function QnDetail() {
-	const tempTags = ["JavaScript", "Java"];
+  const tempTags = ["JavaScript", "Java"];
 
-	const navigate = useNavigate();
-	const [isLogin, setIsLogin] = useState(true);
-	const [editQuestion, setEditQuestion] = useState(false);
-	const [makeComment, setMakeComment] = useState(false);
-	const [editCommentId, setEditCommentId] = useState(-1);
-	const [editedComment, setEditedComment] = useState("");
-	const [editAnswer, setEditAnswer] = useState(null);
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
+  const [editQuestion, setEditQuestion] = useState(false);
+  const [isAnswersLoading, setIsAnswersLoading] = useState(false);
+  const [answers, setAnswers] = useState([]);
 
-	const { id } = useParams();
-	const editorRef = useRef();
+  const { id } = useParams();
+  const editorRef = useRef();
 
-	const { data: question, isLoading: isQuestionLoading } = useQuery(
-		"question",
-		() => getQuestionById(id)
-	);
-	const { data: answers, isLoading: isAnswersLoading } = useQuery(
-		"answers",
-		() => getAnswerByQuestionId(id)
-	);
+  const { data: question, isLoading: isQuestionLoading } = useQuery(
+    "question",
+    () => getQuestionById(id)
+  );
 
-	const { data: comments, isLoading: isCommentsLoading } = useQuery(
-		"comments",
-		() => getCommentsByQuestionId(id)
-	);
+  const handlePostAnswer = async () => {
+    // html형식으로 텍스트를 가져오려면, getHTML()
+    // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
+    const content = editorRef.current.getInstance().getHTML();
 
-	const handlePostAnswer = async () => {
-		// html형식으로 텍스트를 가져오려면, getHTML()
-		// 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
-		const answer = editorRef.current.getInstance().getHTML();
-		const answerId = getDateNumber();
+    const newAnswer = {
+      content,
+      questionId: id,
+      memberId: tempMemberId,
+    };
 
-		if (isLocal) {
-			const newAnswer = {
-				id: answerId,
-				owner: {
-					account_id: 987654321,
-					reputation: 0,
-					user_id: 987654321,
-					user_type: "registered",
-					profile_image:
-						"https://lh6.googleusercontent.com/-bYTk_HLqKhw/AAAAAAAAAAI/AAAAAAAAFUc/ocKZW4UvKcc/photo.jpg?sz=256",
-					display_name: "DaeBak",
-					link: "https://naver.com",
-				},
-				is_acceopted: false,
-				score: 3,
-				last_activity_date: answerId,
-				creation_date: answerId,
-				answer_id: answerId,
-				question_id: id,
-				content_license: "CC BY-SA 4.0",
-				title: `answer ${id}`,
-				body: answer,
-			};
+    await addAnswer(newAnswer);
+  };
 
-			await addAnswer(newAnswer);
-		} else {
-			const newAnswer = {
-				content: answer,
-				questionId: id,
-				memberId: 987654321,
-			};
+  const handleDeleteQuestion = async () => {
+    await removeQuestion(id);
 
-			await addAnswer(newAnswer);
-		}
-	};
+    // removeQuestion(id);
+    navigate("/questions");
+  };
 
-	const handleDeleteQuestion = async () => {
-		await removeQuestion(id);
+  useEffect(() => {
+    (async () => {
+      setIsAnswersLoading((prev) => true);
 
-		// removeQuestion(id);
-		navigate("/questions");
-	};
+      const data = await getAnswersByQuestionId(id);
+      setAnswers((prev) => data);
 
-	const handleDeleteComment = async (commentId) => {
-		await removeComment(commentId);
-	};
+      setIsAnswersLoading((prev) => false);
+    })();
+  }, []);
 
-	const handleEditCommentValue = (e) => {
-		setEditedComment((prev) => e.target.value);
-	};
-
-	const handleEditComment = async (comment) => {
-		if (isLocal) {
-			const edited = { ...comment, body: editedComment };
-			await updateComment(edited);
-
-			setEditCommentId((prev) => -1);
-		}
-	};
-
-	return (
-		<>
-			{isQuestionLoading ? (
-				<Loader>Loading...</Loader>
-			) : (
-				<>
-					<Wrapper>
-						<Container>
-							<Header>
-								<TopHeader>
-									<Title>{question.title}</Title>
-									<Link to="/questions/ask">
-										<AskBtn>Ask Question</AskBtn>
-									</Link>
-								</TopHeader>
-								<BottomHeader>
-									<HeaderInfo>{`Asked ${getDate(
-										question.createdAt || question.creation_date
-									)}`}</HeaderInfo>
-									<HeaderInfo>{`Modified At ${
-										question.modifiedAt | question.last_edit_date
-									}`}</HeaderInfo>
-									<HeaderInfo>{`Viewd ${
-										question.viewCount || 1
-									} times`}</HeaderInfo>
-								</BottomHeader>
-							</Header>
-							<MainContents>
-								<Question>
-									<UpDownBtns>
-										<FontAwesomeIcon
-											icon={faCaretUp}
-											style={{ fontSize: "50px" }}
-										/>
-										<UsefulCount>{question.score || 5}</UsefulCount>
-										<FontAwesomeIcon
-											icon={faCaretDown}
-											style={{ fontSize: "50px" }}
-										/>
-										<FontAwesomeIcon
-											icon={faBookmark}
-											style={{ fontSize: "25px", marginBottom: "10px" }}
-										/>
-										<FontAwesomeIcon
-											icon={faClockRotateLeft}
-											style={{ fontSize: "25px" }}
-										/>
-									</UpDownBtns>
-									<Contents>
-										<Viewer initialValue={question.content || question.body} />
-										<Tags>
-											{question.tags
-												? question.tags.map((tag) => (
-														<Tag key={tag} tag={tag} />
-												  ))
-												: tempTags.map((tag) => <Tag key={tag} tag={tag} />)}
-										</Tags>
-										<QuestionerLine>
-											<CRUDBtns>
-												<CRUDBtn
-													onClick={() => setEditQuestion((prev) => true)}
-												>
-													Edit
-												</CRUDBtn>
-												<CRUDBtn onClick={handleDeleteQuestion}>Delete</CRUDBtn>
-											</CRUDBtns>
-											<Questioner>
-												<QuestionerIcon
-													bgImage={
-														"https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg" ||
-														question.owner.profile_image
-													}
-												/>
-												{question.username || question.owner.display_name}
-											</Questioner>
-										</QuestionerLine>
-										<Comments>
-											{isCommentsLoading === false &&
-												comments.map((comment, index) => (
-													<CommentLine key={comment.comment_id + ""}>
-														{editCommentId === comment.id ? (
-															<>
-																<EditCommentInput
-																	placeholder="Edit comment"
-																	onChange={handleEditCommentValue}
-																/>
-																<CommentBtn
-																	onClick={() => handleEditComment(comment)}
-																>
-																	Edit
-																</CommentBtn>
-															</>
-														) : (
-															<>
-																<CommentInfos>
-																	<CommentInfo>{index + 1}</CommentInfo>
-																	<CommentInfo>
-																		{comment.comment || comment.body}
-																	</CommentInfo>
-																	<CommentInfo>홍길동</CommentInfo>
-																</CommentInfos>
-																<CommentInfos>
-																	<CommentBtn
-																		onClick={() =>
-																			handleDeleteComment(comment.id)
-																		}
-																	>
-																		Delete
-																	</CommentBtn>
-																	<CommentBtn
-																		onClick={() =>
-																			setEditCommentId((prev) => comment.id)
-																		}
-																	>
-																		Edit
-																	</CommentBtn>
-																</CommentInfos>
-															</>
-														)}
-													</CommentLine>
-												))}
-											<CommentBtn
-												onClick={() => setMakeComment((prev) => true)}
-											>
-												Add a comment
-											</CommentBtn>
-										</Comments>
-										<RelatedQuestions />
-										{isAnswersLoading ? (
-											<Loader>Loading...</Loader>
-										) : (
-											answers.map((answer) => (
-												<Answer
-													answer={answer}
-													key={answer.answer_id || answer.answerId}
-													setEditAnswer={setEditAnswer}
-												/>
-											))
-										)}
-										<div>
-											<AnswerTitle>
-												Know someone who can answer? Share a link to this
-												question via email, Twitter, or Facebook.
-											</AnswerTitle>
-											<AnswerTitle>Your Answer</AnswerTitle>
-											<AnswerInput>
-												<EditContainer>
-													{/* <StyledEditor
-														previewStyle="vertical"
-														height="100%"
-														initialEditType="wysiwyg"
-														useCommandShortcut={false}
-														language="ko-KR"
-														ref={editorRef}
-													/> */}
-												</EditContainer>
-											</AnswerInput>
-											{isLogin ? null : (
-												<AccountChoices>
-													<AccountChoice>
-														<AccountChoiceTitle>
-															Sign up or log in
-														</AccountChoiceTitle>
-														<AccountType>
-															<FontAwesomeIcon
-																icon={faG}
-																style={{ marginRight: "5px" }}
-															/>
-															Sign up using Google
-														</AccountType>
-														<AccountType
-															style={{
-																backgroundColor: "#3b5998",
-																color: "white",
-															}}
-														>
-															<FontAwesomeIcon
-																icon={faF}
-																style={{
-																	backgroundColor: "white",
-																	color: "#3b5998",
-																	marginRight: "5px",
-																	padding: "5px",
-																}}
-															/>
-															Sign up using Facebook
-														</AccountType>
-														<AccountType>
-															Sign up using Email and Password
-														</AccountType>
-													</AccountChoice>
-													<AccountChoice>
-														<AccountChoiceTitle>
-															Post as a guest
-														</AccountChoiceTitle>
-														<div
-															style={{
-																display: "flex",
-																flexDirection: "column",
-																width: "100%",
-															}}
-														>
-															<GuestLabel>Name</GuestLabel>
-															<GuestInput />
-														</div>
-														<div
-															style={{
-																display: "flex",
-																flexDirection: "column",
-																width: "100%",
-															}}
-														>
-															<GuestLabel>Email</GuestLabel>
-															<GuestInput />
-														</div>
-													</AccountChoice>
-												</AccountChoices>
-											)}
-											<PostLine>
-												<PostBtn onClick={() => handlePostAnswer()}>
-													Post Your Answer
-												</PostBtn>
-											</PostLine>
-										</div>
-									</Contents>
-								</Question>
-							</MainContents>
-						</Container>
-						<Aside />
-					</Wrapper>
-					{editQuestion && (
-						<>
-							<Overlay onClick={() => setEditQuestion((prev) => false)} />
-							<EditQuestion question={question} />
-						</>
-					)}
-					{editAnswer && (
-						<>
-							<Overlay onClick={() => setEditAnswer((prev) => false)} />
-							<EditAnswer answer={editAnswer} />
-						</>
-					)}
-					{makeComment && (
-						<>
-							<Overlay onClick={() => setMakeComment((prev) => null)} />
-							<MakeComment questionId={id} />
-						</>
-					)}
-				</>
-			)}
-		</>
-	);
+  return (
+    <>
+      {isQuestionLoading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Wrapper>
+            <Container>
+              <Header>
+                <TopHeader>
+                  <Title>{question.title}</Title>
+                  <Link to="/questions/ask">
+                    <AskBtn>Ask Question</AskBtn>
+                  </Link>
+                </TopHeader>
+                <BottomHeader>
+                  <HeaderInfo>{`Asked ${question.createdAt}`}</HeaderInfo>
+                  <HeaderInfo>{`Modified At ${question.modifiedAt}`}</HeaderInfo>
+                  <HeaderInfo>{`Viewd ${
+                    question.viewCount || 1
+                  } times`}</HeaderInfo>
+                </BottomHeader>
+              </Header>
+              <MainContents>
+                <Question>
+                  <UpDownBtns>
+                    <FontAwesomeIcon
+                      icon={faCaretUp}
+                      style={{ fontSize: "50px" }}
+                    />
+                    <UsefulCount>{question.score || 5}</UsefulCount>
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      style={{ fontSize: "50px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faBookmark}
+                      style={{ fontSize: "25px", marginBottom: "10px" }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faClockRotateLeft}
+                      style={{ fontSize: "25px" }}
+                    />
+                  </UpDownBtns>
+                  <Contents>
+                    <Viewer initialValue={question.content} />
+                    <Tags>
+                      {question.tags
+                        ? question.tags.map((tag) => (
+                            <Tag key={tag} tag={tag} />
+                          ))
+                        : tempTags.map((tag) => <Tag key={tag} tag={tag} />)}
+                    </Tags>
+                    <QuestionerLine>
+                      <CRUDBtns>
+                        <CRUDBtn
+                          onClick={() => setEditQuestion((prev) => true)}
+                        >
+                          Edit
+                        </CRUDBtn>
+                        <CRUDBtn onClick={handleDeleteQuestion}>Delete</CRUDBtn>
+                      </CRUDBtns>
+                      <Questioner>
+                        <QuestionerIcon
+                          bgImage={
+                            "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
+                          }
+                        />
+                        {question.username}
+                      </Questioner>
+                    </QuestionerLine>
+                    <RelatedQuestions />
+                    {isAnswersLoading ? (
+                      <Loader>Loading...</Loader>
+                    ) : (
+                      answers.map((answer) => (
+                        <Answer
+                          answer={answer}
+                          key={answer.answerId}
+                          setAnswers={setAnswers}
+                        />
+                      ))
+                    )}
+                    <div>
+                      <AnswerTitle>
+                        Know someone who can answer? Share a link to this
+                        question via email, Twitter, or Facebook.
+                      </AnswerTitle>
+                      <AnswerTitle>Your Answer</AnswerTitle>
+                      <AnswerInput>
+                        <Editor
+                          previewStyle="vertical"
+                          height="100%"
+                          initialEditType="wysiwyg"
+                          useCommandShortcut={false}
+                          language="ko-KR"
+                          ref={editorRef}
+                        />
+                      </AnswerInput>
+                      {isLogin ? null : (
+                        <AccountChoices>
+                          <AccountChoice>
+                            <AccountChoiceTitle>
+                              Sign up or log in
+                            </AccountChoiceTitle>
+                            <AccountType>
+                              <FontAwesomeIcon
+                                icon={faG}
+                                style={{ marginRight: "5px" }}
+                              />
+                              Sign up using Google
+                            </AccountType>
+                            <AccountType
+                              style={{
+                                backgroundColor: "#3b5998",
+                                color: "white",
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                icon={faF}
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "#3b5998",
+                                  marginRight: "5px",
+                                  padding: "5px",
+                                }}
+                              />
+                              Sign up using Facebook
+                            </AccountType>
+                            <AccountType>
+                              Sign up using Email and Password
+                            </AccountType>
+                          </AccountChoice>
+                          <AccountChoice>
+                            <AccountChoiceTitle>
+                              Post as a guest
+                            </AccountChoiceTitle>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                              }}
+                            >
+                              <GuestLabel>Name</GuestLabel>
+                              <GuestInput />
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                              }}
+                            >
+                              <GuestLabel>Email</GuestLabel>
+                              <GuestInput />
+                            </div>
+                          </AccountChoice>
+                        </AccountChoices>
+                      )}
+                      <PostLine>
+                        <PostBtn onClick={() => handlePostAnswer()}>
+                          Post Your Answer
+                        </PostBtn>
+                      </PostLine>
+                    </div>
+                  </Contents>
+                </Question>
+              </MainContents>
+            </Container>
+            <Aside />
+          </Wrapper>
+          {editQuestion && (
+            <>
+              <Overlay onClick={() => setEditQuestion((prev) => false)} />
+              <EditQuestion question={question} />
+            </>
+          )}
+        </>
+      )}
+    </>
+  );
 }

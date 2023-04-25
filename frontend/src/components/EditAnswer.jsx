@@ -5,31 +5,27 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import {
-	isLocal,
-	updateAnswer,
-	updateQuestion,
-} from "../hooks/tempUseQuestion";
+import { updateAnswer } from "../hooks/tempUseQuestion";
 
-const Container = styled.form`
-	max-width: 800px;
-	/* width: 60vw; */
-	min-height: 600px;
-	height: 70vh;
-	background-color: white;
-	position: fixed;
-	top: 100px;
-	margin: 0 auto;
-	left: 0;
-	right: 0;
-	z-index: 20;
-	border-radius: 20px;
-	box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-		rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+const Container = styled.div`
+  max-width: 800px;
+  width: 60vw;
+  min-height: 600px;
+  height: 70vh;
+  background-color: white;
+  position: fixed;
+  top: 100px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  border-radius: 20px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.h3`
@@ -57,16 +53,16 @@ const Input = styled.input`
 	padding-left: 10px;
 `;
 
-const Btn = styled.button`
-	width: 100px;
-	height: 50px;
-	background-color: ${(props) => props.theme.colors.skyblue};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: white;
-	border-radius: 5px;
-	font-size: 20px;
+const Btn = styled.div`
+  width: 100px;
+  height: 50px;
+  background-color: ${(props) => props.theme.colors.skyblue};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  font-size: 20px;
 
 	&:hover {
 		cursor: pointer;
@@ -78,51 +74,44 @@ const Btn = styled.button`
 	}
 `;
 
-export default function EditAnswer({ answer }) {
-	const navigate = useNavigate();
-	const { register, handleSubmit } = useForm();
-	const detailRef = useRef();
+export default function EditAnswer({ answer, setAnswers }) {
+  const navigate = useNavigate();
+  const detailRef = useRef();
 
-	const handleEdit = async (data) => {
-		const { title } = data;
-		const content = detailRef.current.getInstance().getHTML();
-		if (content === "") return;
+  const handleEdit = async () => {
+    console.log("Edit!!!");
+    const { answerId, selected } = answer;
+    const content = detailRef.current.getInstance().getHTML();
+    if (content === "") return;
 
-		if (isLocal) {
-			const editedQuestion = { ...answer, title, body: content };
-			await updateAnswer(editedQuestion);
-		} else {
-			const editedQuestion = { ...answer, title, content };
-			await updateAnswer(editedQuestion);
-		}
+    let editedAnswer = { answerId, content, selected };
+    await updateAnswer(editedAnswer);
 
-		navigate(`/questions/${answer.question_id || answer.questionId}`);
-	};
+    navigate(`/questions/${answer.questionId}`);
+  };
 
-	return (
-		<Container onSubmit={handleSubmit(handleEdit)}>
-			<Title>Edit answer</Title>
-			<Line>
-				<LineTitle>Title</LineTitle>
-				<Input
-					defaultValue={answer.title}
-					placeholder="Input Title"
-					{...register("title", { required: true })}
-				/>
-			</Line>
-			<Line>
-				<LineTitle>Detail</LineTitle>
-				<Editor
-					initialValue={answer.content || answer.body}
-					previewStyle="vertical"
-					height="200px"
-					initialEditType="wysiwyg"
-					useCommandShortcut={false}
-					language="ko-KR"
-					ref={detailRef}
-				/>
-			</Line>
-			<Btn>Edit</Btn>
-		</Container>
-	);
+  return (
+    <Container>
+      <Title>Edit answer</Title>
+      <Line>
+        <LineTitle>Detail</LineTitle>
+        <Editor
+          initialValue={answer.content}
+          previewStyle="vertical"
+          height="200px"
+          // initialEditType="wysiwyg"
+          useCommandShortcut={false}
+          language="ko-KR"
+          ref={detailRef}
+        />
+      </Line>
+      <Btn
+        onClick={() => {
+          handleEdit();
+        }}
+      >
+        Edit
+      </Btn>
+    </Container>
+  );
 }

@@ -3,7 +3,8 @@ import Question from "./Question";
 import Aside from "./Aside";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { getQuestionsByPage } from "../hooks/tempUseQuestion";
+
 
 const Wrapper = styled.section`
 	height: auto;
@@ -127,96 +128,89 @@ const options = {
 	threshold: 1.0,
 };
 
-export default function HomeQuestions({ showContent }) {
-	const [questions, setQuestions] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [questionNum, setQuestionNum] = useState(0);
+export default function HomeQuestions() {
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
-	const getQuestions = async () => {
-		const response = await axios.get(
-			"http://localhost:3001/questions?_sort=creation_date&_order=DESC"
-		);
-		const { data } = response;
+  // 타겟 요소 지정
+  let containerRef = useRef(null);
 
-		setQuestions((prev) => data.slice(0, questionNum));
-	};
+  useEffect(() => {
+    (async () => {
+      console.log(`page = ${page}`);
+      setIsLoading((prev) => true);
 
-	// 타겟 요소 지정
-	let containerRef = useRef(null);
+      const data = await getQuestionsByPage(page);
+      setQuestions((prev) => [...prev, ...data]);
 
-	useEffect(() => {
-		(async () => {
-			setIsLoading((prev) => true);
+      setIsLoading((prev) => false);
+    })();
+  }, [page]);
 
-			await getQuestions();
+  useEffect(() => {
+    (async () => {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setPage((prev) => prev + 1);
+        }
+      }, options);
 
-			setIsLoading((prev) => false);
-		})();
-	}, [questionNum]);
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
 
-	useEffect(() => {
-		(async () => {
-			const observer = new IntersectionObserver(([entry]) => {
-				if (entry.isIntersecting) {
-					setQuestionNum((prev) => prev + OFFSET);
-				}
-			}, options);
+      return () => {
+        observer.disconnect();
+      };
+    })();
+  }, [containerRef]);
 
-			if (containerRef.current) {
-				observer.observe(containerRef.current);
-			}
-
-			return () => {
-				observer.disconnect();
-			};
-		})();
-	}, [containerRef]);
-
-	return (
-		<Wrapper>
-			<Container>
-				<Header>
-					<TopHeader>
-						<Title>Home</Title>
-						<Link to="/questions/ask">
-							<AskBtn>Ask Question</AskBtn>
-						</Link>
-					</TopHeader>
-					<BottomHeader>
-						<QuestionNum>
-							{isLoading && "Loading..."}
-							{questions && `${questions.length} questions`}
-						</QuestionNum>
-						<Btns>
-							<Btn>Newest</Btn>
-							<Btn>Active</Btn>
-							<Btn>Bountied</Btn>
-							<Btn>Unanswered</Btn>
-							<Btn>More</Btn>
-							<Btn
-								bgColor={"#E0EDF4"}
-								fntColor={"#5786AB"}
-								style={{ marginLeft: "15px" }}
-							>
-								Filter
-							</Btn>
-						</Btns>
-					</BottomHeader>
-				</Header>
-				{isLoading && <Loader>Loading...</Loader>}
-				{questions &&
-					questions.map((question) => (
-						<Question
-							key={question.question_id + ""}
-							question={question}
-							showContent={showContent}
-						/>
-					))}
-				<ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
-					가장 위로
-				</ScrollBtn>
-			</Container>
-			<Aside />
-		</Wrapper>
-	);
+  return (
+    <Wrapper>
+      <Container>
+        <Header>
+          <TopHeader>
+            <Title>Home</Title>
+            <Link to="/questions/ask">
+              <AskBtn>Ask Question</AskBtn>
+            </Link>
+          </TopHeader>
+          <BottomHeader>
+            <QuestionNum>
+              {isLoading && "Loading..."}
+              {questions && `${questions.length} questions`}
+            </QuestionNum>
+            <Btns>
+              <Btn>Newest</Btn>
+              <Btn>Active</Btn>
+              <Btn>Bountied</Btn>
+              <Btn>Unanswered</Btn>
+              <Btn>More</Btn>
+              <Btn
+                bgColor={"#E0EDF4"}
+                fntColor={"#5786AB"}
+                style={{ marginLeft: "15px" }}
+              >
+                Filter
+              </Btn>
+            </Btns>
+          </BottomHeader>
+        </Header>
+        {isLoading && <Loader>Loading...</Loader>}
+        {questions &&
+          questions.map((question) => (
+            <Question
+              key={question.question_id || question.questionId}
+              question={question}
+              showContent={false}
+            />
+          ))}
+        <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>
+          가장 위로
+        </ScrollBtn>
+      </Container>
+      <Aside />
+    </Wrapper>
+  );
 }

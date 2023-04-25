@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const Contaienr = styled.div`
+const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -11,13 +11,18 @@ const Contaienr = styled.div`
 const CommentLine = styled.div`
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: space-between;
   width: 80%;
   height: 35px;
   border-top: 1px solid gray;
   border-bottom: 1px solid gray;
   margin-bottom: 2px;
-  padding-left: 5px;
+  padding-left: 10px;
+`;
+
+const CommentInfos = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const CommentInfo = styled.h5`
@@ -25,7 +30,7 @@ const CommentInfo = styled.h5`
   margin-right: 10px;
 `;
 
-const Btn = styled.span`
+const CommentBtn = styled.span`
   margin: 20px;
   font-size: ${(props) => props.theme.fontSizes.lg};
   color: gray;
@@ -36,19 +41,14 @@ const Btn = styled.span`
   }
 `;
 
+const EditCommentInput = styled.input`
+  width: 60%;
+  height: 80%;
+  padding-left: 10px;
+`;
+
 const dummyComments = ["I am happy", "I feel good"];
 
 export default function Comments({ comments, setMakeComment }) {
-  return (
-    <Contaienr>
-      {dummyComments.map((comment, index) => (
-        <CommentLine key={comment}>
-          <CommentInfo>{index + 1}</CommentInfo>
-          <CommentInfo>{comment}</CommentInfo>
-          <CommentInfo>홍길동</CommentInfo>
-        </CommentLine>
-      ))}
-      <Btn onClick={setMakeComment((prev) => true)}>Add a comment</Btn>
-    </Contaienr>
-  );
+  return null;
 }

@@ -116,73 +116,71 @@ const AsideWrapper = styled.div`
 const OFFSET = 10;
 
 export default function AllQuestions({ title, showContent }) {
-	const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
-	const { data: datas, isLoading } = useQuery("questions", getQuestions);
-	// datas && console.log(datas);
+  const { data: datas, isLoading } = useQuery("questions", getQuestions);
+  // datas && console.log(datas);
 
-	const handlePage = (nxtPage) => {
-		setPage((prev) => nxtPage);
-	};
+  const handlePage = (nxtPage) => {
+    setPage((prev) => nxtPage);
+  };
 
-	return (
-		<>
-			<Wrapper>
-				<Container>
-					<Header>
-						<TopHeader>
-							<Title>{`${title}`}</Title>
-							<Link to="/questions/ask">
-								<AskBtn>Ask Question</AskBtn>
-							</Link>
-						</TopHeader>
-						<BottomHeader>
-							<QuestionNum>
-								{isLoading && "Loading..."}
-								{datas && `${datas.length} questions`}
-							</QuestionNum>
-							{/* <Btns>
-								<Btn>Newest</Btn>
-								<Btn>Active</Btn>
-								<Btn>
-									Bountied
-									<BountiedNum>219</BountiedNum>
-								</Btn>
-								<Btn>Unanswered</Btn>
-								<Btn>More</Btn>
-								<Btn
-									bgColor={"#E0EDF4"}
-									fntColor={"#5786AB"}
-									style={{ marginLeft: "15px" }}
-								>
-									Filter
-								</Btn>
-							</Btns> */}
-						</BottomHeader>
-					</Header>
-					{isLoading && <Loader>Loading...</Loader>}
-					{datas &&
-						datas
-							.slice((page - 1) * OFFSET, page * OFFSET)
-							.map((data) => (
-								<Question
-									key={data.questionId || data.question_id}
-									question={data}
-									showContent={showContent}
-								/>
-							))}
-					{datas && (
-						<PageBtns
-							totalPage={Math.ceil(datas.length / 10)}
-							currentPage={page}
-							handlePage={handlePage}
-						/>
-					)}
-				</Container>
-				<AsideWrapper>
-					<Aside />
-				</AsideWrapper>
-			</Wrapper>
-		</>
-	);
+  return (
+    <>
+      <Wrapper>
+        <Container>
+          <Header>
+            <TopHeader>
+              <Title>{`${title}`}</Title>
+              <Link to="/questions/ask">
+                <AskBtn>Ask Question</AskBtn>
+              </Link>
+            </TopHeader>
+            <BottomHeader>
+              <QuestionNum>
+                {isLoading && "Loading..."}
+                {datas && `${datas.length} questions`}
+              </QuestionNum>
+              <Btns>
+                <Btn>Newest</Btn>
+                <Btn>Active</Btn>
+                <Btn>
+                  Bountied
+                  <BountiedNum>219</BountiedNum>
+                </Btn>
+                <Btn>Unanswered</Btn>
+                <Btn>More</Btn>
+                <Btn
+                  bgColor={"#E0EDF4"}
+                  fntColor={"#5786AB"}
+                  style={{ marginLeft: "15px" }}
+                >
+                  Filter
+                </Btn>
+              </Btns>
+            </BottomHeader>
+          </Header>
+          {isLoading && <Loader>Loading...</Loader>}
+          {datas &&
+            datas
+              .slice((page - 1) * OFFSET, page * OFFSET)
+              .map((data) => (
+                <Question
+                  key={data.questionId}
+                  question={data}
+                  showContent={showContent}
+                />
+              ))}
+          {datas && (
+            <PageBtns
+              totalPage={Math.ceil(datas.length / 10)}
+              currentPage={page}
+              handlePage={handlePage}
+            />
+          )}
+        </Container>
+        <Aside />
+      </Wrapper>
+    </>
+  );
 }
