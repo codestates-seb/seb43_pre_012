@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import Question from "./Question";
-import PageBtns from "./PageBtns";
 import Aside from "./Aside";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
-import { getQuestions } from "../hooks/tempUseQuestion";
-import axios from "axios";
+import { getQuestionsByPage } from "../hooks/tempUseQuestion";
 
 const Wrapper = styled.section`
   height: auto;
@@ -130,38 +127,31 @@ const options = {
   threshold: 1.0,
 };
 
-export default function HomeQuestions({ showContent }) {
+export default function HomeQuestions() {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [questionNum, setQuestionNum] = useState(0);
-
-  const getQuestions = async () => {
-    const response = await axios.get(
-      "http://localhost:3001/questions?_sort=creation_date&_order=DESC"
-    );
-    const { data } = response;
-
-    setQuestions((prev) => data.slice(0, questionNum));
-  };
+  const [page, setPage] = useState(1);
 
   // 타겟 요소 지정
   let containerRef = useRef(null);
 
   useEffect(() => {
     (async () => {
+      console.log(`page = ${page}`);
       setIsLoading((prev) => true);
 
-      await getQuestions();
+      const data = await getQuestionsByPage(page);
+      setQuestions((prev) => [...prev, ...data]);
 
       setIsLoading((prev) => false);
     })();
-  }, [questionNum]);
+  }, [page]);
 
   useEffect(() => {
     (async () => {
       const observer = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          setQuestionNum((prev) => prev + OFFSET);
+          setPage((prev) => prev + 1);
         }
       }, options);
 
@@ -210,9 +200,9 @@ export default function HomeQuestions({ showContent }) {
         {questions &&
           questions.map((question) => (
             <Question
-              key={question.question_id + ""}
+              key={question.question_id || question.questionId}
               question={question}
-              showContent={showContent}
+              showContent={false}
             />
           ))}
         <ScrollBtn onClick={() => window.scrollTo(0, 0)} ref={containerRef}>

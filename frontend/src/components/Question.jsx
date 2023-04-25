@@ -102,19 +102,15 @@ export default function Question({ question, showContent }) {
     <Container>
       <Figures>
         <Figure>{`${question.score || 0} votes`}</Figure>
-        <Figure>{`${
-          question.answerCount || question.answer_count
-        } answers`}</Figure>
-        <Figure>{`${question.viewCount || question.view_count} views`}</Figure>
+        <Figure>{`${question.answerCount} answers`}</Figure>
+        <Figure>{`1 views`}</Figure>
       </Figures>
       <Infos>
-        <Link to={`/questions/${question.questionId || question.question_id}`}>
+        <Link to={`/questions/${question.questionId}`}>
           <Title>{question.title}</Title>
         </Link>
         <Content>
-          {showContent && (
-            <>{cleanContent(question.content || question.body)}</>
-          )}
+          {showContent && <>{cleanContent(question.content)}</>}
         </Content>
         <Tags>
           {question.tags
@@ -124,11 +120,10 @@ export default function Question({ question, showContent }) {
         <Questioner>
           <Icon
             bgImage={
-              "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg" ||
-              question.owner.profile_image
+              "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
             }
           />
-          {question.username || question.owner.display_name}
+          {question.username}
         </Questioner>
       </Infos>
     </Container>
