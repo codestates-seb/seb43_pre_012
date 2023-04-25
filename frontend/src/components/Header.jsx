@@ -7,6 +7,7 @@ import smallLogo from "../static/small-logo.png";
 import { Link } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 
+
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -123,32 +124,31 @@ const Button = styled.button`
   }
 `;
 
-export default function Header() {
+export default function Header({ modalOpen, setModalOpen }) {
 
-    const [isOpen, setIsOpen] = useState(false);
-    
     const openModalHandler = () => {
-        // isOpen의 상태를 변경하는 메소드를 구현
-        // !false -> !true -> !false
-        setIsOpen(!isOpen) 
+
+        setModalOpen(!modalOpen); 
     };
+
 
     return (
         <HeaderWrapper>
-            <Hamburger color='black' size={18} onClick={openModalHandler} />
+            <Hamburger color='black' size={17} onToggle={openModalHandler} />
             <Link to = "/">
                 <Logo className='largeLogo' src={largeLogo} />
                 <Logo className='smallLogo' src={smallLogo} />
             </Link>
+            
             <Link to="Questions">
                 <Menu >Questions</Menu>
-			</Link>
+			      </Link>
             <Link to="Tags">
                 <Menu >Tags</Menu>
-			</Link>
+			      </Link>
             <Link to="Companies">
                 <Menu >Companies</Menu>
-			</Link>
+			      </Link>
             <SearchBar>
                 <FontAwesomeIcon className = "searchIcon" icon={faMagnifyingGlass} color='#838C95'/>
                 <input className="search-bar__input" type="search" placeholder="Search..." />
