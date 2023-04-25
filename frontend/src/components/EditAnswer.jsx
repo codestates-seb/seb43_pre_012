@@ -5,7 +5,11 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { isLocal, updateQuestion } from "../hooks/tempUseQuestion";
+import {
+  isLocal,
+  updateAnswer,
+  updateQuestion,
+} from "../hooks/tempUseQuestion";
 
 const Container = styled.form`
   max-width: 800px;
@@ -74,44 +78,34 @@ const Btn = styled.button`
   }
 `;
 
-export default function EditQuestion({ question }) {
-  const tempTags = ["JavaScript", "Java"];
-
+export default function EditAnswer({ answer }) {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const detailRef = useRef();
 
   const handleEdit = async (data) => {
-    const { questionStatus } = question;
     const { title } = data;
-    const tags = data.tags.split(",");
     const content = detailRef.current.getInstance().getHTML();
     if (content === "") return;
 
     if (isLocal) {
-      const editedQuestion = {
-        ...question,
-        title,
-        body: content,
-        questionStatus,
-      };
-
-      await updateQuestion(editedQuestion);
+      const editedQuestion = { ...answer, title, body: content };
+      await updateAnswer(editedQuestion);
     } else {
-      const editedQuestion = { ...question, title, content, questionStatus };
-      await updateQuestion(editedQuestion);
+      const editedQuestion = { ...answer, title, content };
+      await updateAnswer(editedQuestion);
     }
 
-    navigate(`/questions/${question.id}`);
+    navigate(`/questions/${answer.question_id || answer.questionId}`);
   };
 
   return (
     <Container onSubmit={handleSubmit(handleEdit)}>
-      <Title>Edit Question</Title>
+      <Title>Edit answer</Title>
       <Line>
         <LineTitle>Title</LineTitle>
         <Input
-          defaultValue={question.title}
+          defaultValue={answer.title}
           placeholder="Input Title"
           {...register("title", { required: true })}
         />
@@ -119,21 +113,13 @@ export default function EditQuestion({ question }) {
       <Line>
         <LineTitle>Detail</LineTitle>
         <Editor
-          initialValue={question.content || question.body}
+          initialValue={answer.content || answer.body}
           previewStyle="vertical"
           height="200px"
           initialEditType="wysiwyg"
           useCommandShortcut={false}
           language="ko-KR"
           ref={detailRef}
-        />
-      </Line>
-      <Line>
-        <LineTitle>Tags</LineTitle>
-        <Input
-          {...register("tags", { required: true })}
-          defaultValue={tempTags.join(",")}
-          placeholder="You can separate tags using ','"
         />
       </Line>
       <Btn>Edit</Btn>
