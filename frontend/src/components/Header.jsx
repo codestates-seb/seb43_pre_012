@@ -6,16 +6,32 @@ import largeLogo from "../static/large-logo.png";
 import smallLogo from "../static/small-logo.png";
 import { Link } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
+import StackOverflowLogo from "../svgs/logo.svg";
 
 const HeaderWrapper = styled.div`
 	display: flex;
+	min-width: 400px;
 	align-items: center;
 	justify-content: center;
-	background-color: white;
-	color: #fffefe;
 	height: 50px;
 	border-top: 3px solid ${({ theme }) => theme.colors.orange};
 	box-shadow: 0 0 3px gray;
+`;
+const HeaderContents = styled.div`
+	width: 100%;
+	max-width: ${({ theme }) => theme.screen.lg};
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`;
+const LogoInSmScreen = styled.div`
+	display: flex;
+	@media screen and (min-width: ${({ theme }) => theme.screen.sm}) {
+		display: none;
+	}
+`;
+const SvgLogo = styled.img`
+	width: 30px;
 `;
 const Logo = styled.img`
 	width: 200px;
@@ -40,7 +56,12 @@ const Logo = styled.img`
 		}
 	}
 `;
-
+const Nav = styled.div`
+	display: flex;
+	@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+		display: none;
+	}
+`;
 const Menu = styled.div`
 	font-size: 15px;
 	padding-right: 22px;
@@ -54,17 +75,17 @@ const Menu = styled.div`
 		}
 	}
 `;
-const Scope = styled.div`
-	display: none;
-	font-size: 20px;
-	padding-right: 9px;
-	@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
-		display: block;
-	}
-`;
+// const Scope = styled.div`
+// 	display: none;
+// 	font-size: 20px;
+// 	padding-right: 9px;
+// 	@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+// 		display: block;
+// 	}
+// `;
 
 const SearchBar = styled.div`
-	width: 40%;
+	width: 100%;
 	height: 33px;
 	border-radius: 4px;
 	border: solid 1px rgba(0, 0, 0, 0.3);
@@ -95,14 +116,15 @@ const SearchBar = styled.div`
 		font-size: 20px;
 		margin-left: 10px;
 	}
-	@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-		width: 300px;
-	}
-	@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+	/* @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
 		display: none;
-	}
+	} */
 `;
-
+const SearchWrapper = styled.div`
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+`;
 const Button = styled.button`
 	height: 34px;
 	width: 60px;
@@ -131,46 +153,55 @@ export default function Header({ modalOpen, setModalOpen }) {
 
 	return (
 		<HeaderWrapper>
-			<Hamburger color="black" size={17} onToggle={openModalHandler} />
-			<Link to="/">
-				<Logo className="largeLogo" src={largeLogo} />
-				<Logo className="smallLogo" src={smallLogo} />
-			</Link>
+			<HeaderContents>
+				<LogoInSmScreen>
+					<Hamburger color="black" size={17} onToggle={openModalHandler} />
+					<SvgLogo src={StackOverflowLogo} />
+				</LogoInSmScreen>
+				<Link to="/">
+					<Logo className="largeLogo" src={largeLogo} />
+					<Logo className="smallLogo" src={smallLogo} />
+				</Link>
 
-			<Link to="Questions">
-				<Menu>Questions</Menu>
-			</Link>
-			<Link to="Tags">
-				<Menu>Tags</Menu>
-			</Link>
-			<Link to="Companies">
-				<Menu>Companies</Menu>
-			</Link>
-			<SearchBar>
-				<FontAwesomeIcon
-					className="searchIcon"
-					icon={faMagnifyingGlass}
-					color="#838C95"
-				/>
-				<input
-					className="search-bar__input"
-					type="search"
-					placeholder="Search..."
-				/>
-			</SearchBar>
-			<Scope className="scope">
-				<FontAwesomeIcon
-					className="searchIcon"
-					icon={faMagnifyingGlass}
-					color="#838C95"
-				/>
-			</Scope>
-			<Link to="login">
-				<Button className="login">Log in</Button>
-			</Link>
-			<Link to="signup">
-				<Button className="signup">Sign up</Button>
-			</Link>
+				<Nav>
+					<Link to="Questions">
+						<Menu>Questions</Menu>
+					</Link>
+					<Link to="Tags">
+						<Menu>Tags</Menu>
+					</Link>
+					<Link to="Companies">
+						<Menu>Companies</Menu>
+					</Link>
+				</Nav>
+				<SearchWrapper>
+					<SearchBar>
+						<FontAwesomeIcon
+							className="searchIcon"
+							icon={faMagnifyingGlass}
+							color="#838C95"
+						/>
+						<input
+							className="search-bar__input"
+							type="search"
+							placeholder="Search..."
+						/>
+					</SearchBar>
+					{/* <Scope className="scope">
+						<FontAwesomeIcon
+							className="searchIcon"
+							icon={faMagnifyingGlass}
+							color="#838C95"
+						/>
+					</Scope> */}
+					<Link to="login">
+						<Button className="login">Log in</Button>
+					</Link>
+					<Link to="signup">
+						<Button className="signup">Sign up</Button>
+					</Link>
+				</SearchWrapper>
+			</HeaderContents>
 		</HeaderWrapper>
 	);
 }

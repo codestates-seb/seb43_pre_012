@@ -9,6 +9,7 @@ import { useState } from "react";
 
 const Body = styled.div`
 	display: flex;
+	min-width: 450px;
 	flex-direction: column;
 	align-items: center;
 `;
