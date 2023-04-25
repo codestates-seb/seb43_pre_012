@@ -7,7 +7,6 @@ import { InputContainer, SearchInput } from "../styles/styles_jh";
 import useUserInfo from "../hooks/useUserInfo";
 
 const UsersWrapper = styled.div`
-	width: 100%;
 	padding: 20px;
 `;
 

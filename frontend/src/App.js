@@ -4,12 +4,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import HamModal from "./components/HamModal";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { Routes, Route } from "react-router-dom";
 import Nav from "./components/Nav";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 const Body = styled.div`
 	display: flex;
+	min-width: 450px;
 	flex-direction: column;
 	align-items: center;
 `;
@@ -35,7 +35,7 @@ function App() {
 
 	return (
 		<>
-			<Header modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+			<Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
 			{modalOpen && <HamModal />}
 			<Body>
 				<Page>
