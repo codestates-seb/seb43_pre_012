@@ -35,17 +35,18 @@ import EditAnswer from "./EditAnswer";
 import MakeComment from "./MakeComment";
 
 const Wrapper = styled.section`
+	width: 100%;
 	height: auto;
 	display: flex;
 
 	@media screen and (max-width: ${(props) => props.theme.screen.md}) {
 		flex-direction: column;
-		align-items: center;
+		/* align-items: center; */
 	}
 `;
 
 const Container = styled.main`
-	max-width: 740px;
+	/* max-width: 740px; */
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -104,7 +105,6 @@ const HeaderInfo = styled.h6`
 const MainContents = styled.section`
 	width: 100%;
 	height: auto;
-
 	display: flex;
 	justify-content: center;
 `;
@@ -114,6 +114,7 @@ const Question = styled.section`
 	height: auto;
 	display: flex;
 `;
+const ContextsWrapper = styled.div``; //jh
 
 const Contents = styled.section`
 	display: flex;
@@ -191,6 +192,7 @@ const Questioner = styled.div`
 `;
 
 const UpDownBtns = styled.section`
+	flex-shrink: 0;
 	width: 80px;
 	display: flex;
 	flex-direction: column;
@@ -218,7 +220,7 @@ const AnswerTitle = styled.h4`
 `;
 
 const AnswerInput = styled.div`
-	max-width: 700px;
+	/* max-width: 700px; */
 	width: 100%;
 	height: 250px;
 	font-size: ${(props) => props.theme.fontSizes.lg};
@@ -375,8 +377,15 @@ const Overlay = styled.div`
 	top: 0;
 	left: 0;
 	z-index: 15;
-	width: 100vw;
+	/* width: 100vw; */
 	height: 100vh;
+`;
+const EditContainer = styled.div`
+	width: 100%;
+	height: 100%;
+`;
+const StyledEditor = styled(Editor)`
+	width: 100% !important;
 `;
 
 const getDate = (date) => {
@@ -528,9 +537,6 @@ export default function QnDetail() {
 										/>
 									</UpDownBtns>
 									<Contents>
-										{/* <Content
-                 dangerouslySetInnerHTML={{ __html: question.body }}
-               /> */}
 										<Viewer initialValue={question.content || question.body} />
 										<Tags>
 											{question.tags
@@ -628,14 +634,16 @@ export default function QnDetail() {
 											</AnswerTitle>
 											<AnswerTitle>Your Answer</AnswerTitle>
 											<AnswerInput>
-												<Editor
-													previewStyle="vertical"
-													height="100%"
-													initialEditType="wysiwyg"
-													useCommandShortcut={false}
-													language="ko-KR"
-													ref={editorRef}
-												/>
+												<EditContainer>
+													{/* <StyledEditor
+														previewStyle="vertical"
+														height="100%"
+														initialEditType="wysiwyg"
+														useCommandShortcut={false}
+														language="ko-KR"
+														ref={editorRef}
+													/> */}
+												</EditContainer>
 											</AnswerInput>
 											{isLogin ? null : (
 												<AccountChoices>

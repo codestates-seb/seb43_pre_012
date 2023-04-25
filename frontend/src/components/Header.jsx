@@ -9,6 +9,10 @@ import { Fade as Hamburger } from "hamburger-react";
 import StackOverflowLogo from "../svgs/logo.svg";
 
 const HeaderWrapper = styled.div`
+	position: sticky;
+	background-color: white;
+	z-index: 2;
+	top: 0;
 	display: flex;
 	min-width: 400px;
 	align-items: center;

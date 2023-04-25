@@ -107,6 +107,11 @@ const Loader = styled.h1`
 	font-size: ${(props) => props.theme.fontSizes.lg};
 	font-weight: bold;
 `;
+const AsideWrapper = styled.div`
+	@media screen and (max-width: ${(props) => props.theme.screen.md}) {
+		display: none;
+	}
+`;
 
 const OFFSET = 10;
 
@@ -174,7 +179,9 @@ export default function AllQuestions({ title, showContent }) {
 						/>
 					)}
 				</Container>
-				<Aside />
+				<AsideWrapper>
+					<Aside />
+				</AsideWrapper>
 			</Wrapper>
 		</>
 	);

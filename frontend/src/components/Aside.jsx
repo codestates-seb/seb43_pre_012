@@ -6,9 +6,6 @@ import HotQuestions from "./HotQuestions";
 
 const Container = styled.aside`
 	margin-top: 80px;
-	@media screen and (max-width: ${(props) => props.theme.screen.md}) {
-		display: none;
-	}
 `;
 
 export default function Aside() {
