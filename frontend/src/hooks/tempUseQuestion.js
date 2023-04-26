@@ -5,7 +5,7 @@ const BASE_PATH =
 const LOCAL_PATH = "http://localhost:3001";
 
 let administratorAuthorization =
-  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0MzIyMTksImV4cCI6MTY4MjQzNDAxOX0.INNHUKJJpSi0F7XgwnqMYQnYTouWZ2L1Um8qPNhr4EU";
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0NzAyNzYsImV4cCI6MTY4MjQ3MjA3Nn0.ICQ1Z9Su4dpGCQPhPd0BMny68OYQgfPzaSSnO-D4mWI";
 let headers = {
   Authorization: administratorAuthorization,
 };
@@ -194,12 +194,12 @@ export const getCommentsById = async (id) => {
   }
 };
 
-export const getCommentsByAnswerId = async (questionId) => {
+export const getCommentsByAnswerId = async (answerId) => {
   try {
     const response = await axios.get(`${BASE_PATH}/comments`);
     const { data } = response;
 
-    const comments = data.filter((comment) => comment.answerId === questionId);
+    const comments = data.filter((comment) => comment.answerId === answerId);
 
     return comments;
   } catch (error) {
