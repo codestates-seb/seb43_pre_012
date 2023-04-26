@@ -1,21 +1,7 @@
-
 spring:
   output:
     ansi:
       enabled: ALWAYS
-
-  h2:
-    console:
-      enabled: true
-      path: /h2
-#    url: jdbc:h2:mem:test
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-    url: jdbc:mysql://localhost:3306/preproject?serverTimezone=Asia/Seoul
-    username: root
-    password: 3333
 
   #    initialization-mode: always
 
@@ -23,25 +9,25 @@ spring:
     use-legacy-processing: true
 
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        highlight_sql: true
-        color-codes: true
+        format_sql: false
+        highlight_sql: false
+        color-codes: false
         use_sql_comments: true
-        type:
-          descriptor:
-            sql: trace
 
 logging:
   level:
     org:
       hibernate:
         SQL: debug
-        type:
-          descriptor:
-            sql:
-              BasicBinder: trace
+
+# Spring Security
+jwt:
+  key: seb4312431243124312v4312431243124312
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
