@@ -148,6 +148,11 @@ const Button = styled.button`
 		background-color: ${({ theme }) => theme.colors.skyblue};
 		color: white;
 	}
+	&.logout {
+		background-color: #fb5e5e;
+		border: 1px solid #fb5e5e;
+		color: white;
+	}
 `;
 
 export default function Header({ modalOpen, setModalOpen }) {
@@ -203,6 +208,7 @@ export default function Header({ modalOpen, setModalOpen }) {
 					<Link to="signup">
 						<Button className="signup">Sign up</Button>
 					</Link>
+					<Button className="logout">Log out</Button>
 				</SearchWrapper>
 			</HeaderContents>
 		</HeaderWrapper>
