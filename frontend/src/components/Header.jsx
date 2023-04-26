@@ -154,44 +154,43 @@ export default function Header({ modalOpen, setModalOpen }) {
   const openModalHandler = () => {
     setModalOpen(!modalOpen);
   };
-
-  return (
-    <HeaderWrapper>
-      <HeaderContents>
-        <LogoInSmScreen>
-          <Hamburger color="black" size={17} onToggle={openModalHandler} />
-          <SvgLogo src={StackOverflowLogo} />
-        </LogoInSmScreen>
-        <Link to="/">
-          <Logo className="largeLogo" src={largeLogo} />
-          <Logo className="smallLogo" src={smallLogo} />
-        </Link>
-
-        <Nav>
-          <Link to="Questions">
-            <Menu>Questions</Menu>
-          </Link>
-          <Link to="Tags">
-            <Menu>Tags</Menu>
-          </Link>
-          <Link to="Companies">
-            <Menu>Companies</Menu>
-          </Link>
-        </Nav>
-        <SearchWrapper>
-          <SearchBar>
-            <FontAwesomeIcon
-              className="searchIcon"
-              icon={faMagnifyingGlass}
-              color="#838C95"
-            />
-            <input
-              className="search-bar__input"
-              type="search"
-              placeholder="Search..."
-            />
-          </SearchBar>
-          {/* <Scope className="scope">
+  
+	return (
+		<HeaderWrapper>
+			<HeaderContents>
+				<LogoInSmScreen>
+					<Hamburger color="black" size={17} onToggle={openModalHandler} />
+					<SvgLogo src={StackOverflowLogo} />
+				</LogoInSmScreen>
+				<Link to="/">
+					<Logo className="largeLogo" src={largeLogo} />
+					<Logo className="smallLogo" src={smallLogo} />
+				</Link>
+				<Nav>
+					<Link to="Questions">
+						<Menu>Questions</Menu>
+					</Link>
+					{/* <Link to="Tags">
+						<Menu>Tags</Menu>
+					</Link> */}
+					<Link to="Companies">
+						<Menu>Companies</Menu>
+					</Link>
+				</Nav>
+				<SearchWrapper>
+					<SearchBar>
+						<FontAwesomeIcon
+							className="searchIcon"
+							icon={faMagnifyingGlass}
+							color="#838C95"
+						/>
+						<input
+							className="search-bar__input"
+							type="search"
+							placeholder="Search..."
+						/>
+					</SearchBar>
+					{/* <Scope className="scope">
 						<FontAwesomeIcon
 							className="searchIcon"
 							icon={faMagnifyingGlass}

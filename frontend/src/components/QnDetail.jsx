@@ -21,10 +21,10 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import EditQuestion from "./EditQuestion";
 import { useQuery, useMutation } from "react-query";
 import {
-  addAnswer,
-  getAnswersByQuestionId,
-  getQuestionById,
-  removeQuestion,
+	addAnswer,
+	getAnswersByQuestionId,
+	getQuestionById,
+	removeQuestion,
 } from "../hooks/tempUseQuestion";
 import { useEffect } from "react";
 
@@ -306,6 +306,7 @@ const StyledEditor = styled(Editor)`
 const tempMemberId = 28;
 
 export default function QnDetail() {
+
   const tempTags = ["JavaScript", "Java"];
 
   const navigate = useNavigate();

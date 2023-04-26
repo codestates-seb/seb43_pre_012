@@ -55,7 +55,7 @@ const InfoIcon = styled.div`
 	position: relative;
 	cursor: pointer;
 `;
-const buttons = ["Tags", "Users", "Companies"];
+const buttons = ["Users", "Companies"];
 export default function Nav() {
 	const [showCollectives, setShowCollective] = useState(false);
 	const [showCreateTeam, setShowCreateTeam] = useState(false);

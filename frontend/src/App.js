@@ -6,6 +6,7 @@ import HamModal from "./components/HamModal";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Nav from "./components/Nav";
 import { useState } from "react";
+import { AuthProvider } from "./components/AuthProvider";
 
 const Body = styled.div`
   display: flex;
@@ -33,23 +34,23 @@ function App() {
   const isNav = pagesWithoutNav.includes(location) ? true : false;
   const [modalOpen, setModalOpen] = useState(false);
 
-  return (
-    <>
-      <Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      {modalOpen && <HamModal />}
-      <Body>
-        <Page>
-          <QueryClientProvider client={queryClient}>
-            <Container>
-              {!isNav && <Nav />}
-              <Outlet />
-            </Container>
-          </QueryClientProvider>
-        </Page>
-        <Footer />
-      </Body>
-    </>
-  );
+	return (
+		<AuthProvider>
+			<Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
+			{modalOpen && <HamModal />}
+			<Body>
+				<Page>
+					<QueryClientProvider client={queryClient}>
+						<Container>
+							{!isNav && <Nav />}
+							<Outlet />
+						</Container>
+					</QueryClientProvider>
+				</Page>
+				<Footer />
+			</Body>
+		</AuthProvider>
+	);
 }
 
 export default App;

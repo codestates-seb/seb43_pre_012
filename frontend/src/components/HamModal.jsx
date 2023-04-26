@@ -8,9 +8,15 @@ const HamModalWrapper = styled.div`
 	position: absolute;
 	background-color: #ffffff;
 	width: 165px;
-	height: 350px;
+	height: 320px;
 	font-size: 40px;
 	z-index: 32113;
+	position: fixed;
+	border : 1px solid #EBECEC;
+	box-shadow: 3px 3px 3px #d3d3d3;
+	@media screen and (min-width: ${({ theme }) => theme.screen.sm}) {
+		display: none;
+	}
 `;
 const Wrapper = styled.div`
 	padding-top: 20px;
@@ -23,8 +29,6 @@ const Wrapper = styled.div`
 	width: 160px;
 	height: 100vh;
 	flex-shrink: 0;
-	position: -webkit-sticky;
-	position: sticky;
 	top: 0;
 	z-index: 10;
 `;
@@ -43,7 +47,7 @@ const P = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin-left: 5px;
-	font-size: 14px;
+	font-size: 13px;
 `;
 
 export default function HamModal() {
