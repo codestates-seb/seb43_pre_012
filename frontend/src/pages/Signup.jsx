@@ -7,7 +7,7 @@ import Login from "./Login";
 import axios from "axios";
 import Captcha from "../components/ReCAPTCHA";
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 		justify-content: center;
 	}
 	margin: 20px;
+	background-color : #f5f5f6;
 	
 `;
 const DescWrapper = styled.div`
@@ -37,8 +38,14 @@ const Desc = styled.div`
 	&.join {
 		font-size: 30px;
 	}
+	&.collabo{
+		font-size : 13px;
+	}
 `;
 
+const GetTeams = styled.div`
+	color : #0995FF;
+`
 const SignupWrapper = styled.div`
 	display: flex;
 	align-items: center;
@@ -65,8 +72,10 @@ const EmailSignup = styled.form`
 	height: 600px;
 	flex-direction: column;
 	align-items: center;
-	border: 1px solid #23262a;
+	background-color : white;
+	border: 1px solid #c9c9c9;
 	border-radius: 3px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 const DisplayNameWrapper = styled.div`
 	display: flex;
@@ -115,7 +124,7 @@ const PasswordLabel = styled.div`
 `;
 const ForgotPassword = styled.a`
 	margin-right: 26px;
-	color: blue;
+	color: #0995FF;
 `;
 
 const PasswordInput = styled.input`
@@ -217,6 +226,12 @@ export default function Signup() {
 					</svg>
 					ㅤEarn reputation and badges
 				</Desc>
+				<Desc className="collabo">
+					Collaborate and share knowledge with a private group for FREE.
+				</Desc>
+				<Link to="/Companies">
+					<GetTeams>Get Stack Overflow for Teams free for up to 50 users.</GetTeams>
+				</Link>
 			</DescWrapper>
 			<SignupWrapper>
 				<Logo src={smallLogo} />
