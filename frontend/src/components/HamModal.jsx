@@ -8,9 +8,12 @@ const HamModalWrapper = styled.div`
 	position: absolute;
 	background-color: #ffffff;
 	width: 165px;
-	height: 350px;
+	height: 320px;
 	font-size: 40px;
 	z-index: 32113;
+	border : 1px solid #EBECEC;
+	border-top : 3px solid white;
+	box-shadow: 3px 3px 3px #d3d3d3;
 `;
 const Wrapper = styled.div`
 	padding-top: 20px;
