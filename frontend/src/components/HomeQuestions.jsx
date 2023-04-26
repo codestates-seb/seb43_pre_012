@@ -5,127 +5,126 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getQuestionsByPage } from "../hooks/tempUseQuestion";
 
-
 const Wrapper = styled.section`
-	height: auto;
-	display: flex;
+  height: auto;
+  display: flex;
+  width: 100%;
 
-	@media screen and (max-width: ${(props) => props.theme.screen.md}) {
-		flex-direction: column;
-		align-items: center;
-	}
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Container = styled.main`
-	max-width: 740px;
-	display: flex;
-	flex-direction: column;
-	margin-right: 40px;
-	margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+  margin-top: 10px;
 `;
 
 const Header = styled.header`
-	width: 100%;
-	height: 130px;
-	border-bottom: 2px solid ${(props) => props.theme.colors.gray};
+  width: 100%;
+  height: 130px;
+  border-bottom: 2px solid ${(props) => props.theme.colors.gray};
 `;
 
 const TopHeader = styled.section`
-	width: 100%;
-	height: 50%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0 10px;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 `;
 
 const Title = styled.h2`
-	font-size: 30px;
-	font-weight: 500;
+  font-size: 30px;
+  font-weight: 500;
 `;
 
 const AskBtn = styled.div`
-	width: 100px;
-	height: 35px;
-	background-color: #0994fe;
-	color: white;
-	font-weight: 500;
-	font-size: ${(props) => props.theme.fontSizes.sm};
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-shadow: #80c0ff 0px 1px 4px;
+  width: 100px;
+  height: 35px;
+  background-color: #0994fe;
+  color: white;
+  font-weight: 500;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: #80c0ff 0px 1px 4px;
 `;
 
 const BottomHeader = styled.section`
-	width: 100%;
-	height: 50%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0 10px;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 `;
 
 const QuestionNum = styled.h4`
-	font-size: ${(props) => props.theme.fontSizes.lg};
-	font-weight: 500;
+  font-size: ${(props) => props.theme.fontSizes.lg};
+  font-weight: 500;
 `;
 
 const Btns = styled.section`
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const Btn = styled.div`
-	height: 35px;
-	padding: 10px;
-	border: 0.5px solid black;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: ${(props) => props.theme.fontSizes.sm};
-	font-weight: 400;
-	background-color: ${(props) => (props.bgColor ? props.bgColor : "white")};
-	color: ${(props) => (props.fntColor ? props.fntColor : "black")};
+  height: 35px;
+  padding: 10px;
+  border: 0.5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${(props) => props.theme.fontSizes.sm};
+  font-weight: 400;
+  background-color: ${(props) => (props.bgColor ? props.bgColor : "white")};
+  color: ${(props) => (props.fntColor ? props.fntColor : "black")};
 `;
 
 const BountiedNum = styled.div`
-	width: 30px;
-	height: 15px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: ${(props) => props.theme.colors.blue};
-	color: white;
-	margin-left: 10px;
+  width: 30px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.colors.blue};
+  color: white;
+  margin-left: 10px;
 `;
 
 const Loader = styled.h1`
-	font-size: ${(props) => props.theme.fontSizes.lg};
-	font-weight: bold;
+  font-size: ${(props) => props.theme.fontSizes.lg};
+  font-weight: bold;
 `;
 
 const ScrollBtn = styled.div`
-	width: 120px;
-	height: 70px;
-	border-radius: 10px;
-	background-color: ${(props) => props.theme.colors.skyblue};
-	color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 30px;
-
-	margin: 0 auto;
+  width: 120px;
+  height: 70px;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.colors.skyblue};
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  margin: 0 auto;
 `;
 
 const OFFSET = 10;
 
 // 관측에 적용할 수 있는 옵션
 const options = {
-	root: null,
-	rootMargin: "0px",
-	threshold: 1.0,
+  root: null,
+  rootMargin: "0px",
+  threshold: 1.0,
 };
 
 export default function HomeQuestions() {

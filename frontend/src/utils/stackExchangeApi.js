@@ -6,6 +6,12 @@ const httpClient = axios.create({
 });
 const isLocal = true;
 
+let administratorAuthorization =
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0NzU3NTgsImV4cCI6MTY4MjQ3NzU1OH0.qkCjPvAPkrpFjlGtFcqtd47xkZBhpuGq7fLr7wU3RJ8";
+let headers = {
+  Authorization: administratorAuthorization,
+};
+
 export const StackExchange = {
 	async users(sort = "reputation") {
 		if (!isLocal) {
@@ -126,7 +132,6 @@ export const StackExchange = {
 			return error;
 		}
 	},
-
 	async removeItem(id) {
 		try {
 			await axios.delete(`http://localhost:3001/questions/${id}`);

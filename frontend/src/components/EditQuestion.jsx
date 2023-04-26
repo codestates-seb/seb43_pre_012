@@ -5,9 +5,10 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { isLocal, updateQuestion } from "../hooks/tempUseQuestion";
+import { isLocal } from "../hooks/tempUseQuestion";
+import { useMutation, useQueryClient, QueryCache } from "react-query";
 import useQuestion from "../hooks/useQuestion";
-import { useMutation, useQueryClient } from "react-query";
+import { updateQuestion } from "../hooks/tempUseQuestion";
 
 const Container = styled.form`
 	max-width: 800px;
@@ -79,19 +80,11 @@ const Btn = styled.button`
 export default function EditQuestion({ question }) {
 	const tempTags = ["JavaScript", "Java"];
 
-	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const { register, handleSubmit } = useForm();
 	const detailRef = useRef();
 	// const { updateQuestion } = useQuestion();
-	const updateQ = useMutation(
-		(editedQuestion) => updateQuestion(editedQuestion),
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(["question", question.questionId]);
-			},
-		}
-	);
+	const queryClient = useQueryClient();
 
 	const handleEdit = async (data) => {
 		const { questionStatus, questionId } = question;
@@ -102,14 +95,9 @@ export default function EditQuestion({ question }) {
 
 		const editedQuestion = { questionId, title, content, questionStatus };
 
-		updateQ.mutate(editedQuestion);
-		// await updateQuestion(editedQuestion); //
-		// updateQuestion.mutate(editedQuestion, {
-		// 	onSuccess: () => {
-		// 		navigate(`/questions/${question.questionId}`);
-		// 	},
-		// });
-		// window.location.replace(`${question.questionId}`);
+		await updateQuestion(editedQuestion);
+
+		window.location.replace(`/questions/${question.questionId}`);
 	};
 
 	return (

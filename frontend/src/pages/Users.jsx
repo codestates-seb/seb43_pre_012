@@ -53,8 +53,14 @@ export default function Users() {
 	const {
 		getUsers: { data: users },
 	} = useUserInfo();
-	const { authState } = useAuthContext();
-	console.log(authState);
+
+	// userContext
+	const {
+		authState: { token, refresh },
+	} = useAuthContext();
+	console.log(token);
+	console.log(refresh);
+
 	return (
 		<UsersWrapper>
 			<H1>Users</H1>

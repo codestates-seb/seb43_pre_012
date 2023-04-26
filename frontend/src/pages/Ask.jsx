@@ -13,10 +13,9 @@ const Wrapper = styled.form`
   height: auto;
   display: flex;
   align-items: start;
+  flex-direction: column;
   margin-bottom: 50px;
   position: relative;
-  display: flex;
-  flex-direction: column;
   padding: 0 20px;
 `;
 

@@ -18,8 +18,8 @@ const LoginWrapper = styled.div`
 `;
 
 const Logo = styled.img`
-	width: 40px;
-	margin-bottom: 20px;
+  width: 40px;
+  margin-bottom: 20px;
 `;
 const GithubLogin = styled.button`
 	width: 290px;
@@ -48,46 +48,46 @@ const EmailWrapper = styled.div`
 	width: 100%;
 `;
 const EmailLabel = styled.div`
-	margin: 10px 10px 2px 24px;
-	font-weight: bold;
-	font-size: ${({ theme }) => theme.fontSizes.lg};
+  margin: 10px 10px 2px 24px;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 const EmailInput = styled.input`
-	margin: 10px;
-	width: 240px;
-	height: 35px;
+  margin: 10px;
+  width: 240px;
+  height: 35px;
 `;
 const PasswordWrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;
 
 const PasswordLabel = styled.div`
-	margin-left: 26px;
-	font-weight: bold;
-	font-size: ${({ theme }) => theme.fontSizes.lg};
+  margin-left: 26px;
+  font-weight: bold;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 const ForgotPassword = styled.a`
-	margin-right: 26px;
-	color: blue;
+  margin-right: 26px;
+  color: blue;
 `;
 
 const PasswordInput = styled.input`
-	margin: 10px;
-	width: 240px;
-	height: 35px;
+  margin: 10px;
+  width: 240px;
+  height: 35px;
 `;
 
 const LoginButton = styled.button`
-	margin: 10px;
-	width: 240px;
-	height: 35px;
-	color: white;
-	background-color: ${({ theme }) => theme.colors.skyblue};
-	border-radius: 3px;
-	border: none;
+  margin: 10px;
+  width: 240px;
+  height: 35px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.skyblue};
+  border-radius: 3px;
+  border: none;
 `;
 
 export default function Login() {

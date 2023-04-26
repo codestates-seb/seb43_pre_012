@@ -59,7 +59,7 @@ const Btn = styled.div`
 
 const tempMemberId = 28;
 
-export default function MakeComment({ answerId }) {
+export default function MakeComment({ answerId, questionId }) {
   const [comment, setComment] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -81,6 +81,7 @@ export default function MakeComment({ answerId }) {
     };
 
     await addComment(newComment);
+    window.location.replace(`/questions/${questionId}`);
   };
 
   return (

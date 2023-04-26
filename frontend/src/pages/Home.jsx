@@ -7,6 +7,10 @@ const Wrapper = styled.section`
   align-items: start;
   padding-bottom: 50px;
   position: relative;
+
+  width: 100%;
+  justify-content: center;
+  background-color: green;
 `;
 
 export default function Questions() {
