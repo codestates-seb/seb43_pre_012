@@ -3,7 +3,6 @@ import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { updateAnswer } from "../hooks/tempUseQuestion";
 
@@ -29,28 +28,28 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-	font-size: 30px;
-	font-weight: bold;
+  font-size: 30px;
+  font-weight: bold;
 `;
 
 const Line = styled.div`
-	width: 100%;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const LineTitle = styled.h4`
-	font-size: 20px;
-	font-weight: bold;
-	margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
 `;
 
 const Input = styled.input`
-	height: 30px;
-	font-size: 20px;
-	padding-left: 10px;
+  height: 30px;
+  font-size: 20px;
+  padding-left: 10px;
 `;
 
 const Btn = styled.div`
@@ -64,22 +63,21 @@ const Btn = styled.div`
   border-radius: 5px;
   font-size: 20px;
 
-	&:hover {
-		cursor: pointer;
-	}
+  &:hover {
+    cursor: pointer;
+  }
 
-	&:active {
-		box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
-			rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-	}
+  &:active {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  }
 `;
 
-export default function EditAnswer({ answer, setAnswers }) {
+export default function EditAnswer({ answer }) {
   const navigate = useNavigate();
   const detailRef = useRef();
 
   const handleEdit = async () => {
-    console.log("Edit!!!");
     const { answerId, selected } = answer;
     const content = detailRef.current.getInstance().getHTML();
     if (content === "") return;
@@ -87,7 +85,7 @@ export default function EditAnswer({ answer, setAnswers }) {
     let editedAnswer = { answerId, content, selected };
     await updateAnswer(editedAnswer);
 
-    navigate(`/questions/${answer.questionId}`);
+    window.location.replace(`/questions/${answer.questionId}`);
   };
 
   return (

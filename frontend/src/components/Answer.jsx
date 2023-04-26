@@ -160,16 +160,15 @@ const EditCommentInput = styled.input`
 const SELECTED = "ANSWER_SELECTED";
 const NOTSELECTED = "ANSWER_NOT_SELECTED";
 
-export default function Answer({ answer, setAnswers }) {
+export default function Answer({ answer }) {
   const [makeComment, setMakeComment] = useState(false);
   const [editCommentId, setEditCommentId] = useState(-1);
   const [editedComment, setEditedComment] = useState("");
   const [editAnswer, setEditAnswer] = useState(null);
 
-  const navigate = useNavigate();
-
   const handleDeleteComment = async (commentId) => {
     await removeComment(commentId);
+    window.location.replace(`/questions/${answer.questionId}`);
   };
 
   const handleEditCommentValue = (e) => {
@@ -181,6 +180,7 @@ export default function Answer({ answer, setAnswers }) {
     await updateComment(edited);
 
     setEditCommentId((prev) => -1);
+    window.location.replace(`/questions/${answer.questionId}`);
   };
 
   const handleAnswerSelect = async (selected) => {
@@ -188,21 +188,11 @@ export default function Answer({ answer, setAnswers }) {
     let editedAnswer = { answerId, content, selected };
 
     await updateAnswer(editedAnswer);
+  };
 
-    editedAnswer = { ...answer, selected };
-
-    setAnswers((prev) => {
-      const originAnswers = prev;
-      const updatedAnswers = originAnswers.map((ans) => {
-        if (ans.answerId === answerId) {
-          return editedAnswer;
-        } else {
-          return ans;
-        }
-      });
-
-      return updatedAnswers;
-    });
+  const handleDeletaAnswer = async (answerId) => {
+    await removeAnswer(answerId);
+    window.location.replace(`/questions/${answer.questionId}`);
   };
 
   return (
@@ -240,7 +230,9 @@ export default function Answer({ answer, setAnswers }) {
             <CRUDs>
               <CRUD>Share</CRUD>
               <CRUD onClick={() => setEditAnswer((prev) => answer)}>Edit</CRUD>
-              <CRUD onClick={() => removeAnswer(answer.answerId)}>Delete</CRUD>
+              <CRUD onClick={() => handleDeletaAnswer(answer.answerId)}>
+                Delete
+              </CRUD>
             </CRUDs>
             <Date>{`Created At ${answer.createdAt}`}</Date>
             <OwnerInfo>
@@ -301,13 +293,16 @@ export default function Answer({ answer, setAnswers }) {
       {makeComment && (
         <>
           <Overlay onClick={() => setMakeComment((prev) => null)} />
-          <MakeComment answerId={answer.answerId} />
+          <MakeComment
+            answerId={answer.answerId}
+            questionId={answer.questionId}
+          />
         </>
       )}
       {editAnswer && (
         <>
           <Overlay onClick={() => setEditAnswer((prev) => false)} />
-          <EditAnswer answer={editAnswer} setAnswers={setAnswers} />
+          <EditAnswer answer={editAnswer} />
         </>
       )}
     </>

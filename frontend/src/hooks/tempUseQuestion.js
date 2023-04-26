@@ -5,7 +5,7 @@ const BASE_PATH =
 const LOCAL_PATH = "http://localhost:3001";
 
 let administratorAuthorization =
-	"Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0ODQ4NzgsImV4cCI6MTY4MjQ4NjY3OH0.5z8PAxg6NqtoSQ35tgHR-0IC5z8-p2fMyMXhGvXgrnM";
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0ODQ4NzgsImV4cCI6MTY4MjQ4NjY3OH0.5z8PAxg6NqtoSQ35tgHR-0IC5z8-p2fMyMXhGvXgrnM";
 let headers = {
 	Authorization: administratorAuthorization,
 };
@@ -103,11 +103,10 @@ export const removeQuestion = async (id) => {
 };
 
 export const getAnswers = async () => {
-	try {
-		const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`, {
-			headers,
-		});
-		const { data } = response;
+  try {
+    const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`);
+    const { data } = response;
+
 
 		return data.date;
 	} catch (error) {
@@ -194,12 +193,12 @@ export const getCommentsById = async (id) => {
 	}
 };
 
-export const getCommentsByAnswerId = async (questionId) => {
-	try {
-		const response = await axios.get(`${BASE_PATH}/comments`);
-		const { data } = response;
+export const getCommentsByAnswerId = async (answerId) => {
+  try {
+    const response = await axios.get(`${BASE_PATH}/comments`);
+    const { data } = response;
 
-		const comments = data.filter((comment) => comment.answerId === questionId);
+    const comments = data.filter((comment) => comment.answerId === answerId);
 
 		return comments;
 	} catch (error) {
