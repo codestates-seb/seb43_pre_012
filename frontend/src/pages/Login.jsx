@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import { AiFillGithub } from 'react-icons/ai';
+import { AiFillGithub } from "react-icons/ai";
 import axios from "axios";
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../components/AuthProvider";
+
 
 const LoginWrapper = styled.div`
 	display: flex;
@@ -22,13 +23,13 @@ const Logo = styled.img`
 	margin-bottom: 20px;
 `;
 const GithubLogin = styled.button`
-    width : 290px;
-    height : 37px;
-    margin-bottom : 10px;
-    background-color : #23262A;
-    color : white;
-    border-radius : 3px;
-`
+	width: 290px;
+	height: 37px;
+	margin-bottom: 10px;
+	background-color: #23262a;
+	color: white;
+	border-radius: 3px;
+`;
 const EmailLogin = styled.form`
     display: flex;
     width : 290px;
@@ -115,22 +116,33 @@ export default function Login() {
             console.error(error);
         }
     };
+
 	return (
-        <LoginWrapper>
-            <Logo src={smallLogo} />
-            <GithubLogin><AiFillGithub size={22}/> Log in with Github</GithubLogin>
-            <EmailLogin onSubmit={handleSubmit}>
-                <EmailWrapper>
-                    <EmailLabel>Email</EmailLabel>
-                </EmailWrapper>
-                <EmailInput type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                <PasswordWrapper>
-                    <PasswordLabel>Password</PasswordLabel>
-                    <ForgotPassword>Forgot password?</ForgotPassword>
-                </PasswordWrapper>
-                <PasswordInput type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                <LoginButton type="submit">Log in</LoginButton>
-            </EmailLogin>
-        </LoginWrapper>
+		<LoginWrapper>
+			<Logo src={smallLogo} />
+			<GithubLogin>
+				<AiFillGithub size={22} /> Log in with Github
+			</GithubLogin>
+			<EmailLogin onSubmit={handleSubmit}>
+				<EmailWrapper>
+					<EmailLabel>Email</EmailLabel>
+				</EmailWrapper>
+				<EmailInput
+					type="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+				<PasswordWrapper>
+					<PasswordLabel>Password</PasswordLabel>
+					<ForgotPassword>Forgot password?</ForgotPassword>
+				</PasswordWrapper>
+				<PasswordInput
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<LoginButton type="submit">Log in</LoginButton>
+			</EmailLogin>
+		</LoginWrapper>
 	);
 }
