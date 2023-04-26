@@ -170,9 +170,9 @@ export default function Header({ modalOpen, setModalOpen }) {
 					<Link to="Questions">
 						<Menu>Questions</Menu>
 					</Link>
-					<Link to="Tags">
+					{/* <Link to="Tags">
 						<Menu>Tags</Menu>
-					</Link>
+					</Link> */}
 					<Link to="Companies">
 						<Menu>Companies</Menu>
 					</Link>

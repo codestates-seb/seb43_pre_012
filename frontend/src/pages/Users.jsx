@@ -5,6 +5,7 @@ import { BsSearch } from "react-icons/bs";
 import FilterButton from "../components/FilterButton";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import useUserInfo from "../hooks/useUserInfo";
+import { useAuthContext } from "../components/AuthProvider";
 
 const UsersWrapper = styled.div`
 	padding: 20px;
@@ -52,7 +53,8 @@ export default function Users() {
 	const {
 		getUsers: { data: users },
 	} = useUserInfo();
-	console.log(users[0].profile_image);
+	const { authState } = useAuthContext();
+	console.log(authState);
 	return (
 		<UsersWrapper>
 			<H1>Users</H1>

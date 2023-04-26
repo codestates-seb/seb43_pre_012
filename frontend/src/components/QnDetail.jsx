@@ -287,7 +287,7 @@ const Overlay = styled.div`
 	top: 0;
 	left: 0;
 	z-index: 15;
-	/* width: 100vw; */
+	width: 100vw;
 	height: 100vh;
 `;
 const EditContainer = styled.div`
@@ -314,7 +314,7 @@ export default function QnDetail() {
 	const editorRef = useRef();
 
 	const { data: question, isLoading: isQuestionLoading } = useQuery(
-		"question",
+		["question", id + ""],
 		() => getQuestionById(id)
 	);
 
@@ -440,14 +440,16 @@ export default function QnDetail() {
 											</AnswerTitle>
 											<AnswerTitle>Your Answer</AnswerTitle>
 											<AnswerInput>
-												<Editor
-													previewStyle="vertical"
-													height="100%"
-													initialEditType="wysiwyg"
-													useCommandShortcut={false}
-													language="ko-KR"
-													ref={editorRef}
-												/>
+												<EditContainer>
+													<Editor
+														previewStyle="vertical"
+														height="100%"
+														initialEditType="wysiwyg"
+														useCommandShortcut={false}
+														language="ko-KR"
+														ref={editorRef}
+													/>
+												</EditContainer>
 											</AnswerInput>
 											{isLogin ? null : (
 												<AccountChoices>
