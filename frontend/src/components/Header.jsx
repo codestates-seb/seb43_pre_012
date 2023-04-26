@@ -166,7 +166,6 @@ export default function Header({ modalOpen, setModalOpen }) {
 					<Logo className="largeLogo" src={largeLogo} />
 					<Logo className="smallLogo" src={smallLogo} />
 				</Link>
-
 				<Nav>
 					<Link to="Questions">
 						<Menu>Questions</Menu>

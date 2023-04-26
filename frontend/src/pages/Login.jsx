@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { AiFillGithub } from 'react-icons/ai';
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
-
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginWrapper = styled.div`
@@ -91,18 +91,20 @@ const LoginButton = styled.button`
 `;
 
 export default function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/login', {
                 email,
                 password,
             });
             localStorage.setItem('token', response.data.token);
-            const decoded = jwt_decode(response.data.token);
-            console.log(decoded);
+
+            // eslint-disable-next-line no-restricted-globals 
+            navigate('/questions');
             } catch (error) {
             console.error(error);
             }
