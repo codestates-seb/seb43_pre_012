@@ -5,6 +5,7 @@ import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
+import { useNavigate } from 'react-router-dom';
 
 const LoginWrapper = styled.div`
     display: flex;
@@ -89,6 +90,7 @@ const LoginButton = styled.button`
 `
 
 export default function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = async (e) => {
@@ -99,16 +101,9 @@ export default function Login() {
                 password,
             });
             localStorage.setItem('token', response.data.token);
-            const decoded = jwt_decode(response.data.token);
-            console.log(decoded);
+
             // eslint-disable-next-line no-restricted-globals 
-            history.push({
-                pathname:`/signup`,
-                props:{
-                    email,
-                    password,
-                }
-            });
+            navigate('/Questions');
             } catch (error) {
             console.error(error);
             }

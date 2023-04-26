@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import styled from "styled-components";
 import largeLogo from "../static/large-logo.png";
 import smallLogo from "../static/small-logo.png";
 import Login from "./Login";
+import axios from "axios";
 import Captcha from "../components/ReCAPTCHA";
+import { useNavigate } from 'react-router-dom';
+
 
 const DescWrapper = styled.div`
 	display: flex;
@@ -45,7 +48,7 @@ const GithubSignup = styled.button`
 	color: white;
 	border-radius: 3px;
 `;
-const EmailSignup = styled.div`
+const EmailSignup = styled.form`
 	display: flex;
 	width: 290px;
 	height: 600px;
@@ -121,6 +124,25 @@ const SignupButton = styled.button`
 `;
 
 export default function Signup() {
+	const navigate = useNavigate();
+    const [emailInputValue, setEmailInputValue] = useState('');
+    const [passwordInputValue, setPasswordInputValue] = useState('');
+    const [displayNameInputValue, setDisplayNameInputValue] = useState('');
+
+	const handleSignup = async () => {
+        try {
+            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/members', {
+                email: emailInputValue,
+				username: displayNameInputValue,
+                password: passwordInputValue,
+            });
+			localStorage.setItem('token', response.data.token);
+			navigate('/Questions');
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 	return (
 		<>
 			<DescWrapper>
@@ -186,22 +208,22 @@ export default function Signup() {
 				<GithubSignup>
 					<AiFillGithub size={22} /> Sign up with Github
 				</GithubSignup>
-				<EmailSignup>
+				<EmailSignup onSubmit={handleSignup}>
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>
 					</DisplayNameWrapper>
-					<DisplayNameInput type="name" />
+					<DisplayNameInput type="name" onChange={e => setDisplayNameInputValue(e.target.value)}  />
 					<EmailWrapper>
 						<EmailLabel>Email</EmailLabel>
 					</EmailWrapper>
-					<EmailInput type="email" />
+					<EmailInput type="email" onChange={e => setEmailInputValue(e.target.value)} />
 					<PasswordWrapper>
 						<PasswordLabel>Password</PasswordLabel>
 						<ForgotPassword>Forgot password?</ForgotPassword>
 					</PasswordWrapper>
-					<PasswordInput type="password" />
-					<Captcha />
-					<SignupButton>Sign up</SignupButton>
+					<PasswordInput type="password" onChange={e => setPasswordInputValue(e.target.value)} />
+					{/* <Captcha /> */}
+					<SignupButton type="submit">Sign up</SignupButton>
 				</EmailSignup>
 			</SignupWrapper>
 		</>
