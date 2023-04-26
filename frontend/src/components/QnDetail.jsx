@@ -19,7 +19,7 @@ import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import EditQuestion from "./EditQuestion";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import {
   addAnswer,
   getAnswersByQuestionId,
@@ -179,7 +179,8 @@ const AnswerTitle = styled.h4`
 `;
 
 const AnswerInput = styled.div`
-  /* max-width: 700px; */
+  background-color: red;
+  max-width: 700px;
   width: 100%;
   height: 250px;
   font-size: ${(props) => props.theme.fontSizes.lg};
@@ -287,16 +288,19 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   z-index: 15;
-  /* width: 100vw; */
+  width: 100vw;
   height: 100vh;
 `;
 const EditContainer = styled.div`
   max-width: 600px;
-  width: 100%;
+  width: 90%;
   height: 100%;
+  background-color: green;
+  padding: 10px;
 `;
+
 const StyledEditor = styled(Editor)`
-  width: 100% !important;
+  width: 100%;
 `;
 
 const tempMemberId = 28;
@@ -307,15 +311,18 @@ export default function QnDetail() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [editQuestion, setEditQuestion] = useState(false);
-  const [isAnswersLoading, setIsAnswersLoading] = useState(false);
-  const [answers, setAnswers] = useState([]);
 
   const { id } = useParams();
   const editorRef = useRef();
 
   const { data: question, isLoading: isQuestionLoading } = useQuery(
-    "question",
+    ["question", id],
     () => getQuestionById(id)
+  );
+
+  const { data: answers, isLoading: isAnswersLoading } = useQuery(
+    ["answers"],
+    () => getAnswersByQuestionId(id)
   );
 
   const handlePostAnswer = async () => {
@@ -330,6 +337,7 @@ export default function QnDetail() {
     };
 
     await addAnswer(newAnswer);
+    window.location.replace(`/questions/${question.questionId}`);
   };
 
   const handleDeleteQuestion = async () => {
@@ -338,17 +346,6 @@ export default function QnDetail() {
     // removeQuestion(id);
     navigate("/questions");
   };
-
-  useEffect(() => {
-    (async () => {
-      setIsAnswersLoading((prev) => true);
-
-      const data = await getAnswersByQuestionId(id);
-      setAnswers((prev) => data);
-
-      setIsAnswersLoading((prev) => false);
-    })();
-  }, []);
 
   return (
     <>
@@ -426,14 +423,15 @@ export default function QnDetail() {
                       <Loader>Loading...</Loader>
                     ) : (
                       answers.map((answer) => (
-                        <Answer
-                          answer={answer}
-                          key={answer.answerId}
-                          setAnswers={setAnswers}
-                        />
+                        <Answer answer={answer} key={answer.answerId} />
                       ))
                     )}
-                    <div>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateRows: "repeat(auto, 1fr)",
+                      }}
+                    >
                       <AnswerTitle>
                         Know someone who can answer? Share a link to this
                         question via email, Twitter, or Facebook.
@@ -448,6 +446,7 @@ export default function QnDetail() {
                             useCommandShortcut={false}
                             language="ko-KR"
                             ref={editorRef}
+                            width="800px"
                           />
                         </EditContainer>
                       </AnswerInput>

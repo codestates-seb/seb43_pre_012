@@ -73,12 +73,11 @@ const Btn = styled.div`
   }
 `;
 
-export default function EditAnswer({ answer, setAnswers }) {
+export default function EditAnswer({ answer }) {
   const navigate = useNavigate();
   const detailRef = useRef();
 
   const handleEdit = async () => {
-    console.log("Edit!!!");
     const { answerId, selected } = answer;
     const content = detailRef.current.getInstance().getHTML();
     if (content === "") return;
@@ -86,7 +85,7 @@ export default function EditAnswer({ answer, setAnswers }) {
     let editedAnswer = { answerId, content, selected };
     await updateAnswer(editedAnswer);
 
-    navigate(`/questions/${answer.questionId}`);
+    window.location.replace(`/questions/${answer.questionId}`);
   };
 
   return (

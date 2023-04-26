@@ -8,6 +8,8 @@ import { getQuestionsByPage } from "../hooks/tempUseQuestion";
 const Wrapper = styled.section`
   height: auto;
   display: flex;
+  width: 100%;
+
   @media screen and (max-width: ${(props) => props.theme.screen.md}) {
     flex-direction: column;
     align-items: center;
@@ -15,7 +17,7 @@ const Wrapper = styled.section`
 `;
 
 const Container = styled.main`
-  max-width: 740px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-right: 40px;

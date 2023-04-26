@@ -1,9 +1,16 @@
 import axios from "axios";
+import { updateQuestion } from "../hooks/tempUseQuestion";
 
 const httpClient = axios.create({
   baseURL: "https://api.stackexchange.com/2.3/",
 });
 const isLocal = true;
+
+let administratorAuthorization =
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0NzU3NTgsImV4cCI6MTY4MjQ3NzU1OH0.qkCjPvAPkrpFjlGtFcqtd47xkZBhpuGq7fLr7wU3RJ8";
+let headers = {
+  Authorization: administratorAuthorization,
+};
 
 export const StackExchange = {
   async users(sort = "reputation") {
@@ -116,8 +123,9 @@ export const StackExchange = {
   async updateItem(question) {
     try {
       await axios.patch(
-        `http://localhost:3001/questions${question.id}`,
-        question
+        `http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/${question.id}`,
+        question,
+        { headers }
       );
     } catch (error) {
       console.log(error);

@@ -5,7 +5,7 @@ const BASE_PATH =
 const LOCAL_PATH = "http://localhost:3001";
 
 let administratorAuthorization =
-  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0NzAyNzYsImV4cCI6MTY4MjQ3MjA3Nn0.ICQ1Z9Su4dpGCQPhPd0BMny68OYQgfPzaSSnO-D4mWI";
+  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0ODQ4NzgsImV4cCI6MTY4MjQ4NjY3OH0.5z8PAxg6NqtoSQ35tgHR-0IC5z8-p2fMyMXhGvXgrnM";
 let headers = {
   Authorization: administratorAuthorization,
 };
@@ -104,9 +104,7 @@ export const removeQuestion = async (id) => {
 
 export const getAnswers = async () => {
   try {
-    const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`, {
-      headers,
-    });
+    const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`);
     const { data } = response;
 
     return data.date;

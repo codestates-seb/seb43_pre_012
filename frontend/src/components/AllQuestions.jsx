@@ -11,14 +11,14 @@ const Wrapper = styled.section`
   height: auto;
   display: flex;
   width: 100%;
-  /* @media screen and (max-width: ${(props) => props.theme.screen.md}) {
-		flex-direction: column;
-		align-items: center;
-	} */
+  @media screen and (max-width: ${(props) => props.theme.screen.md}) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Container = styled.main`
-  /* width: 100%; */
+  width: 100%;
   /* width: 100px; */
   display: flex;
   flex-direction: column;

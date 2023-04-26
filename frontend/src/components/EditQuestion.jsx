@@ -5,7 +5,10 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { isLocal, updateQuestion } from "../hooks/tempUseQuestion";
+import { isLocal } from "../hooks/tempUseQuestion";
+import { useMutation, useQueryClient, QueryCache } from "react-query";
+import useQuestion from "../hooks/useQuestion";
+import { updateQuestion } from "../hooks/tempUseQuestion";
 
 const Container = styled.form`
   max-width: 800px;
@@ -80,6 +83,8 @@ export default function EditQuestion({ question }) {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const detailRef = useRef();
+  // const { updateQuestion } = useQuestion();
+  const queryClient = useQueryClient();
 
   const handleEdit = async (data) => {
     const { questionStatus, questionId } = question;
@@ -89,9 +94,10 @@ export default function EditQuestion({ question }) {
     if (content === "") return;
 
     const editedQuestion = { questionId, title, content, questionStatus };
+
     await updateQuestion(editedQuestion);
 
-    navigate(`/questions/${question.questionId}`);
+    window.location.replace(`/questions/${question.questionId}`);
   };
 
   return (
