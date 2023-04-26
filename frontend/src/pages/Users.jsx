@@ -6,6 +6,7 @@ import FilterButton from "../components/FilterButton";
 import { InputContainer, SearchInput } from "../styles/styles_jh";
 import useUserInfo from "../hooks/useUserInfo";
 import { useAuthContext } from "../components/AuthProvider";
+import { deleteCookie } from "../utils/cookies";
 
 const UsersWrapper = styled.div`
 	padding: 20px;
@@ -53,13 +54,6 @@ export default function Users() {
 	const {
 		getUsers: { data: users },
 	} = useUserInfo();
-
-	// userContext
-	const {
-		authState: { token, refresh },
-	} = useAuthContext();
-	console.log(token);
-	console.log(refresh);
 
 	return (
 		<UsersWrapper>
