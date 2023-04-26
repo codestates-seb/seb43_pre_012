@@ -14,6 +14,9 @@ const HamModalWrapper = styled.div`
 	position: fixed;
 	border : 1px solid #EBECEC;
 	box-shadow: 3px 3px 3px #d3d3d3;
+	@media screen and (min-width: ${({ theme }) => theme.screen.sm}) {
+		display: none;
+	}
 `;
 const Wrapper = styled.div`
 	padding-top: 20px;
@@ -44,7 +47,7 @@ const P = styled.div`
 	display: flex;
 	justify-content: space-between;
 	margin-left: 5px;
-	font-size: 14px;
+	font-size: 13px;
 `;
 
 export default function HamModal() {
