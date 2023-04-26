@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { StackExchange } from "../utils/stackExchangeApi";
 
 export default function useUserInfo() {

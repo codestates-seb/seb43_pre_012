@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // 미인증된 인증토큰을 생성하고 토큰에 클라이언트가 입력한 아이디와 비밀번호를 담는다.
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
         // 생성한 미인증 토큰을 authenticationManager에게 넘겨주면, authenticationManager가 알아서 인증처리를 한다.
         // AuthenticationManager가 Custom UserDetailsService(MemberDetailsService)에게 사용자의 UserDetails 조회를 위임하는 방식.
