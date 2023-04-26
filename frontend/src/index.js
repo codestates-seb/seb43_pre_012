@@ -22,41 +22,41 @@ import Home from "./pages/Home";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const store = configureStore({
-  reducer: {
-    userReducer: userReducer,
-  },
+	reducer: {
+		userReducer: userReducer,
+	},
 });
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "/user", element: <UserProfile /> },
-      { path: "/users", element: <Users /> },
-      { path: "/tags", element: <Tags /> },
-      { path: "/companies", element: <Companies /> },
-      { path: "/user", element: <UserProfile /> },
-      { path: "/user/save", element: <UserSave /> },
-      { path: "/questions/:id", element: <QuestionDetail /> },
-      { path: "/questions/ask", element: <Ask /> },
-      { path: "/login", element: <Login /> },
-      { path: "/Signup", element: <Signup /> },
-      { path: "/questions", element: <Questions /> },
-    ],
-  },
+	{
+		path: "/",
+		element: <App />,
+		children: [
+			{ index: true, element: <Home /> },
+			{ path: "/user", element: <UserProfile /> },
+			{ path: "/users", element: <Users /> },
+			// { path: "/tags", element: <Tags /> },
+			{ path: "/companies", element: <Companies /> },
+			{ path: "/user", element: <UserProfile /> },
+			{ path: "/user/save", element: <UserSave /> },
+			{ path: "/questions/:id", element: <QuestionDetail /> },
+			{ path: "/questions/ask", element: <Ask /> },
+			{ path: "/login", element: <Login /> },
+			{ path: "/Signup", element: <Signup /> },
+			{ path: "/questions", element: <Questions /> },
+		],
+	},
 ]);
 
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ThemeProvider theme={theme}>
-    <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </QueryClientProvider>
-  </ThemeProvider>
+	<ThemeProvider theme={theme}>
+		<QueryClientProvider client={queryClient}>
+			<GlobalStyle />
+			<Provider store={store}>
+				<RouterProvider router={router} />
+			</Provider>
+		</QueryClientProvider>
+	</ThemeProvider>
 );

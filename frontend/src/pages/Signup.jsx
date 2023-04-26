@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import styled from "styled-components";
 import largeLogo from "../static/large-logo.png";
 import smallLogo from "../static/small-logo.png";
 import Login from "./Login";
+import axios from "axios";
 import Captcha from "../components/ReCAPTCHA";
+import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
+
+const Wrapper = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	height: 100vh;
+	@media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+		justify-content: center;
+	}
+	margin: 20px;
+	background-color : #f5f5f6;
+`;
 
 const DescWrapper = styled.div`
 	display: flex;
@@ -12,8 +28,9 @@ const DescWrapper = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	height: 100vh;
-	width: 1000px;
-	margin-left: 40px;
+	@media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+		display: none;
+	}
 `;
 
 const Desc = styled.div`
@@ -22,15 +39,20 @@ const Desc = styled.div`
 	&.join {
 		font-size: 30px;
 	}
+	&.collabo{
+		font-size : 13px;
+	}
 `;
 
+const GetTeams = styled.div`
+	color : #0995FF;
+`
 const SignupWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
 	height: 100vh;
-	width: 100%;
 `;
 
 const Logo = styled.img`
@@ -45,14 +67,16 @@ const GithubSignup = styled.button`
 	color: white;
 	border-radius: 3px;
 `;
-const EmailSignup = styled.div`
+const EmailSignup = styled.form`
 	display: flex;
 	width: 290px;
 	height: 600px;
 	flex-direction: column;
 	align-items: center;
-	border: 1px solid #23262a;
+	background-color : white;
+	border: 1px solid #c9c9c9;
 	border-radius: 3px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 const DisplayNameWrapper = styled.div`
 	display: flex;
@@ -101,7 +125,7 @@ const PasswordLabel = styled.div`
 `;
 const ForgotPassword = styled.a`
 	margin-right: 26px;
-	color: blue;
+	color: #0995FF;
 `;
 
 const PasswordInput = styled.input`
@@ -121,12 +145,34 @@ const SignupButton = styled.button`
 `;
 
 export default function Signup() {
+	const navigate = useNavigate();
+	const [emailInputValue, setEmailInputValue] = useState("");
+	const [passwordInputValue, setPasswordInputValue] = useState("");
+	const [displayNameInputValue, setDisplayNameInputValue] = useState("");
+
+	const handleSignup = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post(
+				"http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members",
+				{
+					email: emailInputValue,
+					username: displayNameInputValue,
+					password: passwordInputValue,
+				}
+			);
+			alert("회원가입 성공!");
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	return (
-		<>
+		<Wrapper>
 			<DescWrapper>
 				<Desc className="join">Join the Stack Overflow community</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							opacity=".5"
@@ -140,7 +186,7 @@ export default function Signup() {
 					ㅤGet unstuck - ask a question
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M12 .7a2 2 0 013 0l8.5 9.6a1 1 0 01-.7 1.7H4.2a1 1 0 01-.7-1.7L12 .7z"
@@ -158,7 +204,7 @@ export default function Signup() {
 					ㅤUnlock new privileges like voting and commenting
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M14.8 3a2 2 0 00-1.4.6l-10 10a2 2 0 000 2.8l8.2 8.2c.8.8 2 .8 2.8 0l10-10c.4-.4.6-.9.6-1.4V5a2 2 0 00-2-2h-8.2zm5.2 7a2 2 0 110-4 2 2 0 010 4z"
@@ -172,7 +218,7 @@ export default function Signup() {
 					ㅤSave your favorite questions, answers, watch tags, and more
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M21 4V2H5v2H1v5c0 2 2 4 4 4v1c0 2.5 3 4 7 4v3H7s-1.2 2.3-1.2 3h14.4c0-.6-1.2-3-1.2-3h-5v-3c4 0 7-1.5 7-4v-1c2 0 4-2 4-4V4h-4zM5 11c-1 0-2-1-2-2V6h2v5zm11.5 2.7l-3.5-2-3.5 1.9L11 9.8 7.2 7.5h4.4L13 3.8l1.4 3.7h4L15.3 10l1.4 3.7h-.1zM23 9c0 1-1 2-2 2V6h2v3z"
@@ -180,30 +226,45 @@ export default function Signup() {
 					</svg>
 					ㅤEarn reputation and badges
 				</Desc>
+				<Desc className="collabo">
+					Collaborate and share knowledge with a private group for FREE.
+				</Desc>
+				<Link to="/Companies">
+					<GetTeams>Get Stack Overflow for Teams free for up to 50 users.</GetTeams>
+				</Link>
 			</DescWrapper>
 			<SignupWrapper>
 				<Logo src={smallLogo} />
 				<GithubSignup>
 					<AiFillGithub size={22} /> Sign up with Github
 				</GithubSignup>
-				<EmailSignup>
+				<EmailSignup onSubmit={handleSignup}>
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>
 					</DisplayNameWrapper>
-					<DisplayNameInput type="name" />
+					<DisplayNameInput
+						type="name"
+						onChange={(e) => setDisplayNameInputValue(e.target.value)}
+					/>
 					<EmailWrapper>
 						<EmailLabel>Email</EmailLabel>
 					</EmailWrapper>
-					<EmailInput type="email" />
+					<EmailInput
+						type="email"
+						onChange={(e) => setEmailInputValue(e.target.value)}
+					/>
 					<PasswordWrapper>
 						<PasswordLabel>Password</PasswordLabel>
 						<ForgotPassword>Forgot password?</ForgotPassword>
 					</PasswordWrapper>
-					<PasswordInput type="password" />
-					<Captcha />
-					<SignupButton>Sign up</SignupButton>
+					<PasswordInput
+						type="password"
+						onChange={(e) => setPasswordInputValue(e.target.value)}
+					/>
+					{/* <Captcha /> */}
+					<SignupButton type="submit">Sign up</SignupButton>
 				</EmailSignup>
 			</SignupWrapper>
-		</>
+		</Wrapper>
 	);
 }

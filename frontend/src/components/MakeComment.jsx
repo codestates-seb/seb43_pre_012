@@ -57,7 +57,9 @@ const Btn = styled.div`
   }
 `;
 
-export default function MakeComment({ questionId }) {
+const tempMemberId = 28;
+
+export default function MakeComment({ answerId, questionId }) {
   const [comment, setComment] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -71,32 +73,15 @@ export default function MakeComment({ questionId }) {
       return;
     }
     setErrMsg((prev) => "");
-    const id = getDateNumber();
-    if (isLocal) {
-      const newComment = {
-        id,
-        owner: {
-          account_id: 987654321,
-          reputation: 0,
-          user_id: 987654321,
-          user_type: "registered",
-          accept_rate: 0,
-          profile_image: "https://i.stack.imgur.com/knppv.jpg?s=256&g=1",
-          display_name: "홍길동",
-          link: "https://naver.com",
-        },
-        edited: false,
-        score: 0,
-        creation_date: id,
-        post_id: id,
-        comment_id: id,
-        content_license: "CC BY-SA 4.0",
-        question_id: questionId,
-        body: comment,
-      };
 
-      await addComment(newComment);
-    }
+    const newComment = {
+      memberId: tempMemberId,
+      answerId,
+      comment,
+    };
+
+    await addComment(newComment);
+    window.location.replace(`/questions/${questionId}`);
   };
 
   return (

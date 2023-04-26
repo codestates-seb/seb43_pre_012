@@ -1,312 +1,263 @@
 import axios from "axios";
+import { getCookie } from "../utils/cookies";
 
 const BASE_PATH =
-  "http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api";
+	"http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api";
 const LOCAL_PATH = "http://localhost:3001";
-export const isLocal = true;
+
+let administratorAuthorization = getCookie("token");
+let headers = {
+	Authorization: administratorAuthorization,
+};
+export const getDateNumber = () => {
+	const date = new Date();
+	return date.getTime();
+};
+
+export const getAuthorization = async () => {
+	const response = await axios.post(
+		"http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/login",
+		{ email: "jm@gmail.com", password: "1234" }
+	);
+
+	const { authorization } = response.headers;
+
+	administratorAuthorization = authorization;
+	headers.Authorization = administratorAuthorization;
+};
 
 export const getQuestions = async () => {
-  if (!isLocal) {
-    /*
-    return httpClient
-      .get("questions", {
-        params: {
-          pagesize: 20,
-          site: "stackoverflow",
-          order: "desc",
-          sort: "hot",
-          filter: "!nOedRLbBQj",
-        },
-      })
-      .then((json) => json.data.items);
-      */
+	try {
+		const response = await axios.get(`${BASE_PATH}/questions?page=1&size=100`);
+		const { data } = response;
 
-    const response = await axios.get(`${BASE_PATH}/questions?page=1&size=100`);
+		return data.date;
 
-    return response.data.date.sort((a, b) => {
-      if (a.creation_date < b.creation_date) return 1;
-      else if (a.creation_date > b.creation_date) return -1;
-      else return 0;
-    });
-  } else {
-    console.log("local data..");
+		return data.date.sort((a, b) => {
+			if (a.createdAt < b.createdAt) return 1;
+			else if (a.createdAt > b.createdAt) return -1;
+			else return 0;
+		});
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
+};
 
-    // 밑은 json-server 이용한 것
+export const getQuestionsByPage = async (page) => {
+	try {
+		const response = await axios.get(
+			`${BASE_PATH}/questions?page=${page}&size=10`
+		);
+		const { data } = response;
 
-    const response = await axios.get("http://localhost:3001/questions");
-
-    return response.data.sort((a, b) => {
-      if (a.creation_date < b.creation_date) return 1;
-      else if (a.creation_date > b.creation_date) return -1;
-      else return 0;
-    });
-  }
+		return data.date;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const getQuestionById = async (id) => {
-  if (!isLocal) {
-    /*
-    return httpClient
-      .get("questions", {
-        params: {
-          pagesize: 20,
-          site: "stackoverflow",
-          order: "desc",
-          sort: "hot",
-          filter: "!nOedRLbBQj",
-        },
-      })
-      .then((json) => json.data.items);
-      */
+	try {
+		const response = await axios.get(`${BASE_PATH}/questions/${id}`);
+		const { data } = response;
 
-    const response = await axios.get(`${BASE_PATH}/questions/${id}`);
-    const { data } = response;
-
-    return data;
-  } else {
-    console.log("local data..");
-
-    const response = await axios.get(`http://localhost:3001/questions/${id}`);
-    const { data } = response;
-
-    return data;
-  }
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const addQuestion = async (newQuestion) => {
-  if (!isLocal) {
-    try {
-      await axios.post(`${BASE_PATH}/questions`, newQuestion);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  } else {
-    try {
-      /*
-      const response = await fetch("http://localhost:3001/questions", {
-        method: "POST",
-        headers: { "Content-type": "Application/json" },
-        body: JSON.stringify(question),
-      });
-      */
-      await axios.post("http://localhost:3001/questions", newQuestion);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.post(`${BASE_PATH}/questions`, newQuestion, {
+			headers,
+		});
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const updateQuestion = async (question) => {
-  if (!isLocal) {
-    try {
-      await axios.patch(
-        `${BASE_PATH}/questions/${question.questionId}`,
-        question
-      );
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-  try {
-    await axios.patch(
-      `http://localhost:3001/questions/${question.id}`,
-      question
-    );
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.patch(
+			`${BASE_PATH}/questions/${question.questionId}`,
+			question,
+			{
+				headers,
+			}
+		);
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const removeQuestion = async (id) => {
-  if (!isLocal) {
-    try {
-      await axios.delete(`${BASE_PATH}/questions/${id}`);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-  try {
-    await axios.delete(`http://localhost:3001/questions/${id}`);
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+	try {
+		await axios.delete(`${BASE_PATH}/questions/${id}`, { headers });
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const getAnswers = async () => {
-  if (isLocal === false) {
-    const response = await axios.get(
-      "http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/answers?page=1&size=100"
-    );
-    const { data } = response;
+	try {
+		const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`);
+		const { data } = response;
 
-    return data;
-  } else {
-    const response = await axios.get("http://localhost:3001/answers");
-    const { data } = response;
-
-    return data;
-  }
+		return data.date;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const getAnswerById = async (id) => {
-  if (isLocal === false) {
-    const response = await axios.get(`${BASE_PATH}/answers/${id}`);
-    const { data } = response;
+	try {
+		const response = await axios.get(`${BASE_PATH}/answers/${id}`);
+		const { data } = response;
 
-    return data;
-  } else {
-    const response = await axios.get(`http://localhost:3001/answers/${id}`);
-    const { data } = response;
-
-    return data;
-  }
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
-export const getAnswerByQuestionId = async (questionId) => {
-  if (isLocal === false) {
-    const response = await axios.get(`${BASE_PATH}/answers?page=1&size=100?`);
-    const { data } = response;
+export const getAnswersByQuestionId = async (questionId) => {
+	try {
+		const data = await getAnswers();
 
-    const answers = data.filter((answer) => answer.question_id === questionId);
-    return answers;
-  } else {
-    const response = await axios.get("http://localhost:3001/answers");
-    const { data } = response;
+		const answers = data.filter((answer) => answer.questionId === +questionId);
 
-    const answers = data.filter((answer) => answer.question_id === questionId);
-    return answers;
-  }
+		return answers;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const addAnswer = async (newAnswer) => {
-  if (!isLocal) {
-    try {
-      await axios.post(`${BASE_PATH}/answers`, newAnswer);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  } else {
-    try {
-      await axios.post("http://localhost:3001/answers", newAnswer);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.post(`${BASE_PATH}/answers`, newAnswer, { headers });
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const updateAnswer = async (answer) => {
-  if (!isLocal) {
-    try {
-      await axios.patch(`${BASE_PATH}/answers/${answer.answerId}`, answer);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-  try {
-    await axios.patch(`http://localhost:3001/answers/${answer.id}`, answer);
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.patch(`${BASE_PATH}/answers/${answer.answerId}`, answer, {
+			headers,
+		});
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const removeAnswer = async (id) => {
-  if (!isLocal) {
-    try {
-      await axios.delete(`${BASE_PATH}/answers/${id}`);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-  try {
-    await axios.delete(`http://localhost:3001/answers/${id}`);
-  } catch (error) {
-    console.log(error);
-    return error;
-  }
-};
-
-export const getDateNumber = () => {
-  const date = new Date();
-  return date.getTime();
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.delete(`${BASE_PATH}/answers/${id}`, { headers });
+	} catch (error) {
+		console.log(error.message);
+		return error;
+	}
 };
 
 export const getComments = async () => {
-  if (isLocal === false) {
-  } else {
-    const response = await axios.get(`${LOCAL_PATH}/comments`);
-    const { data } = response;
+	try {
+		const response = await axios.get(`${LOCAL_PATH}/comments`);
+		const { data } = response;
 
-    return data;
-  }
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const getCommentsById = async (id) => {
-  if (isLocal === false) {
-  } else {
-    const response = await axios.get(`${LOCAL_PATH}/comments/${id}`);
-    const { data } = response;
+	try {
+		const response = await axios.get(`${BASE_PATH}/comments/${id}`);
+		const { data } = response;
 
-    return data;
-  }
+		return data;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
-export const getCommentsByQuestionId = async (questionId) => {
-  if (isLocal === false) {
-  } else {
-    const response = await axios.get(`${LOCAL_PATH}/comments`);
-    const { data } = response;
+export const getCommentsByAnswerId = async (answerId) => {
+	try {
+		const response = await axios.get(`${BASE_PATH}/comments`);
+		const { data } = response;
 
-    const comments = data.filter(
-      (comment) => comment.question_id === questionId
-    );
+		const comments = data.filter((comment) => comment.answerId === answerId);
 
-    return comments;
-  }
+		return comments;
+	} catch (error) {
+		console.log(error.message);
+		return [];
+	}
 };
 
 export const addComment = async (newComment) => {
-  if (isLocal === false) {
-  } else {
-    try {
-      await axios.post(`${LOCAL_PATH}/comments`, newComment);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.post(`${BASE_PATH}/comments`, newComment, { headers });
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const updateComment = async (comment) => {
-  if (isLocal === false) {
-  } else {
-    try {
-      await axios.patch(`${LOCAL_PATH}/comments/${comment.id}`, comment);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.patch(`${BASE_PATH}/comments/${comment.commentId}`, comment, {
+			headers,
+		});
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };
 
 export const removeComment = async (id) => {
-  if (isLocal === false) {
-  } else {
-    try {
-      await axios.delete(`${LOCAL_PATH}/comments/${id}`);
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
+	const headers = {
+		Authorization: getCookie("token"),
+	};
+	try {
+		await axios.delete(`${BASE_PATH}/comments/${id}`, { headers });
+	} catch (error) {
+		console.log(error.message);
+		return;
+	}
 };

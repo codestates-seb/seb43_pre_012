@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,30 +22,26 @@ import EditQuestion from "./EditQuestion";
 import { useQuery } from "react-query";
 import {
   addAnswer,
-  getAnswerByQuestionId,
-  getCommentsByQuestionId,
-  getDateNumber,
+  getAnswersByQuestionId,
   getQuestionById,
-  isLocal,
-  removeComment,
   removeQuestion,
-  updateComment,
 } from "../hooks/tempUseQuestion";
-import EditAnswer from "./EditAnswer";
-import MakeComment from "./MakeComment";
+import { useEffect } from "react";
+import { getCookie } from "../utils/cookies";
 
 const Wrapper = styled.section`
+  width: 100%;
   height: auto;
   display: flex;
 
   @media screen and (max-width: ${(props) => props.theme.screen.md}) {
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
   }
 `;
 
 const Container = styled.main`
-  max-width: 740px;
+  /* max-width: 740px; */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -83,6 +79,7 @@ const AskBtn = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: #80c0ff 0px 1px 4px;
+  display: ${(props) => props.isLogin === false && "none"};
 
   &:hover {
     background-color: ${(props) => props.theme.colors.btnHover};
@@ -104,7 +101,6 @@ const HeaderInfo = styled.h6`
 const MainContents = styled.section`
   width: 100%;
   height: auto;
-
   display: flex;
   justify-content: center;
 `;
@@ -114,45 +110,11 @@ const Question = styled.section`
   height: auto;
   display: flex;
 `;
+const ContextsWrapper = styled.div``; //jh
 
 const Contents = styled.section`
   display: flex;
   flex-direction: column;
-`;
-
-const Content = styled.div`
-  margin-top: 10px;
-  margin-bottom: 25px;
-  max-width: 660px;
-  width: 100%;
-
-  & * {
-    margin-bottom: 10px;
-  }
-
-  & p {
-    font-size: ${(props) => props.theme.fontSizes.lg};
-  }
-
-  & pre {
-    padding: 20px;
-    width: 100%;
-    max-height: 600px;
-    overflow: auto;
-
-    background-color: #f6f7f6;
-  }
-
-  & code {
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-family: "Courier New", Courier, monospace;
-    font-size: ${(props) => props.theme.fontSizes.sm};
-  }
-
-  & img {
-    width: 100%;
-  }
 `;
 
 const Tags = styled.section`
@@ -191,6 +153,7 @@ const Questioner = styled.div`
 `;
 
 const UpDownBtns = styled.section`
+  flex-shrink: 0;
   width: 80px;
   display: flex;
   flex-direction: column;
@@ -208,7 +171,6 @@ const Answers = styled.div`
   width: 100%;
 
   height: 150px;
-  background-color: green;
 `;
 
 const AnswerTitle = styled.h4`
@@ -316,55 +278,6 @@ const CRUDBtn = styled.h6`
   }
 `;
 
-// Comments
-const Comments = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CommentLine = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 80%;
-  height: 35px;
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
-  margin-bottom: 2px;
-  padding-left: 10px;
-`;
-
-const CommentInfos = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const CommentInfo = styled.h5`
-  font-size: ${(props) => props.theme.fontSizes.lg};
-  margin-right: 10px;
-`;
-
-const CommentBtn = styled.span`
-  margin: 20px;
-  font-size: ${(props) => props.theme.fontSizes.lg};
-  color: gray;
-
-  &:hover {
-    color: #0c0d0e;
-    cursor: pointer;
-  }
-`;
-
-const EditCommentInput = styled.input`
-  width: 60%;
-  height: 80%;
-  padding-left: 10px;
-`;
-
-// ===
-
 const Loader = styled.h1`
   font-size: ${(props) => props.theme.fontSizes.lg};
   font-weight: bold;
@@ -378,81 +291,52 @@ const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
 `;
+const EditContainer = styled.div`
+  max-width: 600px;
+  width: 90%;
+  height: 100%;
+  padding: 10px;
+`;
 
-const getDate = (date) => {
-  const dateInfo = Date(1681826527).split(" ");
+const StyledEditor = styled(Editor)`
+  width: 100%;
+`;
 
-  return `${dateInfo[3]}.${dateInfo[1]}.${dateInfo[2]}`;
-};
+const tempMemberId = 28;
 
 export default function QnDetail() {
   const tempTags = ["JavaScript", "Java"];
 
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [editQuestion, setEditQuestion] = useState(false);
-  const [makeComment, setMakeComment] = useState(false);
-  const [editCommentId, setEditCommentId] = useState(-1);
-  const [editedComment, setEditedComment] = useState("");
-  const [editAnswer, setEditAnswer] = useState(null);
 
   const { id } = useParams();
   const editorRef = useRef();
 
   const { data: question, isLoading: isQuestionLoading } = useQuery(
-    "question",
+    ["question", id],
     () => getQuestionById(id)
   );
-  const { data: answers, isLoading: isAnswersLoading } = useQuery(
-    "answers",
-    () => getAnswerByQuestionId(id)
-  );
 
-  const { data: comments, isLoading: isCommentsLoading } = useQuery(
-    "comments",
-    () => getCommentsByQuestionId(id)
+  const { data: answers, isLoading: isAnswersLoading } = useQuery(
+    ["answers"],
+    () => getAnswersByQuestionId(id)
   );
 
   const handlePostAnswer = async () => {
     // html형식으로 텍스트를 가져오려면, getHTML()
     // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
-    const answer = editorRef.current.getInstance().getHTML();
-    const answerId = getDateNumber();
+    const content = editorRef.current.getInstance().getHTML();
 
-    if (isLocal) {
-      const newAnswer = {
-        id: answerId,
-        owner: {
-          account_id: 987654321,
-          reputation: 0,
-          user_id: 987654321,
-          user_type: "registered",
-          profile_image:
-            "https://lh6.googleusercontent.com/-bYTk_HLqKhw/AAAAAAAAAAI/AAAAAAAAFUc/ocKZW4UvKcc/photo.jpg?sz=256",
-          display_name: "DaeBak",
-          link: "https://naver.com",
-        },
-        is_acceopted: false,
-        score: 3,
-        last_activity_date: answerId,
-        creation_date: answerId,
-        answer_id: answerId,
-        question_id: id,
-        content_license: "CC BY-SA 4.0",
-        title: `answer ${id}`,
-        body: answer,
-      };
+    const newAnswer = {
+      content,
+      questionId: id,
+      memberId: tempMemberId,
+    };
 
-      await addAnswer(newAnswer);
-    } else {
-      const newAnswer = {
-        content: answer,
-        questionId: id,
-        memberId: 987654321,
-      };
-
-      await addAnswer(newAnswer);
-    }
+    await addAnswer(newAnswer);
+    window.location.replace(`/questions/${question.questionId}`);
   };
 
   const handleDeleteQuestion = async () => {
@@ -462,22 +346,13 @@ export default function QnDetail() {
     navigate("/questions");
   };
 
-  const handleDeleteComment = async (commentId) => {
-    await removeComment(commentId);
-  };
-
-  const handleEditCommentValue = (e) => {
-    setEditedComment((prev) => e.target.value);
-  };
-
-  const handleEditComment = async (comment) => {
-    if (isLocal) {
-      const edited = { ...comment, body: editedComment };
-      await updateComment(edited);
-
-      setEditCommentId((prev) => -1);
+  useEffect(() => {
+    if (getCookie("token")) {
+      setIsLogin((prev) => true);
+    } else {
+      setIsLogin((prev) => false);
     }
-  };
+  }, []);
 
   return (
     <>
@@ -491,16 +366,12 @@ export default function QnDetail() {
                 <TopHeader>
                   <Title>{question.title}</Title>
                   <Link to="/questions/ask">
-                    <AskBtn>Ask Question</AskBtn>
+                    <AskBtn isLogin={isLogin}>Ask Question</AskBtn>
                   </Link>
                 </TopHeader>
                 <BottomHeader>
-                  <HeaderInfo>{`Asked ${getDate(
-                    question.createdAt || question.creation_date
-                  )}`}</HeaderInfo>
-                  <HeaderInfo>{`Modified At ${
-                    question.modifiedAt | question.last_edit_date
-                  }`}</HeaderInfo>
+                  <HeaderInfo>{`Asked ${question.createdAt}`}</HeaderInfo>
+                  <HeaderInfo>{`Modified At ${question.modifiedAt}`}</HeaderInfo>
                   <HeaderInfo>{`Viewd ${
                     question.viewCount || 1
                   } times`}</HeaderInfo>
@@ -528,10 +399,7 @@ export default function QnDetail() {
                     />
                   </UpDownBtns>
                   <Contents>
-                    {/* <Content
-                 dangerouslySetInnerHTML={{ __html: question.body }}
-               /> */}
-                    <Viewer initialValue={question.content || question.body} />
+                    <Viewer initialValue={question.content} />
                     <Tags>
                       {question.tags
                         ? question.tags.map((tag) => (
@@ -551,92 +419,48 @@ export default function QnDetail() {
                       <Questioner>
                         <QuestionerIcon
                           bgImage={
-                            "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg" ||
-                            question.owner.profile_image
+                            "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
                           }
                         />
-                        {question.username || question.owner.display_name}
+                        {question.username}
                       </Questioner>
                     </QuestionerLine>
-                    <Comments>
-                      {isCommentsLoading === false &&
-                        comments.map((comment, index) => (
-                          <CommentLine key={comment.comment_id + ""}>
-                            {editCommentId === comment.id ? (
-                              <>
-                                <EditCommentInput
-                                  placeholder="Edit comment"
-                                  onChange={handleEditCommentValue}
-                                />
-                                <CommentBtn
-                                  onClick={() => handleEditComment(comment)}
-                                >
-                                  Edit
-                                </CommentBtn>
-                              </>
-                            ) : (
-                              <>
-                                <CommentInfos>
-                                  <CommentInfo>{index + 1}</CommentInfo>
-                                  <CommentInfo>
-                                    {comment.comment || comment.body}
-                                  </CommentInfo>
-                                  <CommentInfo>홍길동</CommentInfo>
-                                </CommentInfos>
-                                <CommentInfos>
-                                  <CommentBtn
-                                    onClick={() =>
-                                      handleDeleteComment(comment.id)
-                                    }
-                                  >
-                                    Delete
-                                  </CommentBtn>
-                                  <CommentBtn
-                                    onClick={() =>
-                                      setEditCommentId((prev) => comment.id)
-                                    }
-                                  >
-                                    Edit
-                                  </CommentBtn>
-                                </CommentInfos>
-                              </>
-                            )}
-                          </CommentLine>
-                        ))}
-                      <CommentBtn
-                        onClick={() => setMakeComment((prev) => true)}
-                      >
-                        Add a comment
-                      </CommentBtn>
-                    </Comments>
                     <RelatedQuestions />
                     {isAnswersLoading ? (
                       <Loader>Loading...</Loader>
                     ) : (
                       answers.map((answer) => (
-                        <Answer
-                          answer={answer}
-                          key={answer.answer_id || answer.answerId}
-                          setEditAnswer={setEditAnswer}
-                        />
+                        <Answer answer={answer} key={answer.answerId} />
                       ))
                     )}
-                    <div>
-                      <AnswerTitle>
-                        Know someone who can answer? Share a link to this
-                        question via email, Twitter, or Facebook.
-                      </AnswerTitle>
-                      <AnswerTitle>Your Answer</AnswerTitle>
-                      <AnswerInput>
-                        <Editor
-                          previewStyle="vertical"
-                          height="100%"
-                          initialEditType="wysiwyg"
-                          useCommandShortcut={false}
-                          language="ko-KR"
-                          ref={editorRef}
-                        />
-                      </AnswerInput>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateRows: "repeat(auto, 1fr)",
+                      }}
+                    >
+                      {isLogin ? (
+                        <>
+                          <AnswerTitle>
+                            Know someone who can answer? Share a link to this
+                            question via email, Twitter, or Facebook.
+                          </AnswerTitle>
+                          <AnswerTitle>Your Answer</AnswerTitle>
+                          <AnswerInput>
+                            <EditContainer>
+                              <StyledEditor
+                                previewStyle="vertical"
+                                height="100%"
+                                initialEditType="wysiwyg"
+                                useCommandShortcut={false}
+                                language="ko-KR"
+                                ref={editorRef}
+                                width="800px"
+                              />
+                            </EditContainer>
+                          </AnswerInput>
+                        </>
+                      ) : null}
                       {isLogin ? null : (
                         <AccountChoices>
                           <AccountChoice>
@@ -714,18 +538,6 @@ export default function QnDetail() {
             <>
               <Overlay onClick={() => setEditQuestion((prev) => false)} />
               <EditQuestion question={question} />
-            </>
-          )}
-          {editAnswer && (
-            <>
-              <Overlay onClick={() => setEditAnswer((prev) => false)} />
-              <EditAnswer answer={editAnswer} />
-            </>
-          )}
-          {makeComment && (
-            <>
-              <Overlay onClick={() => setMakeComment((prev) => null)} />
-              <MakeComment questionId={id} />
             </>
           )}
         </>
