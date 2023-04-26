@@ -10,7 +10,6 @@ import { useMutation, useQueryClient, QueryCache } from "react-query";
 import useQuestion from "../hooks/useQuestion";
 import { updateQuestion } from "../hooks/tempUseQuestion";
 
-
 const Container = styled.form`
 	max-width: 800px;
 	width: 60vw;
@@ -81,12 +80,11 @@ const Btn = styled.button`
 export default function EditQuestion({ question }) {
 	const tempTags = ["JavaScript", "Java"];
 
-  const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
-  const detailRef = useRef();
-  // const { updateQuestion } = useQuestion();
-  const queryClient = useQueryClient();
-
+	const navigate = useNavigate();
+	const { register, handleSubmit } = useForm();
+	const detailRef = useRef();
+	// const { updateQuestion } = useQuestion();
+	const queryClient = useQueryClient();
 
 	const handleEdit = async (data) => {
 		const { questionStatus, questionId } = question;
@@ -95,13 +93,12 @@ export default function EditQuestion({ question }) {
 		const content = detailRef.current.getInstance().getHTML();
 		if (content === "") return;
 
-    const editedQuestion = { questionId, title, content, questionStatus };
+		const editedQuestion = { questionId, title, content, questionStatus };
 
-    await updateQuestion(editedQuestion);
+		await updateQuestion(editedQuestion);
 
-    window.location.replace(`/questions/${question.questionId}`);
-  };
-
+		window.location.replace(`/questions/${question.questionId}`);
+	};
 
 	return (
 		<Container onSubmit={handleSubmit(handleEdit)}>

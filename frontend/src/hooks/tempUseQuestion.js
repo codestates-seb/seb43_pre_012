@@ -1,15 +1,14 @@
 import axios from "axios";
+import { getCookie } from "../utils/cookies";
 
 const BASE_PATH =
 	"http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api";
 const LOCAL_PATH = "http://localhost:3001";
 
-let administratorAuthorization =
-  "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwidXNlcm5hbWUiOiJqbUBlbWFpbC5jb20iLCJzdWIiOiJqbUBlbWFpbC5jb20iLCJpYXQiOjE2ODI0ODQ4NzgsImV4cCI6MTY4MjQ4NjY3OH0.5z8PAxg6NqtoSQ35tgHR-0IC5z8-p2fMyMXhGvXgrnM";
+let administratorAuthorization = getCookie("token");
 let headers = {
 	Authorization: administratorAuthorization,
 };
-
 export const getDateNumber = () => {
 	const date = new Date();
 	return date.getTime();
@@ -72,8 +71,13 @@ export const getQuestionById = async (id) => {
 };
 
 export const addQuestion = async (newQuestion) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
-		await axios.post(`${BASE_PATH}/questions`, newQuestion, { headers });
+		await axios.post(`${BASE_PATH}/questions`, newQuestion, {
+			headers,
+		});
 	} catch (error) {
 		console.log(error.message);
 		return;
@@ -81,11 +85,16 @@ export const addQuestion = async (newQuestion) => {
 };
 
 export const updateQuestion = async (question) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.patch(
 			`${BASE_PATH}/questions/${question.questionId}`,
 			question,
-			{ headers }
+			{
+				headers,
+			}
 		);
 	} catch (error) {
 		console.log(error.message);
@@ -103,10 +112,9 @@ export const removeQuestion = async (id) => {
 };
 
 export const getAnswers = async () => {
-  try {
-    const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`);
-    const { data } = response;
-
+	try {
+		const response = await axios.get(`${BASE_PATH}/answers?page=1&size=10000`);
+		const { data } = response;
 
 		return data.date;
 	} catch (error) {
@@ -141,6 +149,9 @@ export const getAnswersByQuestionId = async (questionId) => {
 };
 
 export const addAnswer = async (newAnswer) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.post(`${BASE_PATH}/answers`, newAnswer, { headers });
 	} catch (error) {
@@ -150,6 +161,9 @@ export const addAnswer = async (newAnswer) => {
 };
 
 export const updateAnswer = async (answer) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.patch(`${BASE_PATH}/answers/${answer.answerId}`, answer, {
 			headers,
@@ -161,6 +175,9 @@ export const updateAnswer = async (answer) => {
 };
 
 export const removeAnswer = async (id) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.delete(`${BASE_PATH}/answers/${id}`, { headers });
 	} catch (error) {
@@ -194,11 +211,11 @@ export const getCommentsById = async (id) => {
 };
 
 export const getCommentsByAnswerId = async (answerId) => {
-  try {
-    const response = await axios.get(`${BASE_PATH}/comments`);
-    const { data } = response;
+	try {
+		const response = await axios.get(`${BASE_PATH}/comments`);
+		const { data } = response;
 
-    const comments = data.filter((comment) => comment.answerId === answerId);
+		const comments = data.filter((comment) => comment.answerId === answerId);
 
 		return comments;
 	} catch (error) {
@@ -208,6 +225,9 @@ export const getCommentsByAnswerId = async (answerId) => {
 };
 
 export const addComment = async (newComment) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.post(`${BASE_PATH}/comments`, newComment, { headers });
 	} catch (error) {
@@ -217,6 +237,9 @@ export const addComment = async (newComment) => {
 };
 
 export const updateComment = async (comment) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.patch(`${BASE_PATH}/comments/${comment.commentId}`, comment, {
 			headers,
@@ -228,6 +251,9 @@ export const updateComment = async (comment) => {
 };
 
 export const removeComment = async (id) => {
+	const headers = {
+		Authorization: getCookie("token"),
+	};
 	try {
 		await axios.delete(`${BASE_PATH}/comments/${id}`, { headers });
 	} catch (error) {
