@@ -21,10 +21,10 @@ import "@toast-ui/editor/dist/i18n/ko-kr";
 import EditQuestion from "./EditQuestion";
 import { useQuery } from "react-query";
 import {
-  addAnswer,
-  getAnswersByQuestionId,
-  getQuestionById,
-  removeQuestion,
+	addAnswer,
+	getAnswersByQuestionId,
+	getQuestionById,
+	removeQuestion,
 } from "../hooks/tempUseQuestion";
 import { useEffect } from "react";
 
@@ -301,234 +301,234 @@ const StyledEditor = styled(Editor)`
 const tempMemberId = 28;
 
 export default function QnDetail() {
-  const tempTags = ["JavaScript", "Java"];
+	const tempTags = ["JavaScript", "Java"];
 
-  const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
-  const [editQuestion, setEditQuestion] = useState(false);
-  const [isAnswersLoading, setIsAnswersLoading] = useState(false);
-  const [answers, setAnswers] = useState([]);
+	const navigate = useNavigate();
+	const [isLogin, setIsLogin] = useState(true);
+	const [editQuestion, setEditQuestion] = useState(false);
+	const [isAnswersLoading, setIsAnswersLoading] = useState(false);
+	const [answers, setAnswers] = useState([]);
 
-  const { id } = useParams();
-  const editorRef = useRef();
+	const { id } = useParams();
+	const editorRef = useRef();
 
-  const { data: question, isLoading: isQuestionLoading } = useQuery(
-    "question",
-    () => getQuestionById(id)
-  );
+	const { data: question, isLoading: isQuestionLoading } = useQuery(
+		"question",
+		() => getQuestionById(id)
+	);
 
-  const handlePostAnswer = async () => {
-    // html형식으로 텍스트를 가져오려면, getHTML()
-    // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
-    const content = editorRef.current.getInstance().getHTML();
+	const handlePostAnswer = async () => {
+		// html형식으로 텍스트를 가져오려면, getHTML()
+		// 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
+		const content = editorRef.current.getInstance().getHTML();
 
-    const newAnswer = {
-      content,
-      questionId: id,
-      memberId: tempMemberId,
-    };
+		const newAnswer = {
+			content,
+			questionId: id,
+			memberId: tempMemberId,
+		};
 
-    await addAnswer(newAnswer);
-  };
+		await addAnswer(newAnswer);
+	};
 
-  const handleDeleteQuestion = async () => {
-    await removeQuestion(id);
+	const handleDeleteQuestion = async () => {
+		await removeQuestion(id);
 
-    // removeQuestion(id);
-    navigate("/questions");
-  };
+		// removeQuestion(id);
+		navigate("/questions");
+	};
 
-  useEffect(() => {
-    (async () => {
-      setIsAnswersLoading((prev) => true);
+	useEffect(() => {
+		(async () => {
+			setIsAnswersLoading((prev) => true);
 
-      const data = await getAnswersByQuestionId(id);
-      setAnswers((prev) => data);
+			const data = await getAnswersByQuestionId(id);
+			setAnswers((prev) => data);
 
-      setIsAnswersLoading((prev) => false);
-    })();
-  }, []);
+			setIsAnswersLoading((prev) => false);
+		})();
+	}, []);
 
-  return (
-    <>
-      {isQuestionLoading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        <>
-          <Wrapper>
-            <Container>
-              <Header>
-                <TopHeader>
-                  <Title>{question.title}</Title>
-                  <Link to="/questions/ask">
-                    <AskBtn>Ask Question</AskBtn>
-                  </Link>
-                </TopHeader>
-                <BottomHeader>
-                  <HeaderInfo>{`Asked ${question.createdAt}`}</HeaderInfo>
-                  <HeaderInfo>{`Modified At ${question.modifiedAt}`}</HeaderInfo>
-                  <HeaderInfo>{`Viewd ${
-                    question.viewCount || 1
-                  } times`}</HeaderInfo>
-                </BottomHeader>
-              </Header>
-              <MainContents>
-                <Question>
-                  <UpDownBtns>
-                    <FontAwesomeIcon
-                      icon={faCaretUp}
-                      style={{ fontSize: "50px" }}
-                    />
-                    <UsefulCount>{question.score || 5}</UsefulCount>
-                    <FontAwesomeIcon
-                      icon={faCaretDown}
-                      style={{ fontSize: "50px" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faBookmark}
-                      style={{ fontSize: "25px", marginBottom: "10px" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faClockRotateLeft}
-                      style={{ fontSize: "25px" }}
-                    />
-                  </UpDownBtns>
-                  <Contents>
-                    <Viewer initialValue={question.content} />
-                    <Tags>
-                      {question.tags
-                        ? question.tags.map((tag) => (
-                            <Tag key={tag} tag={tag} />
-                          ))
-                        : tempTags.map((tag) => <Tag key={tag} tag={tag} />)}
-                    </Tags>
-                    <QuestionerLine>
-                      <CRUDBtns>
-                        <CRUDBtn
-                          onClick={() => setEditQuestion((prev) => true)}
-                        >
-                          Edit
-                        </CRUDBtn>
-                        <CRUDBtn onClick={handleDeleteQuestion}>Delete</CRUDBtn>
-                      </CRUDBtns>
-                      <Questioner>
-                        <QuestionerIcon
-                          bgImage={
-                            "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
-                          }
-                        />
-                        {question.username}
-                      </Questioner>
-                    </QuestionerLine>
-                    <RelatedQuestions />
-                    {isAnswersLoading ? (
-                      <Loader>Loading...</Loader>
-                    ) : (
-                      answers.map((answer) => (
-                        <Answer
-                          answer={answer}
-                          key={answer.answerId}
-                          setAnswers={setAnswers}
-                        />
-                      ))
-                    )}
-                    <div>
-                      <AnswerTitle>
-                        Know someone who can answer? Share a link to this
-                        question via email, Twitter, or Facebook.
-                      </AnswerTitle>
-                      <AnswerTitle>Your Answer</AnswerTitle>
-                      <AnswerInput>
-                        <Editor
-                          previewStyle="vertical"
-                          height="100%"
-                          initialEditType="wysiwyg"
-                          useCommandShortcut={false}
-                          language="ko-KR"
-                          ref={editorRef}
-                        />
-                      </AnswerInput>
-                      {isLogin ? null : (
-                        <AccountChoices>
-                          <AccountChoice>
-                            <AccountChoiceTitle>
-                              Sign up or log in
-                            </AccountChoiceTitle>
-                            <AccountType>
-                              <FontAwesomeIcon
-                                icon={faG}
-                                style={{ marginRight: "5px" }}
-                              />
-                              Sign up using Google
-                            </AccountType>
-                            <AccountType
-                              style={{
-                                backgroundColor: "#3b5998",
-                                color: "white",
-                              }}
-                            >
-                              <FontAwesomeIcon
-                                icon={faF}
-                                style={{
-                                  backgroundColor: "white",
-                                  color: "#3b5998",
-                                  marginRight: "5px",
-                                  padding: "5px",
-                                }}
-                              />
-                              Sign up using Facebook
-                            </AccountType>
-                            <AccountType>
-                              Sign up using Email and Password
-                            </AccountType>
-                          </AccountChoice>
-                          <AccountChoice>
-                            <AccountChoiceTitle>
-                              Post as a guest
-                            </AccountChoiceTitle>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "100%",
-                              }}
-                            >
-                              <GuestLabel>Name</GuestLabel>
-                              <GuestInput />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "100%",
-                              }}
-                            >
-                              <GuestLabel>Email</GuestLabel>
-                              <GuestInput />
-                            </div>
-                          </AccountChoice>
-                        </AccountChoices>
-                      )}
-                      <PostLine>
-                        <PostBtn onClick={() => handlePostAnswer()}>
-                          Post Your Answer
-                        </PostBtn>
-                      </PostLine>
-                    </div>
-                  </Contents>
-                </Question>
-              </MainContents>
-            </Container>
-            <Aside />
-          </Wrapper>
-          {editQuestion && (
-            <>
-              <Overlay onClick={() => setEditQuestion((prev) => false)} />
-              <EditQuestion question={question} />
-            </>
-          )}
-        </>
-      )}
-    </>
-  );
+	return (
+		<>
+			{isQuestionLoading ? (
+				<Loader>Loading...</Loader>
+			) : (
+				<>
+					<Wrapper>
+						<Container>
+							<Header>
+								<TopHeader>
+									<Title>{question.title}</Title>
+									<Link to="/questions/ask">
+										<AskBtn>Ask Question</AskBtn>
+									</Link>
+								</TopHeader>
+								<BottomHeader>
+									<HeaderInfo>{`Asked ${question.createdAt}`}</HeaderInfo>
+									<HeaderInfo>{`Modified At ${question.modifiedAt}`}</HeaderInfo>
+									<HeaderInfo>{`Viewd ${
+										question.viewCount || 1
+									} times`}</HeaderInfo>
+								</BottomHeader>
+							</Header>
+							<MainContents>
+								<Question>
+									<UpDownBtns>
+										<FontAwesomeIcon
+											icon={faCaretUp}
+											style={{ fontSize: "50px" }}
+										/>
+										<UsefulCount>{question.score || 5}</UsefulCount>
+										<FontAwesomeIcon
+											icon={faCaretDown}
+											style={{ fontSize: "50px" }}
+										/>
+										<FontAwesomeIcon
+											icon={faBookmark}
+											style={{ fontSize: "25px", marginBottom: "10px" }}
+										/>
+										<FontAwesomeIcon
+											icon={faClockRotateLeft}
+											style={{ fontSize: "25px" }}
+										/>
+									</UpDownBtns>
+									<Contents>
+										<Viewer initialValue={question.content} />
+										<Tags>
+											{question.tags
+												? question.tags.map((tag) => (
+														<Tag key={tag} tag={tag} />
+												  ))
+												: tempTags.map((tag) => <Tag key={tag} tag={tag} />)}
+										</Tags>
+										<QuestionerLine>
+											<CRUDBtns>
+												<CRUDBtn
+													onClick={() => setEditQuestion((prev) => true)}
+												>
+													Edit
+												</CRUDBtn>
+												<CRUDBtn onClick={handleDeleteQuestion}>Delete</CRUDBtn>
+											</CRUDBtns>
+											<Questioner>
+												<QuestionerIcon
+													bgImage={
+														"https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
+													}
+												/>
+												{question.username}
+											</Questioner>
+										</QuestionerLine>
+										<RelatedQuestions />
+										{isAnswersLoading ? (
+											<Loader>Loading...</Loader>
+										) : (
+											answers.map((answer) => (
+												<Answer
+													answer={answer}
+													key={answer.answerId}
+													setAnswers={setAnswers}
+												/>
+											))
+										)}
+										<div>
+											<AnswerTitle>
+												Know someone who can answer? Share a link to this
+												question via email, Twitter, or Facebook.
+											</AnswerTitle>
+											<AnswerTitle>Your Answer</AnswerTitle>
+											<AnswerInput>
+												<Editor
+													previewStyle="vertical"
+													height="100%"
+													initialEditType="wysiwyg"
+													useCommandShortcut={false}
+													language="ko-KR"
+													ref={editorRef}
+												/>
+											</AnswerInput>
+											{isLogin ? null : (
+												<AccountChoices>
+													<AccountChoice>
+														<AccountChoiceTitle>
+															Sign up or log in
+														</AccountChoiceTitle>
+														<AccountType>
+															<FontAwesomeIcon
+																icon={faG}
+																style={{ marginRight: "5px" }}
+															/>
+															Sign up using Google
+														</AccountType>
+														<AccountType
+															style={{
+																backgroundColor: "#3b5998",
+																color: "white",
+															}}
+														>
+															<FontAwesomeIcon
+																icon={faF}
+																style={{
+																	backgroundColor: "white",
+																	color: "#3b5998",
+																	marginRight: "5px",
+																	padding: "5px",
+																}}
+															/>
+															Sign up using Facebook
+														</AccountType>
+														<AccountType>
+															Sign up using Email and Password
+														</AccountType>
+													</AccountChoice>
+													<AccountChoice>
+														<AccountChoiceTitle>
+															Post as a guest
+														</AccountChoiceTitle>
+														<div
+															style={{
+																display: "flex",
+																flexDirection: "column",
+																width: "100%",
+															}}
+														>
+															<GuestLabel>Name</GuestLabel>
+															<GuestInput />
+														</div>
+														<div
+															style={{
+																display: "flex",
+																flexDirection: "column",
+																width: "100%",
+															}}
+														>
+															<GuestLabel>Email</GuestLabel>
+															<GuestInput />
+														</div>
+													</AccountChoice>
+												</AccountChoices>
+											)}
+											<PostLine>
+												<PostBtn onClick={() => handlePostAnswer()}>
+													Post Your Answer
+												</PostBtn>
+											</PostLine>
+										</div>
+									</Contents>
+								</Question>
+							</MainContents>
+						</Container>
+						<Aside />
+					</Wrapper>
+					{editQuestion && (
+						<>
+							<Overlay onClick={() => setEditQuestion((prev) => false)} />
+							<EditQuestion question={question} />
+						</>
+					)}
+				</>
+			)}
+		</>
+	);
 }
