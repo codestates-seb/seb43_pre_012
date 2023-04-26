@@ -291,6 +291,7 @@ const Overlay = styled.div`
 	height: 100vh;
 `;
 const EditContainer = styled.div`
+	max-width: 600px;
 	width: 100%;
 	height: 100%;
 `;
