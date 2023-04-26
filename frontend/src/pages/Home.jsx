@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import AllQuestions from "../components/AllQuestions";
+import HomeQuestions from "../components/HomeQuestions";
 
 const Wrapper = styled.section`
   height: auto;
@@ -12,7 +12,7 @@ const Wrapper = styled.section`
 export default function Questions() {
   return (
     <Wrapper>
-      <AllQuestions showContent={false} title={"Top Questions"} />
+      <HomeQuestions />
     </Wrapper>
   );
 }
