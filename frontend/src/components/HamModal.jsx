@@ -12,7 +12,6 @@ const HamModalWrapper = styled.div`
 	font-size: 40px;
 	z-index: 32113;
 	border : 1px solid #EBECEC;
-	border-top : 3px solid white;
 	box-shadow: 3px 3px 3px #d3d3d3;
 `;
 const Wrapper = styled.div`
@@ -26,7 +25,6 @@ const Wrapper = styled.div`
 	width: 160px;
 	height: 100vh;
 	flex-shrink: 0;
-	position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 	z-index: 10;

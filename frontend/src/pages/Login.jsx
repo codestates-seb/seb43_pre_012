@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { AiFillGithub } from 'react-icons/ai';
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
 import largeLogo from "../static/large-logo.png"
 import smallLogo from "../static/small-logo.png"
 import { useNavigate } from 'react-router-dom';
-
+import { AuthContext } from "../components/AuthProvider";
 
 const LoginWrapper = styled.div`
 	display: flex;
@@ -15,6 +14,7 @@ const LoginWrapper = styled.div`
 	flex-direction: column;
 	height: 100vh;
 	width: 100%;
+    background-color : #F1F2F3;
 `;
 
 const Logo = styled.img`
@@ -35,15 +35,16 @@ const EmailLogin = styled.form`
     height : 235px;
     flex-direction: column;
     align-items: center;
-    border : 1px solid #23262A;
+    border : 1px solid #bbbbbb;
+    background-color : white;
     border-radius : 3px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 `
 
 
 const EmailWrapper = styled.div`
 	display: flex;
 	justify-content: start;
-
 	align-items: center;
 	width: 100%;
 `;
@@ -92,23 +93,28 @@ const LoginButton = styled.button`
 
 export default function Login() {
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const handleSubmit = async (e) => {
+    const [email, setEmail] = useState('hello@gmail.com');
+    const [password, setPassword] = useState('1234');
+    const { setAuthState } = useContext(AuthContext);
+
+    const handleSubmit = async e => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/login', {
-                email,
-                password,
+            const response = await axios.post(
+            'http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/login',
+            { email, password }
+            );
+            setAuthState({
+            token: response.data.token,
+            refreshToken: response.data.refreshToken,
             });
-            localStorage.setItem('token', response.data.token);
-
-            // eslint-disable-next-line no-restricted-globals 
+            alert("로그인 성공!")
             navigate('/questions');
-            } catch (error) {
+        } catch (error) {
+            alert("로그인에 실패했습니다. Email과 Password를 다시 확인해주세요.")
             console.error(error);
-            }
-        };
+        }
+    };
 	return (
         <LoginWrapper>
             <Logo src={smallLogo} />
