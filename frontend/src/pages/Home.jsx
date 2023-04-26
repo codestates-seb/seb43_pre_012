@@ -10,7 +10,6 @@ const Wrapper = styled.section`
 
   width: 100%;
   justify-content: center;
-  background-color: green;
 `;
 
 export default function Questions() {
