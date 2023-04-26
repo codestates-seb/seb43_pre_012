@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import TipBox from "../components/TipBox";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import { addQuestion, getDateNumber } from "../hooks/tempUseQuestion";
+import { getCookie } from "../utils/cookies";
 
 const Wrapper = styled.form`
   width: 100%;
@@ -187,6 +188,12 @@ export default function QuestionDetail() {
 
     navigate("/questions");
   };
+
+  useEffect(() => {
+    if (getCookie("token") === null) {
+      navigate("/");
+    }
+  });
 
   return (
     <Wrapper onSubmit={handleSubmit(onSubmit)}>
