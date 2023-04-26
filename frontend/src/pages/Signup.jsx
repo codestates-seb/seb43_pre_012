@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 		justify-content: center;
 	}
 	margin: 20px;
+	
 `;
 const DescWrapper = styled.div`
 	display: flex;
@@ -139,15 +140,19 @@ export default function Signup() {
     const [passwordInputValue, setPasswordInputValue] = useState('');
     const [displayNameInputValue, setDisplayNameInputValue] = useState('');
 
-	const handleSignup = async () => {
+	const handleSignup = async e => {
+		e.preventDefault();
         try {
-            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members', {
+            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members', 
+			{
                 email: emailInputValue,
 				username: displayNameInputValue,
                 password: passwordInputValue,
-            });
-			localStorage.setItem('token', response.data.token);
-			navigate('/questions');
+            }
+			
+		);
+			alert("회원가입 성공!");
+			
         } catch (error) {
             console.error(error);
         }
@@ -158,7 +163,7 @@ export default function Signup() {
 			<DescWrapper>
 				<Desc className="join">Join the Stack Overflow community</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							opacity=".5"
@@ -172,7 +177,7 @@ export default function Signup() {
 					ㅤGet unstuck - ask a question
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M12 .7a2 2 0 013 0l8.5 9.6a1 1 0 01-.7 1.7H4.2a1 1 0 01-.7-1.7L12 .7z"
@@ -190,7 +195,7 @@ export default function Signup() {
 					ㅤUnlock new privileges like voting and commenting
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M14.8 3a2 2 0 00-1.4.6l-10 10a2 2 0 000 2.8l8.2 8.2c.8.8 2 .8 2.8 0l10-10c.4-.4.6-.9.6-1.4V5a2 2 0 00-2-2h-8.2zm5.2 7a2 2 0 110-4 2 2 0 010 4z"
@@ -204,7 +209,7 @@ export default function Signup() {
 					ㅤSave your favorite questions, answers, watch tags, and more
 				</Desc>
 				<Desc>
-					<svg width="26" height="26" class="svg-icon mtn2">
+					<svg width="26" height="26" className="svg-icon mtn2">
 						<path
 							fill="#0995FF"
 							d="M21 4V2H5v2H1v5c0 2 2 4 4 4v1c0 2.5 3 4 7 4v3H7s-1.2 2.3-1.2 3h14.4c0-.6-1.2-3-1.2-3h-5v-3c4 0 7-1.5 7-4v-1c2 0 4-2 4-4V4h-4zM5 11c-1 0-2-1-2-2V6h2v5zm11.5 2.7l-3.5-2-3.5 1.9L11 9.8 7.2 7.5h4.4L13 3.8l1.4 3.7h4L15.3 10l1.4 3.7h-.1zM23 9c0 1-1 2-2 2V6h2v3z"
@@ -218,7 +223,7 @@ export default function Signup() {
 				<GithubSignup>
 					<AiFillGithub size={22} /> Sign up with Github
 				</GithubSignup>
-				<EmailSignup>
+				<EmailSignup onSubmit={handleSignup}>
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>
 					</DisplayNameWrapper>
@@ -233,7 +238,7 @@ export default function Signup() {
 					</PasswordWrapper>
 					<PasswordInput type="password" onChange={e => setPasswordInputValue(e.target.value)} />
 					{/* <Captcha /> */}
-					<SignupButton type="submit" onSubmit={handleSignup}>Sign up</SignupButton>
+					<SignupButton type="submit">Sign up</SignupButton>
 				</EmailSignup>
 			</SignupWrapper>
 		</Wrapper>
