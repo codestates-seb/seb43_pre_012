@@ -9,14 +9,25 @@ import Captcha from "../components/ReCAPTCHA";
 import { useNavigate } from 'react-router-dom';
 
 
+const Wrapper = styled.div`
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	height: 100vh;
+	@media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+		justify-content: center;
+	}
+	margin: 20px;
+`;
 const DescWrapper = styled.div`
 	display: flex;
 	align-items: start;
 	justify-content: center;
 	flex-direction: column;
 	height: 100vh;
-	width: 1000px;
-	margin-left: 40px;
+	@media screen and (max-width: ${(props) => props.theme.screen.sm}) {
+		display: none;
+	}
 `;
 
 const Desc = styled.div`
@@ -33,7 +44,6 @@ const SignupWrapper = styled.div`
 	justify-content: center;
 	flex-direction: column;
 	height: 100vh;
-	width: 100%;
 `;
 
 const Logo = styled.img`
@@ -144,7 +154,7 @@ export default function Signup() {
     }
 
 	return (
-		<>
+		<Wrapper>
 			<DescWrapper>
 				<Desc className="join">Join the Stack Overflow community</Desc>
 				<Desc>
@@ -226,6 +236,6 @@ export default function Signup() {
 					<SignupButton type="submit" onSubmit={handleSignup}>Sign up</SignupButton>
 				</EmailSignup>
 			</SignupWrapper>
-		</>
+		</Wrapper>
 	);
 }
