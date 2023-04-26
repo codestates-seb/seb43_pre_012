@@ -130,24 +130,29 @@ const SearchWrapper = styled.div`
   width: 100%;
 `;
 const Button = styled.button`
-  height: 34px;
-  width: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  border: 1px solid #7aa8c7;
-  margin-right: 5px;
-  border-radius: 3px;
-  white-space: nowrap;
-  &.login {
-    background-color: ${({ theme }) => theme.colors.tagblue};
-    color: #7aa8c7;
-  }
-  &.signup {
-    background-color: ${({ theme }) => theme.colors.skyblue};
-    color: white;
-  }
+	height: 34px;
+	width: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border: 1px solid #7aa8c7;
+	margin-right: 5px;
+	border-radius: 3px;
+	white-space: nowrap;
+	&.login {
+		background-color: ${({ theme }) => theme.colors.tagblue};
+		color: #7aa8c7;
+	}
+	&.signup {
+		background-color: ${({ theme }) => theme.colors.skyblue};
+		color: white;
+	}
+	&.logout {
+		background-color: #fb5e5e;
+		border: 1px solid #fb5e5e;
+		color: white;
+	}
 `;
 
 export default function Header({ modalOpen, setModalOpen }) {
@@ -197,14 +202,16 @@ export default function Header({ modalOpen, setModalOpen }) {
 							color="#838C95"
 						/>
 					</Scope> */}
-          <Link to="login">
-            <Button className="login">Log in</Button>
-          </Link>
-          <Link to="signup">
-            <Button className="signup">Sign up</Button>
-          </Link>
-        </SearchWrapper>
-      </HeaderContents>
-    </HeaderWrapper>
-  );
+					<Link to="login">
+						<Button className="login">Log in</Button>
+					</Link>
+					<Link to="signup">
+						<Button className="signup">Sign up</Button>
+					</Link>
+					<Button className="logout">Log out</Button>
+				</SearchWrapper>
+			</HeaderContents>
+		</HeaderWrapper>
+	);
+
 }
