@@ -36,7 +36,6 @@ const Location = styled.p`
 const Reputation = styled.p`
 	font-weight: 800;
 `;
-
 export default function UserCard({ name, imgUrl, location, reputation }) {
 	return (
 		<CardWrapper>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,27 +12,37 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Aside from "./Aside";
 import Tag from "./Tag";
+import Answer from "./Answer";
+import RelatedQuestions from "../components/RelatedQuestions";
 import { Editor } from "@toast-ui/react-editor";
 import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import EditQuestion from "./EditQuestion";
-import axios from "axios";
 import { useQuery } from "react-query";
-import { getQuestionById, removeQuestion } from "../hooks/tempUseQuestion";
+import {
+  addAnswer,
+  getAnswersByQuestionId,
+  getQuestionById,
+  removeQuestion,
+} from "../hooks/tempUseQuestion";
+import { useEffect } from "react";
+import { getCookie } from "../utils/cookies";
 
 const Wrapper = styled.section`
+  width: 100%;
   height: auto;
   display: flex;
 
   @media screen and (max-width: ${(props) => props.theme.screen.md}) {
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
   }
 `;
 
 const Container = styled.main`
-  max-width: 740px;
+  /* max-width: 740px; */
+  width: 100%;
   display: flex;
   flex-direction: column;
   margin-right: 40px;
@@ -69,6 +79,7 @@ const AskBtn = styled.div`
   justify-content: center;
   align-items: center;
   box-shadow: #80c0ff 0px 1px 4px;
+  display: ${(props) => props.isLogin === false && "none"};
 
   &:hover {
     background-color: ${(props) => props.theme.colors.btnHover};
@@ -90,7 +101,6 @@ const HeaderInfo = styled.h6`
 const MainContents = styled.section`
   width: 100%;
   height: auto;
-
   display: flex;
   justify-content: center;
 `;
@@ -100,45 +110,11 @@ const Question = styled.section`
   height: auto;
   display: flex;
 `;
+const ContextsWrapper = styled.div``; //jh
 
 const Contents = styled.section`
   display: flex;
   flex-direction: column;
-`;
-
-const Content = styled.div`
-  margin-top: 10px;
-  margin-bottom: 25px;
-  max-width: 660px;
-  width: 100%;
-
-  & * {
-    margin-bottom: 10px;
-  }
-
-  & p {
-    font-size: ${(props) => props.theme.fontSizes.lg};
-  }
-
-  & pre {
-    padding: 20px;
-    width: 100%;
-    max-height: 600px;
-    overflow: auto;
-
-    background-color: #f6f7f6;
-  }
-
-  & code {
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-family: "Courier New", Courier, monospace;
-    font-size: ${(props) => props.theme.fontSizes.sm};
-  }
-
-  & img {
-    width: 100%;
-  }
 `;
 
 const Tags = styled.section`
@@ -177,6 +153,7 @@ const Questioner = styled.div`
 `;
 
 const UpDownBtns = styled.section`
+  flex-shrink: 0;
   width: 80px;
   display: flex;
   flex-direction: column;
@@ -190,45 +167,11 @@ const UsefulCount = styled.span`
   font-weight: 500;
 `;
 
-const RelatedQuestions = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 70px;
-`;
+const Answers = styled.div`
+  width: 100%;
 
-const RelatedQuestionTitle = styled.h4`
-  color: ${(props) => props.theme.colors.black};
-  font-size: ${(props) => props.theme.fontSizes.lg};
-  font-weight: bold;
-  margin-bottom: 5px;
+  height: 150px;
 `;
-
-const RelatedQuestion = styled.section`
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  border: 1px solid ${(props) => props.theme.colors.gray};
-  padding: 15px;
-`;
-
-const RelatedQuestionNum = styled.section`
-  height: 25px;
-  background-color: ${(props) => props.theme.colors.green};
-  color: white;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 15px;
-  font-size: ${(props) => props.theme.fontSizes.sm};
-  font-weight: 500;
-`;
-
-const RelatedQuestionName = styled.span`
-  color: ${(props) => props.theme.colors.blue};
-`;
-
-const Answer = styled.div``;
 
 const AnswerTitle = styled.h4`
   font-size: 16px;
@@ -345,48 +288,75 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   z-index: 15;
-
   width: 100vw;
   height: 100vh;
 `;
+const EditContainer = styled.div`
+  max-width: 600px;
+  width: 90%;
+  height: 100%;
+  padding: 10px;
+`;
 
-const getDate = (date) => {
-  const dateInfo = Date(1681826527).split(" ");
+const StyledEditor = styled(Editor)`
+  width: 100%;
+`;
 
-  return `${dateInfo[3]}.${dateInfo[1]}.${dateInfo[2]}`;
-};
+const tempMemberId = 28;
 
 export default function QnDetail() {
-  // 일단은 거의 다 section으로 처리했는데, 나중에 수정할 여유가 된다면 수정하는 것이 좋아보임
+  const tempTags = ["JavaScript", "Java"];
+
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
-  const [edit, setEdit] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  const [editQuestion, setEditQuestion] = useState(false);
+
   const { id } = useParams();
   const editorRef = useRef();
 
-  const { data: question, isLoading } = useQuery("question", () =>
-    getQuestionById(id)
+  const { data: question, isLoading: isQuestionLoading } = useQuery(
+    ["question", id],
+    () => getQuestionById(id)
   );
 
-  const handlePostAnswer = () => {
+  const { data: answers, isLoading: isAnswersLoading } = useQuery(
+    ["answers"],
+    () => getAnswersByQuestionId(id)
+  );
+
+  const handlePostAnswer = async () => {
     // html형식으로 텍스트를 가져오려면, getHTML()
     // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
-    const answer = editorRef.current.getInstance().getHTML();
+    const content = editorRef.current.getInstance().getHTML();
 
-    console.log("작성한 답!!!");
-    console.log(answer);
+    const newAnswer = {
+      content,
+      questionId: id,
+      memberId: tempMemberId,
+    };
+
+    await addAnswer(newAnswer);
+    window.location.replace(`/questions/${question.questionId}`);
   };
 
-  const handleDelete = async () => {
+  const handleDeleteQuestion = async () => {
     await removeQuestion(id);
 
     // removeQuestion(id);
     navigate("/questions");
   };
 
+  useEffect(() => {
+    if (getCookie("token")) {
+      setIsLogin((prev) => true);
+    } else {
+      setIsLogin((prev) => false);
+    }
+  }, []);
+
   return (
     <>
-      {isLoading ? (
+      {isQuestionLoading ? (
         <Loader>Loading...</Loader>
       ) : (
         <>
@@ -396,15 +366,15 @@ export default function QnDetail() {
                 <TopHeader>
                   <Title>{question.title}</Title>
                   <Link to="/questions/ask">
-                    <AskBtn>Ask Question</AskBtn>
+                    <AskBtn isLogin={isLogin}>Ask Question</AskBtn>
                   </Link>
                 </TopHeader>
                 <BottomHeader>
-                  <HeaderInfo>{`Asked ${getDate(
-                    question.creation_date
-                  )}`}</HeaderInfo>
-                  <HeaderInfo>Modified today</HeaderInfo>
-                  <HeaderInfo>{`Viewd ${question.view_count} times`}</HeaderInfo>
+                  <HeaderInfo>{`Asked ${question.createdAt}`}</HeaderInfo>
+                  <HeaderInfo>{`Modified At ${question.modifiedAt}`}</HeaderInfo>
+                  <HeaderInfo>{`Viewd ${
+                    question.viewCount || 1
+                  } times`}</HeaderInfo>
                 </BottomHeader>
               </Header>
               <MainContents>
@@ -414,7 +384,7 @@ export default function QnDetail() {
                       icon={faCaretUp}
                       style={{ fontSize: "50px" }}
                     />
-                    <UsefulCount>{question.score}</UsefulCount>
+                    <UsefulCount>{question.score || 5}</UsefulCount>
                     <FontAwesomeIcon
                       icon={faCaretDown}
                       style={{ fontSize: "50px" }}
@@ -429,69 +399,68 @@ export default function QnDetail() {
                     />
                   </UpDownBtns>
                   <Contents>
-                    {/* <Content
-                 dangerouslySetInnerHTML={{ __html: question.body }}
-               /> */}
-                    <Viewer initialValue={question.body} />
+                    <Viewer initialValue={question.content} />
                     <Tags>
-                      {question.tags.map((tag) => (
-                        <Tag key={tag} tag={tag} />
-                      ))}
+                      {question.tags
+                        ? question.tags.map((tag) => (
+                            <Tag key={tag} tag={tag} />
+                          ))
+                        : tempTags.map((tag) => <Tag key={tag} tag={tag} />)}
                     </Tags>
                     <QuestionerLine>
                       <CRUDBtns>
-                        <CRUDBtn onClick={() => setEdit((prev) => true)}>
+                        <CRUDBtn
+                          onClick={() => setEditQuestion((prev) => true)}
+                        >
                           Edit
                         </CRUDBtn>
-                        <CRUDBtn onClick={handleDelete}>Delete</CRUDBtn>
+                        <CRUDBtn onClick={handleDeleteQuestion}>Delete</CRUDBtn>
                       </CRUDBtns>
-
                       <Questioner>
                         <QuestionerIcon
-                          bgImage={question.owner.profile_image}
+                          bgImage={
+                            "https://cdn.pixabay.com/photo/2022/11/22/22/06/bird-7610726_1280.jpg"
+                          }
                         />
-                        {question.owner.display_name}
+                        {question.username}
                       </Questioner>
                     </QuestionerLine>
-                    <RelatedQuestions>
-                      <RelatedQuestionTitle>
-                        Related questions
-                      </RelatedQuestionTitle>
-                      <RelatedQuestion>
-                        <RelatedQuestionNum>7621</RelatedQuestionNum>
-                        <RelatedQuestionName>
-                          How do JavaScript closure work?
-                        </RelatedQuestionName>
-                      </RelatedQuestion>
-                      <RelatedQuestion>
-                        <RelatedQuestionNum>8570</RelatedQuestionNum>
-                        <RelatedQuestionName>
-                          How do I check if an element is hidden in jQuery?
-                        </RelatedQuestionName>
-                      </RelatedQuestion>
-                      <RelatedQuestion>
-                        <RelatedQuestionNum>7323</RelatedQuestionNum>
-                        <RelatedQuestionName>
-                          HHow do I remove a property from a JavaScript object?
-                        </RelatedQuestionName>
-                      </RelatedQuestion>
-                    </RelatedQuestions>
-                    <Answer>
-                      <AnswerTitle>
-                        Know someone who can answer? Share a link to this
-                        question via email, Twitter, or Facebook.
-                      </AnswerTitle>
-                      <AnswerTitle>Your Answer</AnswerTitle>
-                      <AnswerInput>
-                        <Editor
-                          previewStyle="vertical"
-                          height="100%"
-                          initialEditType="wysiwyg"
-                          useCommandShortcut={false}
-                          language="ko-KR"
-                          ref={editorRef}
-                        />
-                      </AnswerInput>
+                    <RelatedQuestions />
+                    {isAnswersLoading ? (
+                      <Loader>Loading...</Loader>
+                    ) : (
+                      answers.map((answer) => (
+                        <Answer answer={answer} key={answer.answerId} />
+                      ))
+                    )}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateRows: "repeat(auto, 1fr)",
+                      }}
+                    >
+                      {isLogin ? (
+                        <>
+                          <AnswerTitle>
+                            Know someone who can answer? Share a link to this
+                            question via email, Twitter, or Facebook.
+                          </AnswerTitle>
+                          <AnswerTitle>Your Answer</AnswerTitle>
+                          <AnswerInput>
+                            <EditContainer>
+                              <StyledEditor
+                                previewStyle="vertical"
+                                height="100%"
+                                initialEditType="wysiwyg"
+                                useCommandShortcut={false}
+                                language="ko-KR"
+                                ref={editorRef}
+                                width="800px"
+                              />
+                            </EditContainer>
+                          </AnswerInput>
+                        </>
+                      ) : null}
                       {isLogin ? null : (
                         <AccountChoices>
                           <AccountChoice>
@@ -558,16 +527,16 @@ export default function QnDetail() {
                           Post Your Answer
                         </PostBtn>
                       </PostLine>
-                    </Answer>
+                    </div>
                   </Contents>
                 </Question>
               </MainContents>
             </Container>
             <Aside />
           </Wrapper>
-          {edit && (
+          {editQuestion && (
             <>
-              <Overlay onClick={() => setEdit((prev) => false)} />
+              <Overlay onClick={() => setEditQuestion((prev) => false)} />
               <EditQuestion question={question} />
             </>
           )}
