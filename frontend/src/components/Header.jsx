@@ -7,77 +7,78 @@ import smallLogo from "../static/small-logo.png";
 import { Link } from "react-router-dom";
 import { Fade as Hamburger } from "hamburger-react";
 import StackOverflowLogo from "../svgs/logo.svg";
+import { useAuthContext } from "./AuthProvider";
 
 const HeaderWrapper = styled.div`
-  position: sticky;
-  background-color: white;
-  z-index: 2;
-  top: 0;
-  display: flex;
-  min-width: 400px;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  border-top: 3px solid ${({ theme }) => theme.colors.orange};
-  box-shadow: 0 0 3px gray;
+	position: sticky;
+	background-color: white;
+	z-index: 2;
+	top: 0;
+	display: flex;
+	min-width: 400px;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+	border-top: 3px solid ${({ theme }) => theme.colors.orange};
+	box-shadow: 0 0 3px gray;
 `;
 const HeaderContents = styled.div`
-  width: 100%;
-  max-width: ${({ theme }) => theme.screen.lg};
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	width: 100%;
+	max-width: ${({ theme }) => theme.screen.lg};
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `;
 const LogoInSmScreen = styled.div`
-  display: flex;
-  @media screen and (min-width: ${({ theme }) => theme.screen.sm}) {
-    display: none;
-  }
+	display: flex;
+	@media screen and (min-width: ${({ theme }) => theme.screen.sm}) {
+		display: none;
+	}
 `;
 const SvgLogo = styled.img`
-  width: 30px;
+	width: 30px;
 `;
 const Logo = styled.img`
-  width: 200px;
-  padding-right: 40px;
-  &.smallLogo {
-    display: none;
-  }
-  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    &.largeLogo {
-      padding-right: 40px;
-    }
-  }
+	width: 200px;
+	padding-right: 40px;
+	&.smallLogo {
+		display: none;
+	}
+	@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+		&.largeLogo {
+			padding-right: 40px;
+		}
+	}
 
-  @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
-    &.largeLogo {
-      display: none;
-    }
-    &.smallLogo {
-      width: 35px;
-      padding-left: 20px;
-      display: block;
-    }
-  }
+	@media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+		&.largeLogo {
+			display: none;
+		}
+		&.smallLogo {
+			width: 35px;
+			padding-left: 20px;
+			display: block;
+		}
+	}
 `;
 const Nav = styled.div`
-  display: flex;
-  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    display: none;
-  }
+	display: flex;
+	@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+		display: none;
+	}
 `;
 const Menu = styled.div`
-  font-size: 15px;
-  padding-right: 22px;
-  color: black;
-  white-space: nowrap;
-  text-decoration-line: none;
-  @media screen and (max-width: ${({ theme }) => theme.screen.md}) {
-    &.about,
-    &.forteams {
-      display: none;
-    }
-  }
+	font-size: 15px;
+	padding-right: 22px;
+	color: black;
+	white-space: nowrap;
+	text-decoration-line: none;
+	@media screen and (max-width: ${({ theme }) => theme.screen.md}) {
+		&.about,
+		&.forteams {
+			display: none;
+		}
+	}
 `;
 // const Scope = styled.div`
 // 	display: none;
@@ -89,45 +90,45 @@ const Menu = styled.div`
 // `;
 
 const SearchBar = styled.div`
-  width: 100%;
-  height: 33px;
-  border-radius: 4px;
-  border: solid 1px rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  z-index: 1;
-  opacity: 1;
-  margin-right: 10px;
+	width: 100%;
+	height: 33px;
+	border-radius: 4px;
+	border: solid 1px rgba(0, 0, 0, 0.3);
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	z-index: 1;
+	opacity: 1;
+	margin-right: 10px;
 
-  .search-bar__input {
-    width: 90%;
-    border: none;
-    text-align: start;
-    margin-left: 5px;
-    overflow: auto;
-    z-index: -3;
-    font-size: 15px;
+	.search-bar__input {
+		width: 90%;
+		border: none;
+		text-align: start;
+		margin-left: 5px;
+		overflow: auto;
+		z-index: -3;
+		font-size: 15px;
 
-    &:focus {
-      outline: none;
-      width: 300px;
-      text-align: left;
-    }
-  }
+		&:focus {
+			outline: none;
+			width: 300px;
+			text-align: left;
+		}
+	}
 
-  .searchIcon {
-    font-size: 20px;
-    margin-left: 10px;
-  }
-  /* @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
+	.searchIcon {
+		font-size: 20px;
+		margin-left: 10px;
+	}
+	/* @media screen and (max-width: ${({ theme }) => theme.screen.sm}) {
 		display: none;
 	} */
 `;
 const SearchWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
 `;
 const Button = styled.button`
 	height: 34px;
@@ -156,10 +157,14 @@ const Button = styled.button`
 `;
 
 export default function Header({ modalOpen, setModalOpen }) {
-  const openModalHandler = () => {
-    setModalOpen(!modalOpen);
-  };
-  
+	const openModalHandler = () => {
+		setModalOpen(!modalOpen);
+	};
+	const {
+		authState: { token },
+		deleteAuthInfo,
+	} = useAuthContext();
+
 	return (
 		<HeaderWrapper>
 			<HeaderContents>
@@ -175,9 +180,9 @@ export default function Header({ modalOpen, setModalOpen }) {
 					<Link to="Questions">
 						<Menu>Questions</Menu>
 					</Link>
-					{/* <Link to="Tags">
-						<Menu>Tags</Menu>
-					</Link> */}
+					<Link to="users">
+						<Menu>Users</Menu>
+					</Link>
 					<Link to="Companies">
 						<Menu>Companies</Menu>
 					</Link>
@@ -202,16 +207,22 @@ export default function Header({ modalOpen, setModalOpen }) {
 							color="#838C95"
 						/>
 					</Scope> */}
-					<Link to="login">
-						<Button className="login">Log in</Button>
-					</Link>
-					<Link to="signup">
-						<Button className="signup">Sign up</Button>
-					</Link>
-					<Button className="logout">Log out</Button>
+					{token ? (
+						<Button className="logout" onClick={deleteAuthInfo}>
+							Log out
+						</Button>
+					) : (
+						<>
+							<Link to="login">
+								<Button className="login">Log in</Button>
+							</Link>
+							<Link to="signup">
+								<Button className="signup">Sign up</Button>
+							</Link>
+						</>
+					)}
 				</SearchWrapper>
 			</HeaderContents>
 		</HeaderWrapper>
 	);
-
 }

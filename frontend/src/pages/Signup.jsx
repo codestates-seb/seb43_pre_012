@@ -9,6 +9,7 @@ import Captcha from "../components/ReCAPTCHA";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
+
 const Wrapper = styled.div`
 	width: 100%;
 	display: flex;
@@ -19,8 +20,8 @@ const Wrapper = styled.div`
 	}
 	margin: 20px;
 	background-color : #f5f5f6;
-	
 `;
+
 const DescWrapper = styled.div`
 	display: flex;
 	align-items: start;
@@ -145,27 +146,26 @@ const SignupButton = styled.button`
 
 export default function Signup() {
 	const navigate = useNavigate();
-    const [emailInputValue, setEmailInputValue] = useState('');
-    const [passwordInputValue, setPasswordInputValue] = useState('');
-    const [displayNameInputValue, setDisplayNameInputValue] = useState('');
+	const [emailInputValue, setEmailInputValue] = useState("");
+	const [passwordInputValue, setPasswordInputValue] = useState("");
+	const [displayNameInputValue, setDisplayNameInputValue] = useState("");
 
-	const handleSignup = async e => {
+	const handleSignup = async (e) => {
 		e.preventDefault();
-        try {
-            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members', 
-			{
-                email: emailInputValue,
-				username: displayNameInputValue,
-                password: passwordInputValue,
-            }
-			
-		);
+		try {
+			const response = await axios.post(
+				"http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members",
+				{
+					email: emailInputValue,
+					username: displayNameInputValue,
+					password: passwordInputValue,
+				}
+			);
 			alert("회원가입 성공!");
-			
-        } catch (error) {
-            console.error(error);
-        }
-    }
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<Wrapper>
@@ -242,16 +242,25 @@ export default function Signup() {
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>
 					</DisplayNameWrapper>
-					<DisplayNameInput type="name" onChange={e => setDisplayNameInputValue(e.target.value)}  />
+					<DisplayNameInput
+						type="name"
+						onChange={(e) => setDisplayNameInputValue(e.target.value)}
+					/>
 					<EmailWrapper>
 						<EmailLabel>Email</EmailLabel>
 					</EmailWrapper>
-					<EmailInput type="email" onChange={e => setEmailInputValue(e.target.value)} />
+					<EmailInput
+						type="email"
+						onChange={(e) => setEmailInputValue(e.target.value)}
+					/>
 					<PasswordWrapper>
 						<PasswordLabel>Password</PasswordLabel>
 						<ForgotPassword>Forgot password?</ForgotPassword>
 					</PasswordWrapper>
-					<PasswordInput type="password" onChange={e => setPasswordInputValue(e.target.value)} />
+					<PasswordInput
+						type="password"
+						onChange={(e) => setPasswordInputValue(e.target.value)}
+					/>
 					{/* <Captcha /> */}
 					<SignupButton type="submit">Sign up</SignupButton>
 				</EmailSignup>

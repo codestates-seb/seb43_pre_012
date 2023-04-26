@@ -89,7 +89,7 @@ export default function Nav() {
 						{showCollectives && (
 							<Modal
 								rect={{
-									top: "-210px",
+									top: "-190px",
 									left: "-98px",
 									width: "211px",
 									aftertop: "100%",
@@ -118,7 +118,7 @@ export default function Nav() {
 						<Modal
 							rect={{
 								top: "35px",
-								left: "-25px",
+								left: "-23px",
 								width: "200px",
 								afterbottom: "100%",
 								bottomColor: "white",
