@@ -6,6 +6,7 @@ import HamModal from "./components/HamModal";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Nav from "./components/Nav";
 import { useState } from "react";
+import { AuthProvider } from "./components/AuthProvider";
 
 const Body = styled.div`
 	display: flex;
@@ -34,7 +35,7 @@ function App() {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	return (
-		<>
+		<AuthProvider>
 			<Header modalOpen={modalOpen} setModalOpen={setModalOpen} />
 			{modalOpen && <HamModal />}
 			<Body>
@@ -48,7 +49,7 @@ function App() {
 				</Page>
 				<Footer />
 			</Body>
-		</>
+		</AuthProvider>
 	);
 }
 
