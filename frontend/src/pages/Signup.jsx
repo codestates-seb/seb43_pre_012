@@ -131,13 +131,13 @@ export default function Signup() {
 
 	const handleSignup = async () => {
         try {
-            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/members', {
+            const response = await axios.post('http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/api/members', {
                 email: emailInputValue,
 				username: displayNameInputValue,
                 password: passwordInputValue,
             });
 			localStorage.setItem('token', response.data.token);
-			navigate('/Questions');
+			navigate('/questions');
         } catch (error) {
             console.error(error);
         }
@@ -208,7 +208,7 @@ export default function Signup() {
 				<GithubSignup>
 					<AiFillGithub size={22} /> Sign up with Github
 				</GithubSignup>
-				<EmailSignup onSubmit={handleSignup}>
+				<EmailSignup>
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>
 					</DisplayNameWrapper>
@@ -223,7 +223,7 @@ export default function Signup() {
 					</PasswordWrapper>
 					<PasswordInput type="password" onChange={e => setPasswordInputValue(e.target.value)} />
 					{/* <Captcha /> */}
-					<SignupButton type="submit">Sign up</SignupButton>
+					<SignupButton type="submit" onSubmit={handleSignup}>Sign up</SignupButton>
 				</EmailSignup>
 			</SignupWrapper>
 		</>

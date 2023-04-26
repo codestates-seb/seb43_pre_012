@@ -103,7 +103,7 @@ export default function Login() {
             localStorage.setItem('token', response.data.token);
 
             // eslint-disable-next-line no-restricted-globals 
-            navigate('/Questions');
+            navigate('/questions');
             } catch (error) {
             console.error(error);
             }
