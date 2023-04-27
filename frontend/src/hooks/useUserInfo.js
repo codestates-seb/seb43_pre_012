@@ -13,15 +13,12 @@ export default function useUserInfo() {
 
 export const getMemberId = () => {
   const authorization = getCookie("token").slice(7);
-  console.log(authorization);
 
   const decoded = buffer.from(authorization, "base64").toString("utf-8");
-  console.log(decoded);
 
   const memberId = Number(
     decoded.slice(decoded.indexOf("memberId") + 10, decoded.indexOf("sub") - 2)
   );
-  console.log(memberId);
 
   return memberId;
 };
