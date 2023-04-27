@@ -81,8 +81,7 @@ export default function MakeComment({ answerId, questionId }) {
     };
 
     await addComment(newComment);
-    window.location.reload();
-    //window.location.replace(`/questions/${questionId}`);
+    navigate(`/questions/${question.questionId}`, { replace: true });
   };
 
   return (
