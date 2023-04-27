@@ -95,7 +95,8 @@ export default function EditQuestion({ question }) {
 
     await updateQuestion(editedQuestion);
 
-    window.location.replace(`/questions/${question.questionId}`);
+    window.location.reload();
+    // window.location.replace(`/questions/${question.questionId}`);
   };
 
   return (
