@@ -81,7 +81,8 @@ export default function MakeComment({ answerId, questionId }) {
     };
 
     await addComment(newComment);
-    window.location.replace(`/questions/${questionId}`);
+    window.location.reload();
+    //window.location.replace(`/questions/${questionId}`);
   };
 
   return (
