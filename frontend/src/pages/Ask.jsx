@@ -190,7 +190,7 @@ export default function QuestionDetail() {
   };
 
   useEffect(() => {
-    if (getCookie("token") === null) {
+    if (getCookie("token") === "null") {
       navigate("/");
     }
   });
