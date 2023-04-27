@@ -167,10 +167,9 @@ const UsefulCount = styled.span`
   font-weight: 500;
 `;
 
-const Answers = styled.div`
-  width: 100%;
-
-  height: 150px;
+const AnswerLine = styled.div`
+  visibility: ${(props) => props.isLogin === false && "hidden"};
+  height: ${(props) => props.isLogin === false && "1px"};
 `;
 
 const AnswerTitle = styled.h4`
@@ -234,6 +233,7 @@ const PostLine = styled.section`
   padding: 5px;
   display: flex;
   align-items: center;
+  display: ${(props) => props.isLogin === false && "none"};
 `;
 
 const PostBtn = styled.div`
@@ -347,10 +347,10 @@ export default function QnDetail() {
   };
 
   useEffect(() => {
-    if (getCookie("token")) {
-      setIsLogin((prev) => true);
-    } else {
+    if (getCookie("token") === "null") {
       setIsLogin((prev) => false);
+    } else {
+      setIsLogin((prev) => true);
     }
   }, []);
 
@@ -439,28 +439,26 @@ export default function QnDetail() {
                         gridTemplateRows: "repeat(auto, 1fr)",
                       }}
                     >
-                      {isLogin ? (
-                        <>
-                          <AnswerTitle>
-                            Know someone who can answer? Share a link to this
-                            question via email, Twitter, or Facebook.
-                          </AnswerTitle>
-                          <AnswerTitle>Your Answer</AnswerTitle>
-                          <AnswerInput>
-                            <EditContainer>
-                              <StyledEditor
-                                previewStyle="vertical"
-                                height="100%"
-                                initialEditType="wysiwyg"
-                                useCommandShortcut={false}
-                                language="ko-KR"
-                                ref={editorRef}
-                                width="800px"
-                              />
-                            </EditContainer>
-                          </AnswerInput>
-                        </>
-                      ) : null}
+                      <AnswerLine isLogin={isLogin}>
+                        <AnswerTitle>
+                          Know someone who can answer? Share a link to this
+                          question via email, Twitter, or Facebook.
+                        </AnswerTitle>
+                        <AnswerTitle>Your Answer</AnswerTitle>
+                        <AnswerInput>
+                          <EditContainer>
+                            <StyledEditor
+                              previewStyle="vertical"
+                              height="100%"
+                              initialEditType="wysiwyg"
+                              useCommandShortcut={false}
+                              language="ko-KR"
+                              ref={editorRef}
+                              width="800px"
+                            />
+                          </EditContainer>
+                        </AnswerInput>
+                      </AnswerLine>
                       {isLogin ? null : (
                         <AccountChoices>
                           <AccountChoice>
@@ -522,7 +520,7 @@ export default function QnDetail() {
                           </AccountChoice>
                         </AccountChoices>
                       )}
-                      <PostLine>
+                      <PostLine isLogin={isLogin}>
                         <PostBtn onClick={() => handlePostAnswer()}>
                           Post Your Answer
                         </PostBtn>
