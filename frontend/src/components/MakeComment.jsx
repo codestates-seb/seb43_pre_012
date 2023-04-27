@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { addComment } from "../hooks/tempUseQuestion";
 import { getMemberId } from "../hooks/useUserInfo";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   max-width: 800px;
@@ -61,6 +62,7 @@ const Btn = styled.div`
 export default function MakeComment({ answerId, questionId }) {
   const [comment, setComment] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleComment = (e) => {
     setComment((prev) => e.target.value);
