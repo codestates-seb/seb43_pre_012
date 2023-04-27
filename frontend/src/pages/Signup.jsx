@@ -166,6 +166,7 @@ export default function Signup() {
 				}
 			);
 			alert("회원가입 성공!");
+			navigate("/login");
 		} catch (error) {
 			console.error(error);
 		}
