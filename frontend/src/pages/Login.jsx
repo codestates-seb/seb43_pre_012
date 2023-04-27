@@ -30,15 +30,15 @@ const GithubLogin = styled.button`
   border-radius: 3px;
 `;
 const EmailLogin = styled.form`
-  display: flex;
-  width: 290px;
-  height: 235px;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #bbbbbb;
-  background-color: white;
-  border-radius: 3px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+	display: flex;
+	width: 290px;
+	height: 255px;
+	flex-direction: column;
+	align-items: center;
+	border: 1px solid #bbbbbb;
+	background-color: white;
+	border-radius: 3px;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 
 const EmailWrapper = styled.div`
@@ -48,9 +48,9 @@ const EmailWrapper = styled.div`
   width: 100%;
 `;
 const EmailLabel = styled.div`
-  margin: 10px 10px 2px 24px;
-  font-weight: bold;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+	margin: 20px 10px 2px 24px;
+	font-weight: bold;
+	font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
 const EmailInput = styled.input`
   margin: 10px;
@@ -116,32 +116,33 @@ export default function Login() {
     }
   };
 
-  return (
-    <LoginWrapper>
-      <Logo src={smallLogo} />
-      <GithubLogin>
-        <AiFillGithub size={22} /> Log in with Github
-      </GithubLogin>
-      <EmailLogin onSubmit={handleSubmit}>
-        <EmailWrapper>
-          <EmailLabel>Email</EmailLabel>
-        </EmailWrapper>
-        <EmailInput
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <PasswordWrapper>
-          <PasswordLabel>Password</PasswordLabel>
-          <ForgotPassword>Forgot password?</ForgotPassword>
-        </PasswordWrapper>
-        <PasswordInput
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <LoginButton type="submit">Log in</LoginButton>
-      </EmailLogin>
-    </LoginWrapper>
-  );
+	return (
+		<LoginWrapper>
+			<Logo src={smallLogo} />
+			{/* <GithubLogin>
+				<AiFillGithub size={22} /> Log in with Github
+			</GithubLogin> */}
+			<EmailLogin onSubmit={handleSubmit}>
+				<EmailWrapper>
+					<EmailLabel>Email</EmailLabel>
+				</EmailWrapper>
+				<EmailInput
+					type="email"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+				<PasswordWrapper>
+					<PasswordLabel>Password</PasswordLabel>
+					<ForgotPassword>Forgot password?</ForgotPassword>
+				</PasswordWrapper>
+				<PasswordInput
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
+				/>
+				<LoginButton type="submit">Log in</LoginButton>
+			</EmailLogin>
+		</LoginWrapper>
+	);
+
 }
