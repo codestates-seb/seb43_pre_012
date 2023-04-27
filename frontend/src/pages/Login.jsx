@@ -89,6 +89,10 @@ const LoginButton = styled.button`
   background-color: ${({ theme }) => theme.colors.skyblue};
   border-radius: 3px;
   border: none;
+  
+  &:hover {
+		cursor: pointer;
+	}
 `;
 
 export default function Login() {
