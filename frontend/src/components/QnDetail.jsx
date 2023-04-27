@@ -28,6 +28,7 @@ import {
 } from "../hooks/tempUseQuestion";
 import { useEffect } from "react";
 import { getCookie } from "../utils/cookies";
+import { getMemberId } from "../hooks/useUserInfo";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -110,7 +111,6 @@ const Question = styled.section`
   height: auto;
   display: flex;
 `;
-const ContextsWrapper = styled.div``; //jh
 
 const Contents = styled.section`
   display: flex;
@@ -302,8 +302,6 @@ const StyledEditor = styled(Editor)`
   width: 100%;
 `;
 
-const tempMemberId = 28;
-
 export default function QnDetail() {
   const tempTags = ["JavaScript", "Java"];
 
@@ -328,11 +326,12 @@ export default function QnDetail() {
     // html형식으로 텍스트를 가져오려면, getHTML()
     // 마크다운 형식으로 텍스트를 가져오려면, getMarkdown()
     const content = editorRef.current.getInstance().getHTML();
+    const memberId = getMemberId();
 
     const newAnswer = {
       content,
       questionId: id,
-      memberId: tempMemberId,
+      memberId,
     };
 
     await addAnswer(newAnswer);

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import HomeQuestions from "../components/HomeQuestions";
-import { getCookie } from "../utils/cookies";
 
 const Wrapper = styled.section`
   /* height: auto; */
@@ -13,7 +12,6 @@ const Wrapper = styled.section`
 `;
 
 export default function Questions() {
-  console.log(getCookie("token"));
   return (
     <Wrapper>
       <HomeQuestions />

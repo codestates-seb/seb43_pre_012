@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { addComment, getDateNumber, isLocal } from "../hooks/tempUseQuestion";
+import { addComment } from "../hooks/tempUseQuestion";
+import { getMemberId } from "../hooks/useUserInfo";
 
 const Container = styled.div`
   max-width: 800px;
@@ -57,8 +58,6 @@ const Btn = styled.div`
   }
 `;
 
-const tempMemberId = 28;
-
 export default function MakeComment({ answerId, questionId }) {
   const [comment, setComment] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -73,9 +72,10 @@ export default function MakeComment({ answerId, questionId }) {
       return;
     }
     setErrMsg((prev) => "");
+    const memberId = getMemberId();
 
     const newComment = {
-      memberId: tempMemberId,
+      memberId,
       answerId,
       comment,
     };
