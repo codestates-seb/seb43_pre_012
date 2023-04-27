@@ -168,7 +168,7 @@ export default function Answer({ answer }) {
   const handleDeleteComment = async (commentId) => {
     await removeComment(commentId);
     window.location.reload();
-    // window.location.replace(`/questions/${answer.questionId}`);
+    navigate(`/questions/${answer.questionId}`, { replace: true });
   };
 
   const handleEditCommentValue = (e) => {
@@ -180,8 +180,7 @@ export default function Answer({ answer }) {
     await updateComment(edited);
 
     setEditCommentId((prev) => -1);
-    window.location.reload();
-    //window.location.replace(`/questions/${answer.questionId}`);
+    navigate(`/questions/${answer.questionId}`, { replace: true });
   };
 
   const handleAnswerSelect = async (selected) => {
@@ -193,8 +192,7 @@ export default function Answer({ answer }) {
 
   const handleDeletaAnswer = async (answerId) => {
     await removeAnswer(answerId);
-    window.location.reload();
-    // window.location.replace(`/questions/${answer.questionId}`);
+    navigate(`/questions/${answer.questionId}`, { replace: true });
   };
 
   return (
