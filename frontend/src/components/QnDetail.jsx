@@ -335,7 +335,7 @@ export default function QnDetail() {
     };
 
     await addAnswer(newAnswer);
-    window.location.replace(`http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/questions/${question.questionId}`);
+    window.location.replace(`/questions/${question.questionId}`);
   };
 
   const handleDeleteQuestion = async () => {
