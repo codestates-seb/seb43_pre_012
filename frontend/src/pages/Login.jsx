@@ -32,7 +32,7 @@ const GithubLogin = styled.button`
 const EmailLogin = styled.form`
 	display: flex;
 	width: 290px;
-	height: 235px;
+	height: 255px;
 	flex-direction: column;
 	align-items: center;
 	border: 1px solid #bbbbbb;
@@ -48,7 +48,7 @@ const EmailWrapper = styled.div`
 	width: 100%;
 `;
 const EmailLabel = styled.div`
-	margin: 10px 10px 2px 24px;
+	margin: 20px 10px 2px 24px;
 	font-weight: bold;
 	font-size: ${({ theme }) => theme.fontSizes.lg};
 `;
@@ -119,9 +119,9 @@ export default function Login() {
 	return (
 		<LoginWrapper>
 			<Logo src={smallLogo} />
-			<GithubLogin>
+			{/* <GithubLogin>
 				<AiFillGithub size={22} /> Log in with Github
-			</GithubLogin>
+			</GithubLogin> */}
 			<EmailLogin onSubmit={handleSubmit}>
 				<EmailWrapper>
 					<EmailLabel>Email</EmailLabel>
