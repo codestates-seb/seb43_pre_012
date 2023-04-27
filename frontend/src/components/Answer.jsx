@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Viewer } from "@toast-ui/react-editor";
-
+import { useNavigate } from "react-router-dom";
 import {
   faCheck,
   faXmark,
@@ -164,6 +164,7 @@ export default function Answer({ answer }) {
   const [editCommentId, setEditCommentId] = useState(-1);
   const [editedComment, setEditedComment] = useState("");
   const [editAnswer, setEditAnswer] = useState(null);
+  const navigate = useNavigate();
 
   const handleDeleteComment = async (commentId) => {
     await removeComment(commentId);
