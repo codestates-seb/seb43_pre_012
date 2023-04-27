@@ -235,9 +235,9 @@ export default function Signup() {
 			</DescWrapper>
 			<SignupWrapper>
 				<Logo src={smallLogo} />
-				<GithubSignup>
+				{/* <GithubSignup>
 					<AiFillGithub size={22} /> Sign up with Github
-				</GithubSignup>
+				</GithubSignup> */}
 				<EmailSignup onSubmit={handleSignup}>
 					<DisplayNameWrapper>
 						<DisplayNameLabel>Display name</DisplayNameLabel>

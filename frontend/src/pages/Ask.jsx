@@ -161,7 +161,7 @@ const Block = styled.div`
   z-index: 10;
 `;
 
-const tempMemberId = 28;
+const tempMemberId = 1;
 
 export default function QuestionDetail() {
   const navigate = useNavigate();
@@ -178,10 +178,19 @@ export default function QuestionDetail() {
     const content = detailRef.current.getInstance().getHTML();
     const questionId = getDateNumber();
 
+    const authorization = getCookie("token").slice(7);
+    const decoded = Buffer.from(authorization, "base64").toString("utf-8");
+    const memberId = Number(
+      decoded.slice(
+        decoded.indexOf("memberId") + 10,
+        decoded.indexOf("sub") - 2
+      )
+    );
+
     const newQuestion = {
       title,
       content,
-      memberId: tempMemberId,
+      memberId,
     };
 
     await addQuestion(newQuestion);
@@ -190,7 +199,7 @@ export default function QuestionDetail() {
   };
 
   useEffect(() => {
-    if (getCookie("token") === null) {
+    if (getCookie("token") === "null") {
       navigate("/");
     }
   });
