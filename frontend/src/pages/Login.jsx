@@ -6,6 +6,7 @@ import largeLogo from "../static/large-logo.png";
 import smallLogo from "../static/small-logo.png";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../components/AuthProvider";
+import { getCookie } from "../utils/cookies";
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -108,6 +109,7 @@ export default function Login() {
         token: response.headers.authorization,
         refresh: response.headers.refresh,
       });
+
       alert("로그인 성공!");
       navigate("/questions");
     } catch (error) {
