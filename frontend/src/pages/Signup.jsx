@@ -142,6 +142,10 @@ const SignupButton = styled.button`
 	border-radius: 3px;
 	border: none;
 	background-color: ${({ theme }) => theme.colors.skyblue};
+	
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 export default function Signup() {
