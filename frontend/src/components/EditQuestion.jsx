@@ -94,9 +94,8 @@ export default function EditQuestion({ question }) {
     const editedQuestion = { questionId, title, content, questionStatus };
 
     await updateQuestion(editedQuestion);
-
-    window.location.reload();
-    // window.location.replace(`/questions/${question.questionId}`);
+    
+    navigate(`/questions/${question.questionId}`, { replace: true });
   };
 
   return (
