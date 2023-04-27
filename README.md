@@ -7,6 +7,7 @@
 
 ## 🐣 Intro
 - 안녕하세요. 팀 Early Bird 입니다.
+- 배포링크 : http://ec2-13-209-67-47.ap-northeast-2.compute.amazonaws.com/
 
 ## 👩‍💻 Team
 | 노호준<br>(FE, FE팀장) | 전준형<br>(FE) | 주재민<br>(FE) | 조현우<br>(BE, BE팀장) | 이난영<br>(BE) | 변상현<br>(BE) |
