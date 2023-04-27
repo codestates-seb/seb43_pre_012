@@ -85,7 +85,8 @@ export default function EditAnswer({ answer }) {
     let editedAnswer = { answerId, content, selected };
     await updateAnswer(editedAnswer);
 
-    window.location.replace(`/questions/${answer.questionId}`);
+    // window.location.replace(`/questions/${answer.questionId}`);
+    window.location.reload();
   };
 
   return (
