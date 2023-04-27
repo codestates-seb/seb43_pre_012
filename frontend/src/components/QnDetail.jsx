@@ -335,8 +335,7 @@ export default function QnDetail() {
     };
 
     await addAnswer(newAnswer);
-    window.location.reload();
-    // window.location.replace(`/questions/${question.questionId}`);
+    navigate(`/questions/${question.questionId}`, { replace: true });
   };
 
   const handleDeleteQuestion = async () => {
