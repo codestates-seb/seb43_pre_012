@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Viewer } from "@toast-ui/react-editor";
-import { useNavigate } from "react-router-dom";
 
 import {
   faCheck,
@@ -263,7 +262,7 @@ export default function Answer({ answer }) {
                       <CommentInfos>
                         <CommentInfo>{index + 1}</CommentInfo>
                         <CommentInfo>{comment.comment}</CommentInfo>
-                        <CommentInfo>홍길동</CommentInfo>
+                        <CommentInfo>{comment.username}</CommentInfo>
                       </CommentInfos>
                       <CommentInfos>
                         <CommentBtn

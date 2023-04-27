@@ -8,6 +8,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ko-kr";
 import { addQuestion, getDateNumber } from "../hooks/tempUseQuestion";
 import { getCookie } from "../utils/cookies";
+import { getMemberId } from "../hooks/useUserInfo";
 
 const Wrapper = styled.form`
   width: 100%;
@@ -161,8 +162,6 @@ const Block = styled.div`
   z-index: 10;
 `;
 
-const tempMemberId = 1;
-
 export default function QuestionDetail() {
   const navigate = useNavigate();
   const { register, handleSubmit, watch } = useForm();
@@ -174,18 +173,10 @@ export default function QuestionDetail() {
 
   const onSubmit = async (data) => {
     const { title } = data;
-    const tags = data.tags.split(",");
+    // const tags = data.tags.split(",");
     const content = detailRef.current.getInstance().getHTML();
-    const questionId = getDateNumber();
-
-    const authorization = getCookie("token").slice(7);
-    const decoded = Buffer.from(authorization, "base64").toString("utf-8");
-    const memberId = Number(
-      decoded.slice(
-        decoded.indexOf("memberId") + 10,
-        decoded.indexOf("sub") - 2
-      )
-    );
+    // const questionId = getDateNumber();
+    const memberId = getMemberId();
 
     const newQuestion = {
       title,
